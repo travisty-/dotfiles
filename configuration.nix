@@ -11,6 +11,9 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable support for Nix flakes.
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
@@ -109,8 +112,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  vim
     #  wget
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
