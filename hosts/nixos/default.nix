@@ -114,6 +114,9 @@
   environment.shells = [pkgs.zsh];
   users.defaultUserShell = pkgs.zsh;
 
+  # Enables completion for system packages (e.g. systemd).
+  environment.pathsToLink = ["/share/zsh"];
+
   # List packages installed in system profile. To search, run: $ nix search wget
   environment.systemPackages = with pkgs; [
     git
