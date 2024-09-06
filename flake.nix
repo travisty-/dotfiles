@@ -14,13 +14,13 @@
     homeConfigurations = {
       travis = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [./home/home.nix];
+        modules = [./home];
       };
     };
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [./hosts/nixos/configuration.nix];
+        modules = [./hosts/nixos];
       };
     };
   };
