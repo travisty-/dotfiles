@@ -9,6 +9,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
+    ../../system
   ];
 
   # Enable support for Nix flakes.
