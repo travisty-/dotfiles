@@ -4,6 +4,6 @@
   ...
 }: {
   imports = [
-    ./nh.nix
+    ./nix-helpers.nix
   ];
 }
