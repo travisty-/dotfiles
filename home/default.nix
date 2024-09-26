@@ -4,7 +4,9 @@
   ...
 }: {
   imports = [
+    ./fzf.nix
     ./git.nix
+    ./zoxide.nix
     ./zsh.nix
   ];
 
