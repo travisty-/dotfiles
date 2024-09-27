@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./fd.nix
     ./fzf.nix
     ./git.nix
     ./ripgrep.nix
