@@ -6,6 +6,7 @@
   imports = [
     ./fzf.nix
     ./git.nix
+    ./ripgrep.nix
     ./zoxide.nix
     ./zsh.nix
   ];
