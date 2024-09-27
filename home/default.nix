@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./alacritty.nix
     ./fd.nix
     ./fzf.nix
     ./git.nix
