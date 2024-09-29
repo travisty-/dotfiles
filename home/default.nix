@@ -4,14 +4,14 @@
   ...
 }: {
   imports = [
-    ./alacritty.nix
-    ./eza.nix
-    ./fd.nix
-    ./fzf.nix
-    ./git.nix
-    ./ripgrep.nix
-    ./zoxide.nix
-    ./zsh.nix
+    ../modules/home/alacritty.nix
+    ../modules/home/eza.nix
+    ../modules/home/fd.nix
+    ../modules/home/fzf.nix
+    ../modules/home/git.nix
+    ../modules/home/ripgrep.nix
+    ../modules/home/zoxide.nix
+    ../modules/home/zsh.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage.
