@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ../../modules/nixos/nix-helpers.nix
+    ../../modules/nixos
 
     # Include the results of the hardware scan.
     ./hardware.nix
