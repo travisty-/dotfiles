@@ -4,7 +4,7 @@
   ...
 }: {
   # Disable the PulseAudio sound server.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   # Enable system services for real-time scheduling.
   security.rtkit.enable = true;
