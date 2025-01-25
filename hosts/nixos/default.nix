@@ -7,10 +7,8 @@
   ...
 }: {
   imports = [
+    ./hardware.nix # Include the results of the hardware scan.
     ../../modules/nixos
-
-    # Include the results of the hardware scan.
-    ./hardware.nix
   ];
 
   # Enable support for Nix flakes.
@@ -18,7 +16,7 @@
 
   # Bootloader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
+  boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -71,7 +69,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.travis = {
     isNormalUser = true;
-    description = "Travis";
+    description = "travis";
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -109,6 +107,21 @@
     vim
     wget
   ];
+
+  virtualisation.vmware.guest.enable = true;
+
+  fileSystems."/mount/nixos" = {
+    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+    device = ".host:/nixos";
+    options = [
+      "allow_other"
+      "auto_unmount"
+      "defaults"
+      "gid=1000"
+      "uid=1000"
+      "umask=22"
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

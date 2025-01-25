@@ -7,6 +7,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 7d";
+    flake = "/mount/nixos";
   };
 
   environment.systemPackages = with pkgs; [
@@ -15,8 +16,7 @@
     nvd
   ];
 
-  # programs.nh.flake = "/etc/nixos";
-  environment.sessionVariables = {
-    FLAKE = "/etc/nixos";
-  };
+  # environment.sessionVariables = {
+  #   FLAKE = "/mount/nixos";
+  # };
 }
