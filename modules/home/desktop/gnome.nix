@@ -18,5 +18,8 @@
         noise-amount = 0;
       };
     };
+
+    # Changes the default color theme to dark mode for all GTK4 applications.
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 }
