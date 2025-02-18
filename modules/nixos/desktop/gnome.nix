@@ -1,21 +1,32 @@
 {
   config,
+  lib,
+  options,
   pkgs,
   ...
-}: {
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.settings.desktop.gnome;
+in {
+  options.settings.desktop.gnome = {
+    enable = mkEnableOption "GNOME";
+  };
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  config = mkIf cfg.enable {
+    # Enable the X11 windowing system.
+    services.xserver.enable = true;
 
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
+    # Enable the GNOME Desktop Environment.
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.desktopManager.gnome.enable = true;
 
-  environment.systemPackages = with pkgs.gnomeExtensions; [
-    blur-my-shell
-    pop-shell
-  ];
+    # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+    systemd.services."getty@tty1".enable = false;
+    systemd.services."autovt@tty1".enable = false;
+
+    environment.systemPackages = with pkgs.gnomeExtensions; [
+      blur-my-shell
+      pop-shell
+    ];
+  };
 }

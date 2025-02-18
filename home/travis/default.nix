@@ -7,6 +7,25 @@
     ../../modules/home
   ];
 
+  settings = {
+    desktop = {
+      gnome.enable = true;
+    };
+
+    programs = {
+      alacritty.enable = true;
+      eza.enable = true;
+      fd.enable = true;
+      fzf.enable = true;
+      ghostty.enable = true;
+      git.enable = true;
+      powershell.enable = true;
+      ripgrep.enable = true;
+      zoxide.enable = true;
+      zsh.enable = true;
+    };
+  };
+
   # Home Manager needs a bit of information about you and the paths it should manage.
   home.username = "travis";
   home.homeDirectory = "/home/travis";

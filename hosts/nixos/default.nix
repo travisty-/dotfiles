@@ -11,6 +11,22 @@
     ../../modules/nixos
   ];
 
+  settings = {
+    desktop = {
+      gnome.enable = true;
+    };
+
+    hardware = {
+      bluetooth.enable = true;
+      nvidia.enable = true;
+      pipewire.enable = true;
+    };
+
+    programs = {
+      nix-helpers.enable = true;
+    };
+  };
+
   # Enable support for Nix flakes.
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
