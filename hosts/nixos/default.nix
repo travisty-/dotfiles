@@ -23,6 +23,7 @@
     };
 
     programs = {
+      _1password.enable = true;
       nix-helpers.enable = true;
     };
   };
