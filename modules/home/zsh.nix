@@ -36,7 +36,7 @@ in {
         share = true;
       };
 
-      initExtra = ''
+      initContent = ''
         setopt BANG_HIST              # Treat the '!' character specially during expansion.
         setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
         setopt HIST_BEEP              # Beep when accessing nonexistent history.
