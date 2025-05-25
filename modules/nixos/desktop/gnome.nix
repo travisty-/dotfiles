@@ -28,5 +28,8 @@ in {
       blur-my-shell
       pop-shell
     ];
+
+    # Allow Chromium and Electron-based applications to run without Xwayland.
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
   };
 }

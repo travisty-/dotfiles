@@ -21,6 +21,7 @@
       git.enable = true;
       powershell.enable = true;
       ripgrep.enable = true;
+      vscode.enable = true;
       zoxide.enable = true;
       zsh.enable = true;
     };
