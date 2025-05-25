@@ -17,7 +17,7 @@ in {
       enable = true;
       clean.enable = true;
       clean.extraArgs = "--keep-since 7d";
-      flake = "/mount/nixos";
+      flake = "/etc/nixos";
     };
 
     environment.systemPackages = with pkgs; [
@@ -25,9 +25,5 @@ in {
       nix-output-monitor
       nvd
     ];
-
-    # environment.sessionVariables = {
-    #   FLAKE = "/mount/nixos";
-    # };
   };
 }

@@ -7,44 +7,29 @@
   ...
 }: {
   imports = [
-    ./hardware.nix # Include the results of the hardware scan.
-    ../../modules/nixos
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
   ];
 
-  settings = {
-    desktop = {
-      gnome.enable = true;
-    };
-
-    hardware = {
-      bluetooth.enable = true;
-      nvidia.enable = true;
-      pipewire.enable = true;
-    };
-
-    programs = {
-      _1password.enable = true;
-      nix-helpers.enable = true;
-      spotify.enable = true;
-    };
-  };
-
-  # Enable support for Nix flakes.
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Configure network proxy if necessary
+  boot.initrd.luks.devices."luks-dd09ffe6-e520-4e0f-8f6f-9b6034ff87a7".device = "/dev/disk/by-uuid/dd09ffe6-e520-4e0f-8f6f-9b6034ff87a7";
+
+  networking.hostName = "earth";
+
+  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;
+
+  # Configure network proxy if necessary.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
+  # Enable networking.
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -65,11 +50,8 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.travis = {
     isNormalUser = true;
-    description = "travis";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
+    description = "Travis Kinney";
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
       #  thunderbird
     ];
@@ -79,19 +61,11 @@
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "travis";
 
-  # Allow unfree packages.
-  nixpkgs.config.allowUnfree = true;
-
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Install Zsh.
-  programs.zsh.enable = true;
-  environment.shells = [pkgs.zsh];
-  users.defaultUserShell = pkgs.zsh;
-
-  # Enables completion for system packages (e.g. systemd).
-  environment.pathsToLink = ["/share/zsh"];
+  # Allow unfree packages.
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run: $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -99,21 +73,6 @@
     vim
     wget
   ];
-
-  virtualisation.vmware.guest.enable = true;
-
-  fileSystems."/mount/nixos" = {
-    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
-    device = ".host:/nixos";
-    options = [
-      "allow_other"
-      "auto_unmount"
-      "defaults"
-      "gid=1000"
-      "uid=1000"
-      "umask=22"
-    ];
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -134,11 +93,11 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default settings
-  # for stateful data, like file locations and database versions on your
-  # system were taken. It‘s perfectly fine and recommended to leave this
-  # value at the release version of the first install of this system.
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11";
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

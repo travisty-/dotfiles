@@ -18,9 +18,9 @@
       };
     };
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      earth = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [./systems/nixos];
+        modules = [./systems/earth];
       };
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
