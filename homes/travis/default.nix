@@ -24,6 +24,7 @@
       just.enable = true;
       mpv.enable = true;
       powershell.enable = true;
+      qbittorrent.enable = true;
       ripgrep.enable = true;
       vscode.enable = true;
       zoxide.enable = true;
