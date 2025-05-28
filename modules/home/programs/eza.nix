@@ -15,8 +15,16 @@ in {
   config = mkIf cfg.enable {
     programs.eza = {
       enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+      git = true;
+
       extraOptions = [
+        "--color=always"
         "--group-directories-first"
+        "--group"
       ];
     };
 
