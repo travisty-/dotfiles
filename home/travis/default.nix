@@ -14,6 +14,7 @@
 
     programs = {
       alacritty.enable = true;
+      direnv.enable = true;
       eza.enable = true;
       fastfetch.enable = true;
       fd.enable = true;
