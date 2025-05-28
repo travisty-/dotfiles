@@ -15,6 +15,7 @@
     programs = {
       alacritty.enable = true;
       eza.enable = true;
+      fastfetch.enable = true;
       fd.enable = true;
       fzf.enable = true;
       ghostty.enable = true;
