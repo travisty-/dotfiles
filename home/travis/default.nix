@@ -22,6 +22,7 @@
       ghostty.enable = true;
       git.enable = true;
       just.enable = true;
+      mpv.enable = true;
       powershell.enable = true;
       ripgrep.enable = true;
       vscode.enable = true;
