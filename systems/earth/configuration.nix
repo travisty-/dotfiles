@@ -15,9 +15,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   boot.initrd.luks.devices."luks-dd09ffe6-e520-4e0f-8f6f-9b6034ff87a7".device = "/dev/disk/by-uuid/dd09ffe6-e520-4e0f-8f6f-9b6034ff87a7";
 
   networking.hostName = "earth";
