@@ -23,6 +23,7 @@
       git.enable = true;
       just.enable = true;
       mpv.enable = true;
+      obsidian.enable = true;
       powershell.enable = true;
       qbittorrent.enable = true;
       ripgrep.enable = true;
