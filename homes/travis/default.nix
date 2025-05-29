@@ -20,6 +20,7 @@
       fd.enable = true;
       fzf.enable = true;
       ghostty.enable = true;
+      gh.enable = true;
       git.enable = true;
       just.enable = true;
       mpv.enable = true;
