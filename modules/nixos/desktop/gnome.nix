@@ -7,6 +7,27 @@
 }: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.settings.desktop.gnome;
+
+  # Workaround for missing Pop Shell keybindings and schemas.
+  extensions =
+    pkgs.gnomeExtensions
+    // {
+      pop-shell = pkgs.gnomeExtensions.pop-shell.overrideAttrs (
+        prevAttrs: {
+          postInstall =
+            (prevAttrs.postInstall or "")
+            + ''
+              # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
+              mkdir --parents "$out/share/gsettings-schemas/$name/glib-2.0"
+              ln --symbolic "$out/share/gnome-shell/extensions/pop-shell@system76.com/schemas" "$out/share/gsettings-schemas/$name/glib-2.0/schemas"
+
+              # Workaround for: https://github.com/NixOS/nixpkgs/issues/314969
+              mkdir --parents "$out/share/gnome-control-center"
+              ln --symbolic "$src/keybindings" "$out/share/gnome-control-center/keybindings"
+            '';
+        }
+      );
+    };
 in {
   options.settings.desktop.gnome = {
     enable = mkEnableOption "GNOME";
@@ -28,7 +49,10 @@ in {
     systemd.services."getty@tty1".enable = false;
     systemd.services."autovt@tty1".enable = false;
 
-    environment.systemPackages = with pkgs.gnomeExtensions; [
+    # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
+    services.xserver.desktopManager.gnome.sessionPath = [extensions.pop-shell];
+
+    environment.systemPackages = with extensions; [
       blur-my-shell
       pop-shell
     ];
