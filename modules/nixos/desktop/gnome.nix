@@ -52,6 +52,14 @@ in {
     # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
     services.xserver.desktopManager.gnome.sessionPath = [extensions.pop-shell];
 
+    # Workaround for GNOME profile picture: https://discourse.nixos.org/t/setting-the-user-profile-image-under-gnome/36232/10
+    systemd.tmpfiles.rules = let
+      username = "travis";
+    in [
+      "f+ /var/lib/AccountsService/users/${username}  0577 root root - [User]\\nIcon=/var/lib/AccountsService/icons/${username}\\n"
+      "L+ /var/lib/AccountsService/icons/${username}  - - - - /home/${username}/.face"
+    ];
+
     environment.systemPackages = with extensions; [
       blur-my-shell
       pop-shell

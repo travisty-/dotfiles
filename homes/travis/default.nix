@@ -10,6 +10,11 @@
   settings = {
     desktop = {
       gnome.enable = true;
+
+      gnome.resources = {
+        profilePicture = ../../files/images/crying-bear.png;
+        wallpaper = ../../files/wallpapers/medusa.png;
+      };
     };
 
     programs = {
