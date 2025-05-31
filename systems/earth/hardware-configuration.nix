@@ -43,6 +43,14 @@
     options = ["subvol=@log" "compress=zstd" "noatime" "x-gvfs-trash"];
   };
 
+  boot.initrd.luks.devices."luks-3426c936-e49d-48fa-9e41-ca1be20ce3a1".device = "/dev/disk/by-uuid/3426c936-e49d-48fa-9e41-ca1be20ce3a1";
+
+  fileSystems."/media/data" = {
+    device = "/dev/disk/by-uuid/fd76b16b-cbb7-467b-92fd-3139bdb6f42d";
+    fsType = "btrfs";
+    options = ["subvol=@data" "compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/D20D-D83B";
     fsType = "vfat";
