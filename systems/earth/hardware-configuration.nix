@@ -18,11 +18,30 @@
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/3d28e4de-8759-4d66-98b2-44cd59e1d09b";
-    fsType = "ext4";
+    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
+    fsType = "btrfs";
+    options = ["subvol=@" "compress=zstd" "noatime" "x-gvfs-trash"];
   };
 
   boot.initrd.luks.devices."luks-17bc8fc5-5592-487f-a697-f738403676b0".device = "/dev/disk/by-uuid/17bc8fc5-5592-487f-a697-f738403676b0";
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
+    fsType = "btrfs";
+    options = ["subvol=@home" "compress=zstd" "noatime" "x-gvfs-trash"];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
+    fsType = "btrfs";
+    options = ["subvol=@nix" "compress=zstd" "noatime" "x-gvfs-trash"];
+  };
+
+  fileSystems."/var/log" = {
+    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
+    fsType = "btrfs";
+    options = ["subvol=@log" "compress=zstd" "noatime" "x-gvfs-trash"];
+  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/D20D-D83B";
@@ -30,9 +49,7 @@
     options = ["fmask=0077" "dmask=0077"];
   };
 
-  swapDevices = [
-    {device = "/dev/disk/by-uuid/d9ed2a14-18db-4ce6-a3f5-3c5681e503b5";}
-  ];
+  swapDevices = [];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

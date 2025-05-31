@@ -26,6 +26,13 @@
     };
   };
 
+  # https://nixos.wiki/wiki/Btrfs#Scrubbing
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    fileSystems = ["/"];
+  };
+
   # Install Zsh.
   programs.zsh.enable = true;
   environment.shells = [pkgs.zsh];
