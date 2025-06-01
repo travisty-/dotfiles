@@ -38,8 +38,8 @@ in {
     services.xserver.enable = true;
 
     # Enable the GNOME Desktop Environment.
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
+    services.displayManager.gdm.enable = true;
+    services.desktopManager.gnome.enable = true;
 
     # Enable automatic login for the user.
     services.displayManager.autoLogin.enable = true;
@@ -50,7 +50,7 @@ in {
     systemd.services."autovt@tty1".enable = false;
 
     # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
-    services.xserver.desktopManager.gnome.sessionPath = [extensions.pop-shell];
+    services.desktopManager.gnome.sessionPath = [extensions.pop-shell];
 
     # Workaround for GNOME profile picture: https://discourse.nixos.org/t/setting-the-user-profile-image-under-gnome/36232/10
     systemd.tmpfiles.rules = let
