@@ -52,6 +52,9 @@ in {
     # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
     services.desktopManager.gnome.sessionPath = [extensions.pop-shell];
 
+    # Add udev rules for systray icons: https://wiki.nixos.org/wiki/GNOME#Systray_Icons
+    services.udev.packages = with pkgs; [gnome-settings-daemon];
+
     # Workaround for GNOME profile picture: https://discourse.nixos.org/t/setting-the-user-profile-image-under-gnome/36232/10
     systemd.tmpfiles.rules = let
       username = "travis";
@@ -61,7 +64,10 @@ in {
     ];
 
     environment.systemPackages = with extensions; [
+      appindicator
       blur-my-shell
+      clipboard-history
+      lilypad
       pop-shell
     ];
 
