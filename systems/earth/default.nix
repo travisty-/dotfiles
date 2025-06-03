@@ -21,6 +21,7 @@
 
     programs = {
       _1password.enable = true;
+      lutris.enable = true;
       nix-helpers.enable = true;
       spotify.enable = true;
       steam.enable = true;
