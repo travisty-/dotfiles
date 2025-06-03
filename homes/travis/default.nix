@@ -19,6 +19,7 @@
 
     programs = {
       alacritty.enable = true;
+      devenv.enable = true;
       direnv.enable = true;
       discord.enable = true;
       eza.enable = true;
