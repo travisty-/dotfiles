@@ -17,6 +17,7 @@
       bluetooth.enable = true;
       nvidia.enable = true;
       pipewire.enable = true;
+      xpadneo.enable = true;
     };
 
     programs = {
