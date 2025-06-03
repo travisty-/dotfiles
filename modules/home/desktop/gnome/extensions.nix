@@ -39,8 +39,12 @@ in {
 
       "org/gnome/shell/extensions/lilypad" = {
         reorder = true;
-        rightbox-order = [
+        lilypad-order = [
+          "spotify_client"
+          "steam"
           "StatusNotifierItem"
+        ];
+        rightbox-order = [
           "lilypad"
           "pop_shell"
           "Clipboard_History_Indicator"
