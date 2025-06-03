@@ -23,6 +23,7 @@
       _1password.enable = true;
       nix-helpers.enable = true;
       spotify.enable = true;
+      steam.enable = true;
     };
   };
 
