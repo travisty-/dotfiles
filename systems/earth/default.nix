@@ -22,6 +22,7 @@
     programs = {
       _1password.enable = true;
       bottles.enable = true;
+      heroic.enable = true;
       lutris.enable = true;
       nix-helpers.enable = true;
       spotify.enable = true;
