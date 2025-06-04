@@ -51,6 +51,12 @@
     options = ["subvol=@data" "compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
   };
 
+  fileSystems."/media/games" = {
+    device = "/dev/disk/by-uuid/fd76b16b-cbb7-467b-92fd-3139bdb6f42d";
+    fsType = "btrfs";
+    options = ["subvol=@games" "compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/D20D-D83B";
     fsType = "vfat";
