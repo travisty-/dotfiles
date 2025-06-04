@@ -18,6 +18,7 @@
     };
 
     programs = {
+      _1password.enable = true;
       alacritty.enable = true;
       devenv.enable = true;
       direnv.enable = true;
