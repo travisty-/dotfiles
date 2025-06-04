@@ -23,6 +23,7 @@
     programs = {
       _1password.enable = true;
       bottles.enable = true;
+      docker.enable = true;
       heroic.enable = true;
       lutris.enable = true;
       nix-helpers.enable = true;
