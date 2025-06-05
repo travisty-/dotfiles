@@ -1,11 +1,9 @@
 {
   config,
   lib,
-  options,
-  pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib) mkIf mkOption types;
   cfg = config.settings.desktop.gnome;
 in {
   options.settings.desktop.gnome.resources = {
