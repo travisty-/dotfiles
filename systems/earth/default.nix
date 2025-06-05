@@ -8,6 +8,10 @@
     ../../modules/nixos
   ];
 
+  nixpkgs.overlays = [
+    (import ../../overlays/spotify.nix)
+  ];
+
   settings = {
     desktop = {
       gnome.enable = true;
