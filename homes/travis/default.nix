@@ -20,6 +20,7 @@
     programs = {
       _1password.enable = true;
       alacritty.enable = true;
+      deadnix.enable = true;
       devenv.enable = true;
       direnv.enable = true;
       discord.enable = true;
@@ -36,6 +37,7 @@
       powershell.enable = true;
       qbittorrent.enable = true;
       ripgrep.enable = true;
+      statix.enable = true;
       vscode.enable = true;
       zoxide.enable = true;
       zsh.enable = true;
