@@ -33,6 +33,7 @@ _: {
       powershell.enable = true;
       qbittorrent.enable = true;
       ripgrep.enable = true;
+      remmina.enable = true;
       statix.enable = true;
       vscode.enable = true;
       zoxide.enable = true;
