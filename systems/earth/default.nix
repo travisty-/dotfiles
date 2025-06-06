@@ -29,6 +29,7 @@
       nix-helpers.enable = true;
       spotify.enable = true;
       steam.enable = true;
+      virt-manager.enable = true;
     };
   };
 
