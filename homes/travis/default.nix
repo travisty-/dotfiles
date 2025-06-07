@@ -35,6 +35,7 @@ _: {
       ripgrep.enable = true;
       remmina.enable = true;
       statix.enable = true;
+      subtitleedit.enable = true;
       vscode.enable = true;
       zoxide.enable = true;
       zsh.enable = true;
