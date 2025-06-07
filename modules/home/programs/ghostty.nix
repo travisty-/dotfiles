@@ -18,6 +18,7 @@ in {
       enableZshIntegration = true;
       settings = {
         term = "xterm-256color";
+        theme = "Adwaita Dark";
       };
     };
   };
