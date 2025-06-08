@@ -52,6 +52,19 @@ in {
         rotate-video-lock-static = [];
       };
 
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        ];
+      };
+
+      # Workaround for org/gnome/settings-daemon/plugins/media-keys/terminal.
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Super>t";
+        command = "ghostty";
+        name = "Launch terminal";
+      };
+
       "org/gnome/shell/extensions/pop-shell" = {
         toggle-tiling = ["<Super>y"];
         toggle-floating = ["<Super>g"];
