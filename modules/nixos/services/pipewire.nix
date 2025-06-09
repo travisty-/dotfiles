@@ -4,9 +4,9 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.hardware.pipewire;
+  cfg = config.settings.services.pipewire;
 in {
-  options.settings.hardware.pipewire = {
+  options.settings.services.pipewire = {
     enable = mkEnableOption "PipeWire";
   };
 

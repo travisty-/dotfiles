@@ -16,7 +16,6 @@
     hardware = {
       bluetooth.enable = true;
       nvidia.enable = true;
-      pipewire.enable = true;
       xpadneo.enable = true;
     };
 
@@ -34,6 +33,7 @@
 
     services = {
       openssh.enable = true;
+      pipewire.enable = true;
     };
   };
 
