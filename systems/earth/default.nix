@@ -31,6 +31,10 @@
       steam.enable = true;
       virt-manager.enable = true;
     };
+
+    services = {
+      openssh.enable = true;
+    };
   };
 
   # https://nixos.wiki/wiki/Btrfs#Scrubbing
