@@ -32,6 +32,7 @@ in {
         open-application-menu = [];
         toggle-message-tray = ["<Super>v"];
         toggle-overview = [];
+        toggle-quick-settings = [];
       };
 
       "org/gnome/mutter/keybindings" = {
