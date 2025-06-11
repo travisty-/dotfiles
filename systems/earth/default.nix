@@ -52,6 +52,9 @@
   # Enables completion for system packages (e.g. systemd).
   environment.pathsToLink = ["/share/zsh"];
 
+  # Set the default text editor for the system.
+  environment.sessionVariables.EDITOR = "vi";
+
   # Enable support for Nix flakes.
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }
