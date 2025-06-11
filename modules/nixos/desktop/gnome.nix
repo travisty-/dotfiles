@@ -70,6 +70,10 @@ in {
       pop-shell
     ];
 
+    environment.gnome.excludePackages = with pkgs; [gnome-tour];
+
+    services.xserver.excludePackages = with pkgs; [xterm];
+
     # Allow Chromium and Electron-based applications to run without Xwayland.
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
   };
