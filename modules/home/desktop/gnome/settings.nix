@@ -4,6 +4,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
+  inherit (lib.hm.gvariant) mkUint32;
   cfg = config.settings.desktop.gnome;
 in {
   options.settings.desktop.gnome = {
@@ -13,9 +14,68 @@ in {
   config = mkIf cfg.enable {
     dconf = {
       enable = true;
+      settings = {
+        "org/gnome/desktop/datetime" = {
+          automatic-timezone = true;
+        };
 
-      # Changes the default color theme to dark mode for all GTK4 applications.
-      settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+          enable-hot-corners = false;
+          font-antialiasing = "rgba";
+        };
+
+        "org/gnome/desktop/peripherals/mouse" = {
+          accel-profile = "flat";
+        };
+
+        "org/gnome/desktop/session" = {
+          idle-delay = mkUint32 0;
+        };
+
+        "org/gnome/mutter" = {
+          edge-tiling = false;
+          experimental-features = ["variable-refresh-rate"];
+        };
+
+        "org/gnome/nautilus/list-view" = {
+          use-tree-view = true;
+        };
+
+        "org/gnome/settings-daemon/plugins/power" = {
+          power-button-action = "interactive";
+          sleep-inactive-ac-type = "nothing";
+        };
+
+        "org/gnome/shell" = {
+          favorite-apps = [
+            "1password.desktop"
+            "firefox.desktop"
+            "spotify.desktop"
+            "steam.desktop"
+            "vesktop.desktop"
+            "code.desktop"
+            "obsidian.desktop"
+          ];
+          last-selected-power-profile = "performance"; # TODO
+        };
+
+        "org/gnome/desktop/interface".clock-format = "12h";
+        "org/gtk/settings/file-chooser".clock-format = "12h";
+      };
+    };
+
+    gtk = {
+      enable = true;
+      gtk3.bookmarks = [
+        "file://${config.home.homeDirectory}/Documents"
+        "file://${config.home.homeDirectory}/Music"
+        "file://${config.home.homeDirectory}/Pictures"
+        "file://${config.home.homeDirectory}/Videos"
+        "file://${config.home.homeDirectory}/Downloads"
+        "file:///media/data Media"
+        "file:///media/games Games"
+      ];
     };
   };
 }
