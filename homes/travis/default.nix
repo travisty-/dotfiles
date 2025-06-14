@@ -35,6 +35,7 @@ _: {
       qbittorrent.enable = true;
       remmina.enable = true;
       ripgrep.enable = true;
+      sops.enable = true;
       statix.enable = true;
       subtitleedit.enable = true;
       vscode.enable = true;
