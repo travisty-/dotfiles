@@ -1,12 +1,20 @@
-_: {
+{inputs, ...}: {
   imports = [
+    inputs.sops-nix.homeManagerModules.sops
     ../../modules/home
   ];
+
+  # TODO: Remove generated key file in $XDG_RUNTIME_DIR/secrets.d
+  # once sops-nix natively supports encryption/decryption via SSH.
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.enc.yaml;
+    age.sshKeyPaths = ["/home/travis/.ssh/id_ed25519"];
+    validateSopsFiles = true;
+  };
 
   settings = {
     desktop = {
       gnome.enable = true;
-
       gnome.resources = {
         profilePicture = ../../files/images/crying-bear.png;
         wallpaper = ../../files/wallpapers/medusa.png;

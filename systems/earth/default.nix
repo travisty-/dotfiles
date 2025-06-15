@@ -1,5 +1,10 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
+    inputs.sops-nix.nixosModules.sops
     ./configuration.nix
     ../../modules/nixos
   ];
@@ -7,6 +12,12 @@
   nixpkgs.overlays = [
     (import ../../overlays/spotify.nix)
   ];
+
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.enc.yaml;
+    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    validateSopsFiles = true;
+  };
 
   settings = {
     desktop = {

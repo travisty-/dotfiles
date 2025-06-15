@@ -1,0 +1,14 @@
+keys:
+  - &travis ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjX6MY8Lf61+1xzKMNqJKB2XtsF7/Q+PIBZuL6piWpQ
+  - &earth ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINx3gbuTWB/KLNWKJ/zccT+fI+QkrNpXvd3LzEqo0GDV
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *travis
+        - *earth
+
+stores:
+  yaml:
+    indent: 2
