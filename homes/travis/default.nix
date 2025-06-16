@@ -48,6 +48,7 @@
       statix.enable = true;
       subtitleedit.enable = true;
       vscode.enable = true;
+      yq.enable = true;
       zoxide.enable = true;
       zsh.enable = true;
     };
