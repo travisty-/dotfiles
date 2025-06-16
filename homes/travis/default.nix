@@ -35,6 +35,7 @@
       gh.enable = true;
       ghostty.enable = true;
       git.enable = true;
+      jq.enable = true;
       just.enable = true;
       mpv.enable = true;
       neovim.enable = true;
