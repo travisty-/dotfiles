@@ -31,6 +31,7 @@
       eza.enable = true;
       fastfetch.enable = true;
       fd.enable = true;
+      firefox.enable = true;
       fzf.enable = true;
       gh.enable = true;
       ghostty.enable = true;

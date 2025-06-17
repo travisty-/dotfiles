@@ -34,6 +34,7 @@
       _1password.enable = true;
       bottles.enable = true;
       docker.enable = true;
+      firefox.enable = true;
       heroic.enable = true;
       lutris.enable = true;
       nix-helpers.enable = true;
