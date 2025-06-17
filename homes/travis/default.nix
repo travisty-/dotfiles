@@ -48,6 +48,7 @@
       sops.enable = true;
       statix.enable = true;
       subtitleedit.enable = true;
+      tree.enable = true;
       vscode.enable = true;
       yq.enable = true;
       zoxide.enable = true;
