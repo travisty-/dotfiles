@@ -46,6 +46,7 @@
     services = {
       openssh.enable = true;
       pipewire.enable = true;
+      tailscale.enable = true;
     };
   };
 
