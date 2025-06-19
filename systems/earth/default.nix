@@ -68,6 +68,6 @@
   # Set the default text editor for the system.
   environment.sessionVariables.EDITOR = "vi";
 
-  # Enable support for Nix flakes.
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  # Enable support for Nix flakes and pipe operators.
+  nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
 }
