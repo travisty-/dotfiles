@@ -5,8 +5,8 @@
 }: {
   imports = [
     inputs.sops-nix.nixosModules.sops
-    ./configuration.nix
     ../../modules/nixos
+    ./configuration.nix
   ];
 
   nixpkgs.overlays = [
@@ -48,6 +48,8 @@
       pipewire.enable = true;
       tailscale.enable = true;
     };
+
+    system.secure-boot.enable = true;
   };
 
   # https://nixos.wiki/wiki/Btrfs#Scrubbing
