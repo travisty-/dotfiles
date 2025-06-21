@@ -6,27 +6,6 @@
 }: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.settings.desktop.gnome;
-
-  # Workaround for missing Pop Shell keybindings and schemas.
-  extensions =
-    pkgs.gnomeExtensions
-    // {
-      pop-shell = pkgs.gnomeExtensions.pop-shell.overrideAttrs (
-        prevAttrs: {
-          postInstall =
-            (prevAttrs.postInstall or "")
-            + ''
-              # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
-              mkdir --parents "$out/share/gsettings-schemas/$name/glib-2.0"
-              ln --symbolic "$out/share/gnome-shell/extensions/pop-shell@system76.com/schemas" "$out/share/gsettings-schemas/$name/glib-2.0/schemas"
-
-              # Workaround for: https://github.com/NixOS/nixpkgs/issues/314969
-              mkdir --parents "$out/share/gnome-control-center"
-              ln --symbolic "$src/keybindings" "$out/share/gnome-control-center/keybindings"
-            '';
-        }
-      );
-    };
 in {
   options.settings.desktop.gnome = {
     enable = mkEnableOption "GNOME";
@@ -49,7 +28,7 @@ in {
     systemd.services."autovt@tty1".enable = false;
 
     # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
-    services.desktopManager.gnome.sessionPath = [extensions.pop-shell];
+    services.desktopManager.gnome.sessionPath = [pkgs.gnomeExtensions.pop-shell];
 
     # Add udev rules for systray icons: https://wiki.nixos.org/wiki/GNOME#Systray_Icons
     services.udev.packages = with pkgs; [gnome-settings-daemon];
@@ -62,7 +41,7 @@ in {
       "L+ /var/lib/AccountsService/icons/${username}  - - - - /home/${username}/.face"
     ];
 
-    environment.systemPackages = with extensions; [
+    environment.systemPackages = with pkgs.gnomeExtensions; [
       appindicator
       blur-my-shell
       clipboard-history

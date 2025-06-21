@@ -10,6 +10,7 @@
   ];
 
   nixpkgs.overlays = [
+    (import ../../overlays/pop-shell.nix)
     (import ../../overlays/spotify.nix)
   ];
 
