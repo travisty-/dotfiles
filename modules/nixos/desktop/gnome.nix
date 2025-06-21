@@ -68,6 +68,7 @@ in {
       clipboard-history
       lilypad
       pop-shell
+      unblank
     ];
 
     environment.gnome.excludePackages = with pkgs; [gnome-tour];

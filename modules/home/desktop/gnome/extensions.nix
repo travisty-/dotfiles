@@ -17,6 +17,7 @@ in {
           gnomeExtensions.clipboard-history.extensionUuid
           gnomeExtensions.lilypad.extensionUuid
           gnomeExtensions.pop-shell.extensionUuid
+          gnomeExtensions.unblank.extensionUuid
         ];
       };
 
@@ -49,6 +50,11 @@ in {
           "pop_shell"
           "Clipboard_History_Indicator"
         ];
+      };
+
+      "org/gnome/shell/extensions/unblank" = {
+        power = true;
+        time = 900;
       };
     };
   };
