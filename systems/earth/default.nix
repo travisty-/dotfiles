@@ -1,8 +1,10 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
-}: {
+}:
+with lib.extensions; {
   imports = [
     inputs.sops-nix.nixosModules.sops
     ../../modules/nixos
@@ -22,35 +24,35 @@
 
   settings = {
     desktop = {
-      gnome.enable = true;
+      gnome = enabled;
     };
 
     hardware = {
-      bluetooth.enable = true;
-      nvidia.enable = true;
-      xpadneo.enable = true;
+      bluetooth = enabled;
+      nvidia = enabled;
+      xpadneo = enabled;
     };
 
     programs = {
-      _1password.enable = true;
-      bottles.enable = true;
-      docker.enable = true;
-      firefox.enable = true;
-      heroic.enable = true;
-      lutris.enable = true;
-      nix-helpers.enable = true;
-      spotify.enable = true;
-      steam.enable = true;
-      virt-manager.enable = true;
+      _1password = enabled;
+      bottles = enabled;
+      docker = enabled;
+      firefox = enabled;
+      heroic = enabled;
+      lutris = enabled;
+      nix-helpers = enabled;
+      spotify = enabled;
+      steam = enabled;
+      virt-manager = enabled;
     };
 
     services = {
-      openssh.enable = true;
-      pipewire.enable = true;
-      tailscale.enable = true;
+      openssh = enabled;
+      pipewire = enabled;
+      tailscale = enabled;
     };
 
-    system.secure-boot.enable = true;
+    system.secure-boot = enabled;
   };
 
   # https://nixos.wiki/wiki/Btrfs#Scrubbing

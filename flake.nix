@@ -19,16 +19,18 @@
   };
 
   outputs = {
-    self,
-    nixpkgs,
     home-manager,
+    nixpkgs,
     ...
-  } @ inputs: {
+  } @ inputs: let
+    lib = import ./lib {inherit inputs;};
+  in {
     homeConfigurations = {
       travis = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [./homes/travis];
         extraSpecialArgs = {
+          lib = lib.extend (_: _: home-manager.lib);
           inherit inputs;
         };
       };
@@ -39,7 +41,7 @@
         system = "x86_64-linux";
         modules = [./systems/earth];
         specialArgs = {
-          inherit inputs;
+          inherit inputs lib;
         };
       };
     };

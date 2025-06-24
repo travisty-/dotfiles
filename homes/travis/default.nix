@@ -1,4 +1,9 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}:
+with lib.extensions; {
   imports = [
     inputs.sops-nix.homeManagerModules.sops
     ../../modules/home
@@ -22,45 +27,45 @@
     };
 
     programs = {
-      _1password.enable = true;
-      alacritty.enable = true;
-      deadnix.enable = true;
-      devenv.enable = true;
-      direnv.enable = true;
-      discord.enable = true;
-      eza.enable = true;
-      fastfetch.enable = true;
-      fd.enable = true;
-      firefox.enable = true;
-      fzf.enable = true;
-      gh.enable = true;
-      ghostty.enable = true;
-      git.enable = true;
-      jq.enable = true;
-      just.enable = true;
-      mpv.enable = true;
-      neovim.enable = true;
-      obsidian.enable = true;
-      powershell.enable = true;
-      qbittorrent.enable = true;
-      remmina.enable = true;
-      ripgrep.enable = true;
-      sops.enable = true;
-      statix.enable = true;
-      subtitleedit.enable = true;
-      tree.enable = true;
-      vscode.enable = true;
-      yq.enable = true;
-      zoxide.enable = true;
-      zsh.enable = true;
+      _1password = enabled;
+      alacritty = enabled;
+      deadnix = enabled;
+      devenv = enabled;
+      direnv = enabled;
+      discord = enabled;
+      eza = enabled;
+      fastfetch = enabled;
+      fd = enabled;
+      firefox = enabled;
+      fzf = enabled;
+      gh = enabled;
+      ghostty = enabled;
+      git = enabled;
+      jq = enabled;
+      just = enabled;
+      mpv = enabled;
+      neovim = enabled;
+      obsidian = enabled;
+      powershell = enabled;
+      qbittorrent = enabled;
+      remmina = enabled;
+      ripgrep = enabled;
+      sops = enabled;
+      statix = enabled;
+      subtitleedit = enabled;
+      tree = enabled;
+      vscode = enabled;
+      yq = enabled;
+      zoxide = enabled;
+      zsh = enabled;
     };
 
     programs.jetbrains = {
-      toolbox.enable = false;
-      datagrip.enable = true;
-      goland.enable = true;
-      pycharm.enable = true;
-      rider.enable = true;
+      toolbox = disabled;
+      datagrip = enabled;
+      goland = enabled;
+      pycharm = enabled;
+      rider = enabled;
     };
   };
 
