@@ -54,6 +54,14 @@
       zoxide.enable = true;
       zsh.enable = true;
     };
+
+    programs.jetbrains = {
+      toolbox.enable = false;
+      datagrip.enable = true;
+      goland.enable = true;
+      pycharm.enable = true;
+      rider.enable = true;
+    };
   };
 
   # Home Manager needs a bit of information about you and the paths it should manage.

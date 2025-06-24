@@ -1,0 +1,90 @@
+" .ideavimrc is the configuration file for the IdeaVim plugin.
+" It uses the same commands as the original .vimrc configuration file.
+" You can find a list of available commands here: https://jb.gg/h38q75
+" More examples can be found here: https://jb.gg/share-ideavimrc
+
+source ~/.vimrc
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" Use incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+"" -- Personal options --
+" Show current mode and command.
+set showmode showcmd
+
+" Use intelligent join command.
+set ideajoin
+
+" Use smart case-insensitive searching.
+set ignorecase smartcase
+
+" Use hybrid line numbering
+set number relativenumber
+
+" Use visual bell instead of beeping.
+set visualbell
+
+" Do not time out (required for which-key).
+set notimeout
+
+"" -- Personal mappings --
+let mapleader = ' '
+
+" Map jj to <Esc>.
+inoremap jj <Esc>
+
+" Save current file without closing.
+nnoremap ZS :write<CR>
+
+" Center viewport when using <C-d> and <C-u>.
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Retain visual selection when using < and >.
+vnoremap < <gv
+vnoremap > >gv
+
+" Focus NERDTree.
+map <leader>e :NERDTree<CR>
+
+"" -- Mappings for IDE actions -- https://jb.gg/abva4t
+" Reformat code in the current file.
+map \r <Action>(ReformatCode)
+
+" Start debugging.
+map <leader>d <Action>(Debug)
+
+" Toggle breakpoint on the current line.
+map \b <Action>(ToggleLineBreakpoint)
+
+" Toggle presentation mode.
+map <leader>p <Action>(TogglePresentationMode)
+
+"" -- Enable plugins -- https://jb.gg/ideavim-plugins
+Plug 'justinmk/vim-sneak'
+Plug 'machakann/vim-highlightedyank'
+Plug 'preservim/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
+"" Enable marketplace plugins
+set which-key
+
+"" Which-key options
+let g:WhichKey_DefaultDelay = 0
+let g:WhichKey_FontSize = 16
+let g:WhichKey_CommandColor = '#61AFEF'
+let g:WhichKey_PrefixColor = '#C678DD'
+let g:WhichKey_ShowVimActions = 'true'
+let g:WhichKey_SortOrder = 'by_key_prefix_first'
+
