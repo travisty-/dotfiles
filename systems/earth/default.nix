@@ -47,6 +47,7 @@ with lib.extensions; {
     };
 
     services = {
+      openrgb = enabled;
       openssh = enabled;
       pipewire = enabled;
       tailscale = enabled;
