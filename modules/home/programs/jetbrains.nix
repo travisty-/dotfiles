@@ -19,14 +19,24 @@ in {
   # https://nixos.wiki/wiki/Jetbrains_Tools
   # https://wiki.nixos.org/wiki/Jetbrains_Tools
   # https://github.com/NixOS/nixpkgs/issues/240444
-  config = {
+  config = let
+    withPlugins = pkg:
+      with pkgs.jetbrains; (
+        plugins.addPlugins pkg [
+          "ideavim"
+          "nixidea"
+          "vscode-keymap"
+          "which-key"
+        ]
+      );
+  in {
     home.packages = with pkgs;
       concatLists [
         (optional cfg.toolbox.enable jetbrains-toolbox)
-        (optional cfg.datagrip.enable jetbrains.datagrip)
-        (optional cfg.goland.enable jetbrains.goland)
-        (optional cfg.pycharm.enable jetbrains.pycharm-professional)
-        (optional cfg.rider.enable jetbrains.rider)
+        (optional cfg.datagrip.enable (withPlugins jetbrains.datagrip))
+        (optional cfg.goland.enable (withPlugins jetbrains.goland))
+        (optional cfg.pycharm.enable (withPlugins jetbrains.pycharm-professional))
+        (optional cfg.rider.enable (withPlugins jetbrains.rider))
       ];
 
     home.file.".ideavimrc" = {
