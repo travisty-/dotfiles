@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
@@ -44,5 +45,9 @@ in {
         rerere.enabled = true;
       };
     };
+
+    home.packages = with pkgs; [
+      git-filter-repo
+    ];
   };
 }
