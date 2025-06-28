@@ -5,6 +5,7 @@
 }: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.settings.programs.git;
+  user = config.meta.user;
 in {
   options.settings.programs.git = {
     enable = mkEnableOption "Git";
@@ -13,8 +14,8 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = "Travis Kinney";
-      userEmail = "travisty-@users.noreply.github.com";
+      userName = user.name;
+      userEmail = user.email;
 
       aliases = {
         desc = "\!git log --format=format:'- %s' --reverse origin/\"\${1:-master}\"..HEAD #";

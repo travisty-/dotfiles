@@ -6,6 +6,7 @@
 }: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.settings.programs._1password;
+  user = config.meta.user;
 in {
   options.settings.programs._1password = {
     enable = mkEnableOption "1Password";
@@ -27,7 +28,7 @@ in {
         commit.gpgsign = true;
         gpg.format = "ssh";
         gpg.ssh.program = lib.getExe' pkgs._1password-gui "op-ssh-sign";
-        user.signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjX6MY8Lf61+1xzKMNqJKB2XtsF7/Q+PIBZuL6piWpQ";
+        user.signingKey = user.signingKey;
       };
     };
   };

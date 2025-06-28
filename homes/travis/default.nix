@@ -9,6 +9,13 @@ with lib.extensions; {
     ../../modules/home
   ];
 
+  meta.user = {
+    name = "Travis Kinney";
+    email = "travis@traviskinney.co";
+    signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjX6MY8Lf61+1xzKMNqJKB2XtsF7/Q+PIBZuL6piWpQ";
+    username = "travis";
+  };
+
   # TODO: Remove generated key file in $XDG_RUNTIME_DIR/secrets.d
   # once sops-nix natively supports encryption/decryption via SSH.
   sops = {
@@ -69,21 +76,4 @@ with lib.extensions; {
       rider = enabled;
     };
   };
-
-  # Home Manager needs a bit of information about you and the paths it should manage.
-  home.username = "travis";
-  home.homeDirectory = "/home/travis";
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
-  # Allow unfree packages.
-  nixpkgs.config.allowUnfree = true;
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes. You should not change this value,
-  # even if you update Home Manager. If you do want to update the value, then
-  # make sure to first check the Home Manager release notes.
-  home.stateVersion = "25.11";
 }
