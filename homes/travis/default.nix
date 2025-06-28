@@ -29,6 +29,7 @@ with lib.extensions; {
     programs = {
       _1password = enabled;
       alacritty = enabled;
+      bind = enabled;
       deadnix = enabled;
       devenv = enabled;
       direnv = enabled;
