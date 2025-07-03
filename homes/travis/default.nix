@@ -37,6 +37,7 @@ with lib.extensions; {
       _1password = enabled;
       alacritty = enabled;
       bind = enabled;
+      chezmoi = enabled;
       deadnix = enabled;
       devenv = enabled;
       direnv = enabled;
