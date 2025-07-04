@@ -62,6 +62,7 @@ with lib.extensions; {
       sops = enabled;
       statix = enabled;
       subtitleedit = enabled;
+      tmux = enabled;
       tree = enabled;
       vscode = enabled;
       yq = enabled;
