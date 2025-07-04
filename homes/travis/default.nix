@@ -66,6 +66,7 @@ with lib.extensions; {
       tree = enabled;
       vscode = enabled;
       yq = enabled;
+      zellij = enabled;
       zoxide = enabled;
       zsh = enabled;
     };
