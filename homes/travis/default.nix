@@ -28,6 +28,7 @@ with lib.extensions; {
     desktop = {
       gnome.enable = true;
       gnome.resources = {
+        monitors = ../../files/config/gnome/monitors.xml;
         profilePicture = ../../files/images/crying-bear.png;
         wallpaper = ../../files/wallpapers/medusa.png;
       };

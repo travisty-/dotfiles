@@ -7,6 +7,10 @@
   cfg = config.settings.desktop.gnome;
 in {
   options.settings.desktop.gnome.resources = {
+    monitors = mkOption {
+      description = "The path to the target monitor configuration file.";
+      type = types.path;
+    };
     profilePicture = mkOption {
       description = "The path to the target profile picture.";
       type = types.path;
@@ -30,5 +34,7 @@ in {
     };
 
     home.file.".face".source = cfg.resources.profilePicture;
+
+    xdg.configFile."monitors.xml".source = cfg.resources.monitors;
   };
 }
