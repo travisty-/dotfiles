@@ -11,11 +11,6 @@ with lib.extensions; {
     ./configuration.nix
   ];
 
-  nixpkgs.overlays = [
-    (import ../../overlays/pop-shell.nix)
-    (import ../../overlays/spotify.nix)
-  ];
-
   sops = {
     defaultSopsFile = ../../secrets/secrets.enc.yaml;
     age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
@@ -24,7 +19,7 @@ with lib.extensions; {
 
   settings = {
     desktop = {
-      gnome = enabled;
+      hyprland = enabled;
     };
 
     hardware = {
