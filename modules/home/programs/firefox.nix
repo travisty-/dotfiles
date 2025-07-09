@@ -19,6 +19,7 @@ in {
         settings = {
           "browser.privateWindowSeparation.enabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
+          "browser.urlbar.scotchBonnet.enableOverride" = false;
           "extensions.autoDisableScopes" = 0;
           "extensions.pocket.enabled" = false;
           "full-screen-api.transition-duration.enter" = "0 0";
