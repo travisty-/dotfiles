@@ -167,12 +167,12 @@ in {
       "$mainMod" = "SUPER"; # Sets "Windows" key as main modifier.
 
       bind = [
-        "$mainMod, Q, exec, $terminal"
+        "$mainMod, Q, exec, uwsm app -- $terminal"
         "$mainMod, C, killactive,"
-        "$mainMod, M, exit,"
-        "$mainMod, E, exec, $fileManager"
+        "$mainMod, M, exec, uwsm stop"
+        "$mainMod, E, exec, uwsm app -- $fileManager"
         "$mainMod, V, togglefloating,"
-        "$mainMod, R, exec, $menu"
+        "$mainMod, R, exec, uwsm app -- $menu"
         "$mainMod, P, pseudo," # dwindle
         "$mainMod, J, togglesplit," # dwindle
 
@@ -223,20 +223,20 @@ in {
 
       # Laptop multimedia keys.
       bindel = [
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ",XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
+        ",XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ",XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ",XF86AudioMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ",XF86AudioMicMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ",XF86MonBrightnessUp, exec, uwsm app -- brightnessctl -e4 -n2 set 5%+"
+        ",XF86MonBrightnessDown, exec, uwsm app -- brightnessctl -e4 -n2 set 5%-"
       ];
 
       # Media player controls (requires playerctl).
       bindl = [
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPrev, exec, playerctl previous"
+        ", XF86AudioNext, exec, uwsm app -- playerctl next"
+        ", XF86AudioPause, exec, uwsm app -- playerctl play-pause"
+        ", XF86AudioPlay, exec, uwsm app -- playerctl play-pause"
+        ", XF86AudioPrev, exec, uwsm app -- playerctl previous"
       ];
 
       windowrule = [
