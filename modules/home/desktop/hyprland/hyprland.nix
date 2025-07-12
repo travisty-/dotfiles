@@ -29,11 +29,9 @@ in {
       "$fileManager" = "dolphin";
       "$menu" = "wofi --show drun";
 
-      # exec-once = [
-      #   "$terminal"
-      #   "nm-applet &"
-      #   "waybar & hyprpaper & firefox"
-      # ];
+      exec-once = [
+        "[workspace special:magic silent] uwsm app -- $terminal"
+      ];
 
       # ecosystem = {
       #   enforce_permissions = 1;
