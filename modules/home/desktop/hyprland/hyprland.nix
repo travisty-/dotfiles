@@ -35,11 +35,6 @@ in {
       #   "waybar & hyprpaper & firefox"
       # ];
 
-      env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-      ];
-
       # ecosystem = {
       #   enforce_permissions = 1;
       # };
@@ -254,5 +249,23 @@ in {
         "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
       ];
     };
+
+    # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#in-tty
+    programs.zsh.loginExtra = ''
+      if uwsm check may-start; then
+          exec uwsm start hyprland-uwsm.desktop
+      fi
+    '';
+
+    # https://wiki.hypr.land/Configuring/Environment-variables
+    xdg.configFile."uwsm/env".text = ''
+      export NIXOS_OZONE_WL=1
+      export XCURSOR_SIZE=24
+    '';
+
+    # https://wiki.hypr.land/Configuring/Environment-variables
+    xdg.configFile."uwsm/env-hyprland".text = ''
+      export HYPRCURSOR_SIZE=24
+    '';
   };
 }
