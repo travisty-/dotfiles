@@ -50,6 +50,7 @@ with lib.extensions; {
       just = enabled;
       mpv = enabled;
       neovim = enabled;
+      nerd-fonts = enabled;
       obsidian = enabled;
       powershell = enabled;
       qbittorrent = enabled;
