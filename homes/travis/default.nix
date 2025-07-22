@@ -75,5 +75,10 @@ with lib.extensions; {
       pycharm = enabled;
       rider = enabled;
     };
+
+    services = {
+      hyprpolkitagent = enabled;
+      swaync = enabled;
+    };
   };
 }

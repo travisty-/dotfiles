@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
@@ -31,6 +32,8 @@ in {
 
       exec-once = [
         "[workspace special:magic silent] uwsm app -- $terminal"
+        "systemctl --user enable --now hyprpolkitagent.service"
+        "systemctl --user enable --now swaync.service"
       ];
 
       # ecosystem = {
@@ -255,6 +258,15 @@ in {
       fi
     '';
 
+    # Installing GTK desktop portal as XDPH doesn't implement a file picker.
+    # https://wiki.hypr.land/Hypr-Ecosystem/xdg-desktop-portal-hyprland
+    xdg.portal.extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+
+    # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#NixOS-UWSM
+    # xdg.configFile."uwsm/env".source = "${home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+
     # https://wiki.hypr.land/Configuring/Environment-variables
     xdg.configFile."uwsm/env".text = ''
       export NIXOS_OZONE_WL=1
@@ -265,5 +277,8 @@ in {
     xdg.configFile."uwsm/env-hyprland".text = ''
       export HYPRCURSOR_SIZE=24
     '';
+
+    # https://wiki.hypr.land/Useful-Utilities/Must-have/#qt-wayland-support
+    qt.enable = true;
   };
 }
