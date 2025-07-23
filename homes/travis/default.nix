@@ -34,6 +34,7 @@ with lib.extensions; {
       alacritty = enabled;
       bind = enabled;
       chezmoi = enabled;
+      claude-code = enabled;
       deadnix = enabled;
       devenv = enabled;
       direnv = enabled;
