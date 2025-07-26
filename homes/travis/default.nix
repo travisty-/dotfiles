@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   ...
@@ -67,6 +68,19 @@ with lib.extensions; {
       zellij = enabled;
       zoxide = enabled;
       zsh = enabled;
+    };
+
+    programs.gtk = {
+      enable = true;
+      bookmarks = [
+        "file://${config.home.homeDirectory}/Documents"
+        "file://${config.home.homeDirectory}/Downloads"
+        "file://${config.home.homeDirectory}/Music"
+        "file://${config.home.homeDirectory}/Pictures"
+        "file://${config.home.homeDirectory}/Videos"
+        "file:///media/data Media"
+        "file:///media/games Games"
+      ];
     };
 
     programs.jetbrains = {
