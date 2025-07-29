@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
@@ -16,6 +17,188 @@ in {
       enable = true;
 
       profiles.default = {
+        search = {
+          force = true;
+          default = "ddg";
+
+          order = [
+            "ddg"
+            "nix-packages"
+            "nix-options"
+            "nix-wiki"
+            "mynixos"
+            "noogle"
+            "github-home-manager"
+            "github-nixpkgs"
+            "nyaa"
+            "nyaa-subsplease"
+          ];
+
+          engines = {
+            nix-packages = {
+              name = "Nix Packages";
+              urls = [
+                {
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = ["@nix-packages" "@np"];
+            };
+
+            nix-options = {
+              name = "Nix Options";
+              urls = [
+                {
+                  template = "https://search.nixos.org/options";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = ["@nix-options" "@no"];
+            };
+
+            nix-wiki = {
+              name = "Nix Wiki";
+              urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
+              icon = "https://wiki.nixos.org/favicon.ico";
+              definedAliases = ["@nix-wiki" "@nw"];
+            };
+
+            mynixos = {
+              name = "MyNixOS";
+              urls = [{template = "https://mynixos.com/search?q={searchTerms}";}];
+              icon = "https://mynixos.com/favicon.ico";
+              definedAliases = ["@mynixos" "@my"];
+            };
+
+            noogle = {
+              name = "Noogle";
+              urls = [{template = "https://noogle.dev/q?term={searchTerms}";}];
+              icon = "https://noogle.dev/favicon.ico";
+              definedAliases = ["@noogle" "@ns"];
+            };
+
+            github-home-manager = {
+              name = "Home Manager";
+              urls = [
+                {
+                  template = "https://github.com/search";
+                  params = [
+                    {
+                      name = "type";
+                      value = "code";
+                    }
+                    {
+                      name = "q";
+                      value = "repo:nix-community/home-manager {searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = ["@home-manager" "@hm"];
+            };
+
+            github-nixpkgs = {
+              name = "Nixpkgs";
+              urls = [
+                {
+                  template = "https://github.com/search";
+                  params = [
+                    {
+                      name = "type";
+                      value = "code";
+                    }
+                    {
+                      name = "q";
+                      value = "repo:NixOS/nixpkgs {searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = ["@nixpkgs" "@ng"];
+            };
+
+            nyaa = {
+              name = "Nyaa";
+              urls = [
+                {
+                  template = "https://nyaa.si";
+                  params = [
+                    {
+                      name = "f";
+                      value = "0";
+                    }
+                    {
+                      name = "c";
+                      value = "1_2";
+                    }
+                    {
+                      name = "q";
+                      value = "{searchTerms} 1080p -HEVC";
+                    }
+                  ];
+                }
+              ];
+              icon = "https://nyaa.si/static/favicon.png";
+              definedAliases = ["@nyaa" "@ny"];
+            };
+
+            nyaa-subsplease = {
+              name = "Subsplease";
+              urls = [
+                {
+                  template = "https://nyaa.si/user/subsplease";
+                  params = [
+                    {
+                      name = "f";
+                      value = "0";
+                    }
+                    {
+                      name = "c";
+                      value = "1_2";
+                    }
+                    {
+                      name = "q";
+                      value = "{searchTerms} 1080p -HEVC";
+                    }
+                  ];
+                }
+              ];
+              icon = "https://nyaa.si/static/favicon.png";
+              definedAliases = ["@subsplease" "@sp"];
+            };
+
+            # https://github.com/nix-community/home-manager/blob/master/modules/programs/firefox/profiles/search.nix
+            amazondotcom-us.metaData.hidden = true;
+            bing.metaData.hidden = true;
+            ebay.metaData.hidden = true;
+            google.metaData.hidden = true;
+            wikipedia.metaData.hidden = true;
+          };
+        };
+
         settings = {
           "browser.privateWindowSeparation.enabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
