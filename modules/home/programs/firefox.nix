@@ -201,8 +201,14 @@ in {
 
         settings = {
           "browser.privateWindowSeparation.enabled" = false;
+          "browser.search.suggest.enabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
           "browser.urlbar.scotchBonnet.enableOverride" = false;
+          "browser.urlbar.showSearchSuggestionsFirst" = false;
+          "browser.urlbar.suggest.engines" = false;
+          "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+          "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+          "browser.urlbar.suggest.topsites" = false;
           "extensions.autoDisableScopes" = 0;
           "extensions.pocket.enabled" = false;
           "full-screen-api.transition-duration.enter" = "0 0";
