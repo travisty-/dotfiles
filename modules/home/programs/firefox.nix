@@ -200,6 +200,10 @@ in {
         };
 
         settings = {
+          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = false;
           "browser.privateWindowSeparation.enabled" = false;
           "browser.search.suggest.enabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
