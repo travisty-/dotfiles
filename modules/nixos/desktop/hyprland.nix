@@ -18,6 +18,12 @@ in {
     # The recommended way to start Hyprland on Systemd distros.
     programs.hyprland.withUWSM = true;
 
+    # An application for managing GNOME keyring.
+    programs.seahorse.enable = true;
+
+    # A keyring is required for saving credentials.
+    services.gnome.gnome-keyring.enable = true;
+
     environment.systemPackages = with pkgs; [
       kitty # Required for the default Hyprland config.
     ];
