@@ -28,6 +28,10 @@ with lib.extensions; {
   settings = {
     desktop.hyprland = {
       enable = true;
+      resources = {
+        profilePicture = ../../files/images/crying-bear.png;
+        wallpaper = ../../files/wallpapers/medusa.png;
+      };
       settings.monitors = [
         "DP-1, 3440x1440@175, 2560x0, 1, vrr, 3, bitdepth, 10"
         "DP-2, 2560x1440@144, 0x0, 1, vrr, 3, bitdepth, 10"
