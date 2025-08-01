@@ -26,8 +26,12 @@ with lib.extensions; {
   };
 
   settings = {
-    desktop = {
-      hyprland = enabled;
+    desktop.hyprland = {
+      enable = true;
+      settings.monitors = [
+        "DP-1, 3440x1440@175, 2560x0, 1, vrr, 3, bitdepth, 10"
+        "DP-2, 2560x1440@144, 0x0, 1, vrr, 3, bitdepth, 10"
+      ];
     };
 
     programs = {

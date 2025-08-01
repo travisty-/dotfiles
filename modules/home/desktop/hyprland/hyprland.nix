@@ -4,11 +4,18 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.settings.desktop.hyprland;
 in {
   options.settings.desktop.hyprland = {
     enable = mkEnableOption "Hyprland";
+  };
+
+  options.settings.desktop.hyprland.settings = {
+    monitors = mkOption {
+      description = "The target monitor settings.";
+      type = types.listOf types.str;
+    };
   };
 
   # https://wiki.hypr.land/Nix
@@ -24,7 +31,7 @@ in {
 
     # https://wiki.hypr.land/Configuring
     wayland.windowManager.hyprland.settings = {
-      monitor = ",preferred,auto,auto";
+      monitor = cfg.settings.monitors;
 
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
