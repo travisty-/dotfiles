@@ -277,12 +277,12 @@ in {
     # https://wiki.hypr.land/Configuring/Environment-variables
     xdg.configFile."uwsm/env".text = ''
       export NIXOS_OZONE_WL=1
-      export XCURSOR_SIZE=24
+      export XCURSOR_SIZE=32
     '';
 
     # https://wiki.hypr.land/Configuring/Environment-variables
     xdg.configFile."uwsm/env-hyprland".text = ''
-      export HYPRCURSOR_SIZE=24
+      export HYPRCURSOR_SIZE=32
     '';
 
     # https://wiki.hypr.land/Useful-Utilities/Must-have/#qt-wayland-support
