@@ -33,7 +33,7 @@ in {
     wayland.windowManager.hyprland.settings = {
       monitor = cfg.settings.monitors;
 
-      "$terminal" = "kitty";
+      "$terminal" = "ghostty";
       "$fileManager" = "nautilus";
       "$menu" = "wofi --show drun";
 
