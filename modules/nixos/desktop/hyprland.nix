@@ -24,8 +24,12 @@ in {
     # A keyring is required for saving credentials.
     services.gnome.gnome-keyring.enable = true;
 
+    # GVFS is required for trash to work in Nautilus.
+    services.gvfs.enable = true;
+
     environment.systemPackages = with pkgs; [
       kitty # Required for the default Hyprland config.
+      nautilus
     ];
 
     # Allow Chromium and Electron-based applications to run without Xwayland.
