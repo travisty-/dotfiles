@@ -184,6 +184,11 @@ in {
         "$mainMod, P, pseudo," # dwindle
         "$mainMod, J, togglesplit," # dwindle
 
+        # Screenshot a region, window, or monitor.
+        ", PRINT, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
+        "$mainMod, PRINT, exec, uwsm app -- hyprshot --mode window --freeze --clipboard-only"
+        "$mainMod SHIFT, PRINT, exec, uwsm app -- hyprshot --mode output --freeze --clipboard-only"
+
         # Move focus with mainMod + arrow keys.
         "$mainMod, left, movefocus, l"
         "$mainMod, right, movefocus, r"
