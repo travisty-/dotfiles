@@ -71,6 +71,7 @@ with lib.extensions; {
       statix = enabled;
       subtitleedit = enabled;
       tmux = enabled;
+      trash = enabled;
       tree = enabled;
       vscode = enabled;
       yq = enabled;
