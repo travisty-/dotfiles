@@ -135,6 +135,7 @@ in {
       dwindle = {
         pseudotile = true; # Master switch for pseudotiling.
         preserve_split = true; # You probably want this.
+        force_split = 2; # Always split to the right.
       };
 
       master = {
