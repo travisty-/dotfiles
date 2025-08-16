@@ -158,6 +158,8 @@ in {
 
         sensitivity = 0; # -1.0 to 1.0. 0 means no modification.
 
+        accel_profile = "flat"; # Disable cursor acceleration.
+
         touchpad = {
           natural_scroll = false;
         };
