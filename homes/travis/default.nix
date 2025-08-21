@@ -63,6 +63,7 @@ with lib.extensions; {
       neovim = enabled;
       nerd-fonts = enabled;
       obsidian = enabled;
+      oh-my-posh = enabled;
       powershell = enabled;
       qbittorrent = enabled;
       remmina = enabled;
