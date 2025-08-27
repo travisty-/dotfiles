@@ -64,6 +64,7 @@ with lib.extensions; {
       nerd-fonts = enabled;
       obsidian = enabled;
       oh-my-posh = enabled;
+      pcsx2 = enabled;
       powershell = enabled;
       qbittorrent = enabled;
       remmina = enabled;
