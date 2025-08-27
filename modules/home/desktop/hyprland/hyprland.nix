@@ -266,6 +266,26 @@ in {
       ];
     };
 
+    # https://github.com/nix-community/home-manager/issues/6061
+    wayland.windowManager.hyprland.extraConfig = ''
+      # Enter submap to resize the active window.
+      bind = $mainMod, Return, submap, resize
+      submap = resize
+          bind = , left, resizeactive, -50 0
+          bind = , right, resizeactive, 50 0
+          bind = , up, resizeactive, 0 50
+          bind = , down, resizeactive, 0 -50
+
+          bind = , H, resizeactive, -50 0
+          bind = , L, resizeactive, 50 0
+          bind = , K, resizeactive, 0 50
+          bind = , J, resizeactive, 0 -50
+
+          bind = , Return, submap, reset
+          bind = , Escape, submap, reset
+      submap = reset
+    '';
+
     # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#in-tty
     programs.zsh.loginExtra = ''
       if uwsm check may-start; then
