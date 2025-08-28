@@ -247,6 +247,10 @@ in {
         # Scroll through existing workspaces.
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
+
+        # Cycle through existing workspaces.
+        "$mainMod CTRL, left, workspace, e-1"
+        "$mainMod CTRL, right, workspace, e+1"
       ];
 
       # Move and resize windows with LMB and RMB.
@@ -257,12 +261,12 @@ in {
 
       # Laptop multimedia keys.
       bindel = [
-        ",XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ",XF86AudioMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ",XF86AudioMicMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ",XF86MonBrightnessUp, exec, uwsm app -- brightnessctl -e4 -n2 set 5%+"
-        ",XF86MonBrightnessDown, exec, uwsm app -- brightnessctl -e4 -n2 set 5%-"
+        ", XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, uwsm app -- wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ", XF86MonBrightnessUp, exec, uwsm app -- brightnessctl -e4 -n2 set 5%+"
+        ", XF86MonBrightnessDown, exec, uwsm app -- brightnessctl -e4 -n2 set 5%-"
       ];
 
       # Media player controls (requires playerctl).
