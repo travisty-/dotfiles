@@ -198,6 +198,24 @@ in {
         "$mainMod, up, movefocus, u"
         "$mainMod, down, movefocus, d"
 
+        # Move focus with mainMod + vim keys.
+        "$mainMod, H, movefocus, l"
+        "$mainMod, L, movefocus, r"
+        "$mainMod, K, movefocus, u"
+        "$mainMod, J, movefocus, d"
+
+        # Move window with mainMod + arrow keys.
+        "$mainMod SHIFT, left, movewindow, l"
+        "$mainMod SHIFT, right, movewindow, r"
+        "$mainMod SHIFT, up, movewindow, u"
+        "$mainMod SHIFT, down, movewindow, d"
+
+        # Move window with mainMod + vim keys.
+        "$mainMod SHIFT, H, movewindow, l"
+        "$mainMod SHIFT, L, movewindow, r"
+        "$mainMod SHIFT, K, movewindow, u"
+        "$mainMod SHIFT, J, movewindow, d"
+
         # Switch workspaces with mainMod + [0-9].
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
