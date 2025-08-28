@@ -185,7 +185,10 @@ in {
         "$mainMod, V, togglefloating,"
         "$mainMod, R, exec, uwsm app -- $menu"
         "$mainMod, P, pseudo," # dwindle
-        "$mainMod, J, togglesplit," # dwindle
+        "$mainMod, O, togglesplit," # dwindle
+        "$mainMod, I, swapsplit," # dwindle
+        "$mainMod, F, fullscreen,"
+        "$mainMod, S, togglegroup,"
 
         # Screenshot a region, window, or monitor.
         ", PRINT, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
@@ -241,8 +244,8 @@ in {
         "$mainMod SHIFT, 0, movetoworkspace, 10"
 
         # Special workspace (scratchpad).
-        "$mainMod, S, togglespecialworkspace, magic"
-        "$mainMod SHIFT, S, movetoworkspace, special:magic"
+        "$mainMod, grave, togglespecialworkspace, magic"
+        "$mainMod SHIFT, grave, movetoworkspace, special:magic"
 
         # Scroll through existing workspaces.
         "$mainMod, mouse_down, workspace, e+1"
