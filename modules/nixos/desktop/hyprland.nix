@@ -27,9 +27,11 @@ in {
     # GVFS is required for trash to work in Nautilus.
     services.gvfs.enable = true;
 
+    # Required for the default Hyprland configuration.
     environment.systemPackages = with pkgs; [
-      kitty # Required for the default Hyprland config.
+      kitty
       nautilus
+      playerctl
     ];
 
     # Allow Chromium and Electron-based applications to run without Xwayland.
