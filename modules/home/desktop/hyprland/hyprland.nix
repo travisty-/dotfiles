@@ -311,6 +311,9 @@ in {
       submap = reset
     '';
 
+    # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
+    wayland.windowManager.hyprland.systemd.variables = ["--all"];
+
     # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#in-tty
     programs.zsh.loginExtra = ''
       if uwsm check may-start; then
