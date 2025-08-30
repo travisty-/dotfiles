@@ -16,10 +16,10 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      extraConfig = ''
-        Host *
-            IdentityAgent ~/.1password/agent.sock
-      '';
+      enableDefaultConfig = false;
+      matchBlocks."*" = {
+        identityAgent = "~/.1password/agent.sock";
+      };
     };
 
     programs.git = {
