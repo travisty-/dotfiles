@@ -76,6 +76,7 @@ with lib.extensions; {
       trash = enabled;
       tree = enabled;
       vscode = enabled;
+      xorg = enabled;
       yq = enabled;
       zellij = enabled;
       zoxide = enabled;
