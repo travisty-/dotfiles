@@ -42,6 +42,7 @@ with lib.extensions; {
     };
 
     services = {
+      fstrim = enabled;
       openrgb = enabled;
       openssh = enabled;
       pipewire = enabled;

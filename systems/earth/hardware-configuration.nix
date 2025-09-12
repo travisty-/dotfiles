@@ -22,7 +22,10 @@
     options = ["subvol=@" "compress=zstd" "noatime" "x-gvfs-trash"];
   };
 
-  boot.initrd.luks.devices."luks-17bc8fc5-5592-487f-a697-f738403676b0".device = "/dev/disk/by-uuid/17bc8fc5-5592-487f-a697-f738403676b0";
+  boot.initrd.luks.devices."luks-17bc8fc5-5592-487f-a697-f738403676b0" = {
+    device = "/dev/disk/by-uuid/17bc8fc5-5592-487f-a697-f738403676b0";
+    allowDiscards = true;
+  };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
@@ -42,7 +45,10 @@
     options = ["subvol=@log" "compress=zstd" "noatime" "x-gvfs-trash"];
   };
 
-  boot.initrd.luks.devices."luks-3426c936-e49d-48fa-9e41-ca1be20ce3a1".device = "/dev/disk/by-uuid/3426c936-e49d-48fa-9e41-ca1be20ce3a1";
+  boot.initrd.luks.devices."luks-3426c936-e49d-48fa-9e41-ca1be20ce3a1" = {
+    device = "/dev/disk/by-uuid/3426c936-e49d-48fa-9e41-ca1be20ce3a1";
+    allowDiscards = true;
+  };
 
   fileSystems."/media/data" = {
     device = "/dev/disk/by-uuid/fd76b16b-cbb7-467b-92fd-3139bdb6f42d";
