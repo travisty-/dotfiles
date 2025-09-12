@@ -43,6 +43,10 @@ in {
         "systemctl --user enable --now swaync.service"
       ];
 
+      # https://discourse.nixos.org/t/gamescope-not-working-after-updating-to-25-05-amd-gpu/65233/2
+      # https://github.com/ValveSoftware/gamescope/issues/1825
+      debug.full_cm_proto = true;
+
       # ecosystem = {
       #   enforce_permissions = 1;
       # };
