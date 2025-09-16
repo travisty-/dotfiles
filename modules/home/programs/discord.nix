@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
@@ -12,6 +13,10 @@ in {
 
   # https://nixos.wiki/wiki/Discord
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      discord
+    ];
+
     programs.vesktop = {
       enable = true;
     };
