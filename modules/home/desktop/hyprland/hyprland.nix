@@ -169,9 +169,8 @@ in {
         };
       };
 
-      gestures = {
-        workspace_swipe = false;
-      };
+      # Example fully configurable trackpad gestures.
+      # gesture = "3, horizontal, workspace";
 
       # Example device-specific configuration.
       # device = {
