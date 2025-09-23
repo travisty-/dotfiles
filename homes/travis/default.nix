@@ -69,6 +69,7 @@ with lib.extensions; {
       qbittorrent = enabled;
       remmina = enabled;
       ripgrep = enabled;
+      solaar = enabled;
       sops = enabled;
       statix = enabled;
       subtitleedit = enabled;
