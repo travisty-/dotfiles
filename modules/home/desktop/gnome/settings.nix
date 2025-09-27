@@ -53,7 +53,7 @@ in {
             "firefox.desktop"
             "spotify.desktop"
             "steam.desktop"
-            "vesktop.desktop"
+            "discord.desktop"
             "code.desktop"
             "obsidian.desktop"
           ];
