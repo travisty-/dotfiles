@@ -57,6 +57,7 @@ with lib.extensions; {
       gh = enabled;
       ghostty = enabled;
       git = enabled;
+      helix = enabled;
       jq = enabled;
       just = enabled;
       mpv = enabled;
