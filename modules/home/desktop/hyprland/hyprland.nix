@@ -42,6 +42,7 @@ in {
       ];
 
       exec-once = [
+        "[workspace 3 silent] uwsm app -- code /etc/nixos"
         "[workspace special:magic silent] uwsm app -- $terminal"
         "systemctl --user enable --now hyprpolkitagent.service"
         "systemctl --user enable --now swaync.service"
