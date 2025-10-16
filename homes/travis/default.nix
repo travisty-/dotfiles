@@ -41,6 +41,7 @@ with lib.extensions; {
     programs = {
       _1password = enabled;
       alacritty = enabled;
+      amp = enabled;
       anki = enabled;
       bind = enabled;
       chezmoi = enabled;
