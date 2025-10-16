@@ -37,6 +37,10 @@ in {
       "$fileManager" = "nautilus";
       "$menu" = "wofi --show drun";
 
+      source = [
+        "~/.config/hypr/themes/rose-pine.conf"
+      ];
+
       exec-once = [
         "[workspace special:magic silent] uwsm app -- $terminal"
         "systemctl --user enable --now hyprpolkitagent.service"
@@ -63,8 +67,8 @@ in {
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        "col.active_border" = "$rose $pine $love $iris 90deg";
+        "col.inactive_border" = "$base";
         resize_on_border = false; # Set to true enable resizing windows by clicking and dragging on borders and gaps.
         allow_tearing = false; # See https://wiki.hypr.land/Configuring/Tearing before turning this on.
         layout = "dwindle";
@@ -343,6 +347,12 @@ in {
     xdg.configFile."uwsm/env-hyprland".text = ''
       export HYPRCURSOR_SIZE=32
     '';
+
+    # https://github.com/rose-pine/hyprland
+    xdg.configFile."hypr/themes" = {
+      source = ../../../../files/config/hypr/themes;
+      recursive = true;
+    };
 
     # https://wiki.hypr.land/Useful-Utilities/Must-have/#qt-wayland-support
     qt.enable = true;
