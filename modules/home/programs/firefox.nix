@@ -219,12 +219,16 @@ in {
         };
 
         settings = {
+          "browser.ml.enable" = false;
+          "browser.ml.chat.enabled" = false;
           "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
           "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = false;
           "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = false;
           "browser.newtabpage.activity-stream.section.highlights.includeVisited" = false;
           "browser.privateWindowSeparation.enabled" = false;
           "browser.search.suggest.enabled" = false;
+          "browser.tabs.groups.smart.enabled" = false;
+          "browser.tabs.groups.smart.userEnabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
           "browser.urlbar.scotchBonnet.enableOverride" = false;
           "browser.urlbar.showSearchSuggestionsFirst" = false;
@@ -233,6 +237,7 @@ in {
           "browser.urlbar.suggest.quicksuggest.sponsored" = false;
           "browser.urlbar.suggest.topsites" = false;
           "extensions.autoDisableScopes" = 0;
+          "extensions.ml.enabled" = false;
           "extensions.pocket.enabled" = false;
           "full-screen-api.transition-duration.enter" = "0 0";
           "full-screen-api.transition-duration.leave" = "0 0";
