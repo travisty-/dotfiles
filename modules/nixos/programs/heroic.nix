@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.heroic;
+  cfg = config.${namespace}.programs.heroic;
 in {
-  options.settings.programs.heroic = {
+  options.${namespace}.programs.heroic = {
     enable = mkEnableOption "Heroic Games Launcher";
   };
 

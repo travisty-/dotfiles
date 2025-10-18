@@ -1,14 +1,15 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.git;
+  cfg = config.${namespace}.programs.git;
   user = config.meta.user;
 in {
-  options.settings.programs.git = {
+  options.${namespace}.programs.git = {
     enable = mkEnableOption "Git";
   };
 

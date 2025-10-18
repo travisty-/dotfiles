@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.settings.programs.gtk;
+  cfg = config.${namespace}.programs.gtk;
 in {
-  options.settings.programs.gtk = {
+  options.${namespace}.programs.gtk = {
     enable = mkEnableOption "GTK";
     bookmarks = mkOption {
       description = "Bookmarks in the sidebar of a GTK file manager.";

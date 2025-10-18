@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
   inherit (lib.hm.gvariant) mkUint32;
-  cfg = config.settings.desktop.gnome;
+  cfg = config.${namespace}.desktop.gnome;
 in {
-  options.settings.desktop.gnome = {
+  options.${namespace}.desktop.gnome = {
     enable = mkEnableOption "GNOME";
   };
 

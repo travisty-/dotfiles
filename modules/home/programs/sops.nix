@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.sops;
+  cfg = config.${namespace}.programs.sops;
 in {
-  options.settings.programs.sops = {
+  options.${namespace}.programs.sops = {
     enable = mkEnableOption "SOPS";
   };
 

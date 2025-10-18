@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.jq;
+  cfg = config.${namespace}.programs.jq;
 in {
-  options.settings.programs.jq = {
+  options.${namespace}.programs.jq = {
     enable = mkEnableOption "jq";
   };
 

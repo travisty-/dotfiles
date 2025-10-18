@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
   inherit (config.lib.file) mkOutOfStoreSymlink;
-  cfg = config.settings.programs.mpv;
+  cfg = config.${namespace}.programs.mpv;
 in {
-  options.settings.programs.mpv = {
+  options.${namespace}.programs.mpv = {
     enable = mkEnableOption "mpv";
   };
 

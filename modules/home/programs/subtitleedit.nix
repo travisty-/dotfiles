@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.subtitleedit;
+  cfg = config.${namespace}.programs.subtitleedit;
 in {
-  options.settings.programs.subtitleedit = {
+  options.${namespace}.programs.subtitleedit = {
     enable = mkEnableOption "Subtitle Edit";
   };
 

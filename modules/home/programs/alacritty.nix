@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.alacritty;
+  cfg = config.${namespace}.programs.alacritty;
 in {
-  options.settings.programs.alacritty = {
+  options.${namespace}.programs.alacritty = {
     enable = mkEnableOption "Alacritty";
   };
 

@@ -1,10 +1,11 @@
 {
   inputs,
   lib,
+  namespace,
   pkgs,
   ...
 }:
-with lib.extensions; {
+with lib.${namespace}; {
   imports = [
     inputs.sops-nix.nixosModules.sops
     ../../modules/nixos
@@ -17,7 +18,7 @@ with lib.extensions; {
     validateSopsFiles = true;
   };
 
-  settings = {
+  ${namespace} = {
     desktop = {
       hyprland = enabled;
     };

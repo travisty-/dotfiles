@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.xorg;
+  cfg = config.${namespace}.programs.xorg;
 in {
-  options.settings.programs.xorg = {
+  options.${namespace}.programs.xorg = {
     enable = mkEnableOption "Xorg helpers";
   };
 

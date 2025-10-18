@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.helix;
+  cfg = config.${namespace}.programs.helix;
 in {
-  options.settings.programs.helix = {
+  options.${namespace}.programs.helix = {
     enable = mkEnableOption "Helix";
   };
 

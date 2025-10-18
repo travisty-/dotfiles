@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.yq;
+  cfg = config.${namespace}.programs.yq;
 in {
-  options.settings.programs.yq = {
+  options.${namespace}.programs.yq = {
     enable = mkEnableOption "yq";
   };
 

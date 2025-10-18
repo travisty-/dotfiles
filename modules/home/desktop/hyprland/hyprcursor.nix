@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  cfg = config.settings.desktop.hyprland;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
   # https://wiki.hypr.land/Hypr-Ecosystem/hyprcursor
   config = mkIf cfg.enable {

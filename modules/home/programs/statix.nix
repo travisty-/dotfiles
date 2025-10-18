@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.statix;
+  cfg = config.${namespace}.programs.statix;
 in {
-  options.settings.programs.statix = {
+  options.${namespace}.programs.statix = {
     enable = mkEnableOption "statix";
   };
 

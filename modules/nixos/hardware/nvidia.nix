@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.hardware.nvidia;
+  cfg = config.${namespace}.hardware.nvidia;
 in {
-  options.settings.hardware.nvidia = {
+  options.${namespace}.hardware.nvidia = {
     enable = mkEnableOption "Nvidia";
   };
 

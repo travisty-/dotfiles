@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.nerd-fonts;
+  cfg = config.${namespace}.programs.nerd-fonts;
 in {
-  options.settings.programs.nerd-fonts = {
+  options.${namespace}.programs.nerd-fonts = {
     enable = mkEnableOption "Nerd Fonts";
   };
 

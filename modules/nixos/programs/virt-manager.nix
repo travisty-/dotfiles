@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.virt-manager;
+  cfg = config.${namespace}.programs.virt-manager;
 in {
-  options.settings.programs.virt-manager = {
+  options.${namespace}.programs.virt-manager = {
     enable = mkEnableOption "virt-manager";
   };
 

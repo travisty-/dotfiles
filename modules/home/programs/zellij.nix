@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.zellij;
+  cfg = config.${namespace}.programs.zellij;
 in {
-  options.settings.programs.zellij = {
+  options.${namespace}.programs.zellij = {
     enable = mkEnableOption "Zellij";
   };
 

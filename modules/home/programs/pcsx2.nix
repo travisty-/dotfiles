@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.pcsx2;
+  cfg = config.${namespace}.programs.pcsx2;
 in {
-  options.settings.programs.pcsx2 = {
+  options.${namespace}.programs.pcsx2 = {
     enable = mkEnableOption "PCSX2";
   };
 

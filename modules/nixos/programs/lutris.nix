@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.lutris;
+  cfg = config.${namespace}.programs.lutris;
 in {
-  options.settings.programs.lutris = {
+  options.${namespace}.programs.lutris = {
     enable = mkEnableOption "Lutris";
   };
 

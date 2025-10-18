@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.direnv;
+  cfg = config.${namespace}.programs.direnv;
 in {
-  options.settings.programs.direnv = {
+  options.${namespace}.programs.direnv = {
     enable = mkEnableOption "direnv";
   };
 

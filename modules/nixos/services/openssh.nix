@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.openssh;
+  cfg = config.${namespace}.services.openssh;
 in {
-  options.settings.services.openssh = {
+  options.${namespace}.services.openssh = {
     enable = mkEnableOption "OpenSSH";
   };
 

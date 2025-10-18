@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.hardware.xpadneo;
+  cfg = config.${namespace}.hardware.xpadneo;
 in {
-  options.settings.hardware.xpadneo = {
+  options.${namespace}.hardware.xpadneo = {
     enable = mkEnableOption "xpadneo";
   };
 

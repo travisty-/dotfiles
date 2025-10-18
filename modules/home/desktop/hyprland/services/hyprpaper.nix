@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkIf;
-  cfg = config.settings.desktop.hyprland;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
   config = mkIf cfg.enable {
     services.hyprpaper = {

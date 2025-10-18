@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.remmina;
+  cfg = config.${namespace}.programs.remmina;
 in {
-  options.settings.programs.remmina = {
+  options.${namespace}.programs.remmina = {
     enable = mkEnableOption "Remmina";
   };
 

@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.zsh;
+  cfg = config.${namespace}.programs.zsh;
 in {
-  options.settings.programs.zsh = {
+  options.${namespace}.programs.zsh = {
     enable = mkEnableOption "Zsh";
   };
 

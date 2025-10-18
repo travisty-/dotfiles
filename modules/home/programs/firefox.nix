@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.firefox;
+  cfg = config.${namespace}.programs.firefox;
 in {
-  options.settings.programs.firefox = {
+  options.${namespace}.programs.firefox = {
     enable = mkEnableOption "Firefox";
   };
 

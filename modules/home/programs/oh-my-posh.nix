@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.oh-my-posh;
+  cfg = config.${namespace}.programs.oh-my-posh;
 in {
-  options.settings.programs.oh-my-posh = {
+  options.${namespace}.programs.oh-my-posh = {
     enable = mkEnableOption "Oh My Posh";
   };
 

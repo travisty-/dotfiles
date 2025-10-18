@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.hyprpolkitagent;
+  cfg = config.${namespace}.services.hyprpolkitagent;
 in {
-  options.settings.services.hyprpolkitagent = {
+  options.${namespace}.services.hyprpolkitagent = {
     enable = mkEnableOption "hyprpolkitagent";
   };
 

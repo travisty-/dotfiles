@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.zoxide;
+  cfg = config.${namespace}.programs.zoxide;
 in {
-  options.settings.programs.zoxide = {
+  options.${namespace}.programs.zoxide = {
     enable = mkEnableOption "zoxide";
   };
 

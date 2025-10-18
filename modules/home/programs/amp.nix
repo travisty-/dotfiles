@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.amp;
+  cfg = config.${namespace}.programs.amp;
 in {
-  options.settings.programs.amp = {
+  options.${namespace}.programs.amp = {
     enable = mkEnableOption "Amp";
   };
 

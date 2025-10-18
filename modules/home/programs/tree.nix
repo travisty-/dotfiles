@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.tree;
+  cfg = config.${namespace}.programs.tree;
 in {
-  options.settings.programs.tree = {
+  options.${namespace}.programs.tree = {
     enable = mkEnableOption "tree";
   };
 

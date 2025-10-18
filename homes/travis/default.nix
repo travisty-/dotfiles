@@ -2,9 +2,10 @@
   config,
   inputs,
   lib,
+  namespace,
   ...
 }:
-with lib.extensions; {
+with lib.${namespace}; {
   imports = [
     inputs.sops-nix.homeManagerModules.sops
     ../../modules/home
@@ -25,7 +26,7 @@ with lib.extensions; {
     validateSopsFiles = true;
   };
 
-  settings = {
+  ${namespace} = {
     desktop.hyprland = {
       enable = true;
       resources = {

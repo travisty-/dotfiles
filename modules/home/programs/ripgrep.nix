@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.ripgrep;
+  cfg = config.${namespace}.programs.ripgrep;
 in {
-  options.settings.programs.ripgrep = {
+  options.${namespace}.programs.ripgrep = {
     enable = mkEnableOption "ripgrep";
   };
 

@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.ghostty;
+  cfg = config.${namespace}.programs.ghostty;
 in {
-  options.settings.programs.ghostty = {
+  options.${namespace}.programs.ghostty = {
     enable = mkEnableOption "Ghostty";
   };
 

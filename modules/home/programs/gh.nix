@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.gh;
+  cfg = config.${namespace}.programs.gh;
 in {
-  options.settings.programs.gh = {
+  options.${namespace}.programs.gh = {
     enable = mkEnableOption "GitHub CLI";
   };
 

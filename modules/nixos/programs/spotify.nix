@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.spotify;
+  cfg = config.${namespace}.programs.spotify;
 in {
-  options.settings.programs.spotify = {
+  options.${namespace}.programs.spotify = {
     enable = mkEnableOption "Spotify";
   };
 

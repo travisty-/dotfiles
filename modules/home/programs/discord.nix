@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.discord;
+  cfg = config.${namespace}.programs.discord;
 in {
-  options.settings.programs.discord = {
+  options.${namespace}.programs.discord = {
     enable = mkEnableOption "Discord";
   };
 

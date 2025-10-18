@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.tailscale;
+  cfg = config.${namespace}.services.tailscale;
 in {
-  options.settings.services.tailscale = {
+  options.${namespace}.services.tailscale = {
     enable = mkEnableOption "Tailscale";
   };
 

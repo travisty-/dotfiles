@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.anki;
+  cfg = config.${namespace}.programs.anki;
 in {
-  options.settings.programs.anki = {
+  options.${namespace}.programs.anki = {
     enable = mkEnableOption "Anki";
   };
 

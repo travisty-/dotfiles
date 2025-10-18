@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.devenv;
+  cfg = config.${namespace}.programs.devenv;
 in {
-  options.settings.programs.devenv = {
+  options.${namespace}.programs.devenv = {
     enable = mkEnableOption "devenv";
   };
 

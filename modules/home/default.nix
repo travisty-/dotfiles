@@ -1,3 +1,7 @@
-{lib, ...}: {
-  imports = lib.extensions.listModules ./.;
+{
+  lib,
+  namespace,
+  ...
+}: {
+  imports = lib.${namespace}.listModules ./.;
 }

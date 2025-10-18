@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.pipewire;
+  cfg = config.${namespace}.services.pipewire;
 in {
-  options.settings.services.pipewire = {
+  options.${namespace}.services.pipewire = {
     enable = mkEnableOption "PipeWire";
   };
 

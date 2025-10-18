@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  cfg = config.settings.desktop.gnome;
+  cfg = config.${namespace}.desktop.gnome;
 in {
-  options.settings.desktop.gnome.resources = {
+  options.${namespace}.desktop.gnome.resources = {
     monitors = mkOption {
       description = "The path to the target monitor configuration file.";
       type = types.path;

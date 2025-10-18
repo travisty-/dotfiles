@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.nix-helpers;
+  cfg = config.${namespace}.programs.nix-helpers;
 in {
-  options.settings.programs.nix-helpers = {
+  options.${namespace}.programs.nix-helpers = {
     enable = mkEnableOption "Nix helpers";
   };
 

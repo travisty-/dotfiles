@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.swaync;
+  cfg = config.${namespace}.services.swaync;
 in {
-  options.settings.services.swaync = {
+  options.${namespace}.services.swaync = {
     enable = mkEnableOption "Sway Notification Center";
   };
 

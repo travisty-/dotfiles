@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.hardware.bluetooth;
+  cfg = config.${namespace}.hardware.bluetooth;
 in {
-  options.settings.hardware.bluetooth = {
+  options.${namespace}.hardware.bluetooth = {
     enable = mkEnableOption "Bluetooth";
   };
 

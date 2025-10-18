@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.docker;
+  cfg = config.${namespace}.programs.docker;
 in {
-  options.settings.programs.docker = {
+  options.${namespace}.programs.docker = {
     enable = mkEnableOption "Docker";
   };
 

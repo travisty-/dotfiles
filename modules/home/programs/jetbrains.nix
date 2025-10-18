@@ -1,14 +1,15 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) any attrValues concatLists mkEnableOption mkIf optional;
   inherit (config.lib.file) mkOutOfStoreSymlink;
-  cfg = config.settings.programs.jetbrains;
+  cfg = config.${namespace}.programs.jetbrains;
 in {
-  options.settings.programs.jetbrains = {
+  options.${namespace}.programs.jetbrains = {
     toolbox.enable = mkEnableOption "JetBrains Toolbox";
     datagrip.enable = mkEnableOption "JetBrains DataGrip";
     goland.enable = mkEnableOption "JetBrains GoLand";

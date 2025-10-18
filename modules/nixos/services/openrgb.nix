@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.openrgb;
+  cfg = config.${namespace}.services.openrgb;
 in {
-  options.settings.services.openrgb = {
+  options.${namespace}.services.openrgb = {
     enable = mkEnableOption "OpenRGB";
   };
 

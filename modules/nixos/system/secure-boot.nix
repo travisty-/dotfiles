@@ -1,14 +1,15 @@
 {
   config,
-  lib,
-  pkgs,
   inputs,
+  lib,
+  namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.system.secure-boot;
+  cfg = config.${namespace}.system.secure-boot;
 in {
-  options.settings.system.secure-boot = {
+  options.${namespace}.system.secure-boot = {
     enable = mkEnableOption "Secure Boot";
   };
 

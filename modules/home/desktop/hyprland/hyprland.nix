@@ -1,18 +1,16 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.settings.desktop.hyprland;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
-  options.settings.desktop.hyprland = {
+  options.${namespace}.desktop.hyprland = {
     enable = mkEnableOption "Hyprland";
-  };
-
-  options.settings.desktop.hyprland.settings = {
-    monitors = mkOption {
+    settings.monitors = mkOption {
       description = "The target monitor settings.";
       type = types.listOf types.str;
     };

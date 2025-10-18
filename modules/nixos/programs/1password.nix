@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs._1password;
+  cfg = config.${namespace}.programs._1password;
 in {
-  options.settings.programs._1password = {
+  options.${namespace}.programs._1password = {
     enable = mkEnableOption "1Password";
   };
 

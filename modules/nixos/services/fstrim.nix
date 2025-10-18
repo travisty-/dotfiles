@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.services.fstrim;
+  cfg = config.${namespace}.services.fstrim;
 in {
-  options.settings.services.fstrim = {
+  options.${namespace}.services.fstrim = {
     enable = mkEnableOption "SSD TRIM";
   };
 

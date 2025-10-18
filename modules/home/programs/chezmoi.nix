@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.chezmoi;
+  cfg = config.${namespace}.programs.chezmoi;
 in {
-  options.settings.programs.chezmoi = {
+  options.${namespace}.programs.chezmoi = {
     enable = mkEnableOption "Chezmoi";
   };
 

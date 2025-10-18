@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  cfg = config.settings.desktop.hyprland;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
-  options.settings.desktop.hyprland.resources = {
+  options.${namespace}.desktop.hyprland.resources = {
     profilePicture = mkOption {
       description = "The path to the target profile picture.";
       type = types.path;

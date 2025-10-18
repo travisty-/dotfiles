@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.fzf;
+  cfg = config.${namespace}.programs.fzf;
 in {
-  options.settings.programs.fzf = {
+  options.${namespace}.programs.fzf = {
     enable = mkEnableOption "fzf";
   };
 

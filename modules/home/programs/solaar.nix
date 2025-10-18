@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.solaar;
+  cfg = config.${namespace}.programs.solaar;
 in {
-  options.settings.programs.solaar = {
+  options.${namespace}.programs.solaar = {
     enable = mkEnableOption "Solaar";
   };
 

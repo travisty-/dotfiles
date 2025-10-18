@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
-  cfg = config.settings.desktop.gnome;
+  cfg = config.${namespace}.desktop.gnome;
 in {
   # Workaround for conflicting keybindings between GNOME and Pop Shell.
   # https://github.com/pop-os/shell/blob/master/scripts/configure.sh

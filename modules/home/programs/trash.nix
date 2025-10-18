@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.trash;
+  cfg = config.${namespace}.programs.trash;
 in {
-  options.settings.programs.trash = {
+  options.${namespace}.programs.trash = {
     enable = mkEnableOption "trash-cli";
   };
 

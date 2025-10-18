@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.eza;
+  cfg = config.${namespace}.programs.eza;
 in {
-  options.settings.programs.eza = {
+  options.${namespace}.programs.eza = {
     enable = mkEnableOption "eza";
   };
 

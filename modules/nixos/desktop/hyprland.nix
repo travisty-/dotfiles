@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.desktop.hyprland;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
-  options.settings.desktop.hyprland = {
+  options.${namespace}.desktop.hyprland = {
     enable = mkEnableOption "Hyprland";
   };
 

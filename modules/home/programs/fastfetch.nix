@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.fastfetch;
+  cfg = config.${namespace}.programs.fastfetch;
 in {
-  options.settings.programs.fastfetch = {
+  options.${namespace}.programs.fastfetch = {
     enable = mkEnableOption "Fastfetch";
   };
 

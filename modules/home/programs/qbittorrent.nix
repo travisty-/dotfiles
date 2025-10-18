@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.qbittorrent;
+  cfg = config.${namespace}.programs.qbittorrent;
 in {
-  options.settings.programs.qbittorrent = {
+  options.${namespace}.programs.qbittorrent = {
     enable = mkEnableOption "qBittorrent";
   };
 

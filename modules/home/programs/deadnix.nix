@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.deadnix;
+  cfg = config.${namespace}.programs.deadnix;
 in {
-  options.settings.programs.deadnix = {
+  options.${namespace}.programs.deadnix = {
     enable = mkEnableOption "deadnix";
   };
 

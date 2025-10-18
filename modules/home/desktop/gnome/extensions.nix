@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib.hm.gvariant) mkUint32;
-  cfg = config.settings.desktop.gnome;
+  cfg = config.${namespace}.desktop.gnome;
 in {
   config = lib.mkIf cfg.enable {
     dconf.settings = {

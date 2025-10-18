@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.steam;
+  cfg = config.${namespace}.programs.steam;
 in {
-  options.settings.programs.steam = {
+  options.${namespace}.programs.steam = {
     enable = mkEnableOption "Steam";
   };
 

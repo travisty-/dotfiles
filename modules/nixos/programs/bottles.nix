@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.bottles;
+  cfg = config.${namespace}.programs.bottles;
 in {
-  options.settings.programs.bottles = {
+  options.${namespace}.programs.bottles = {
     enable = mkEnableOption "Bottles";
   };
 

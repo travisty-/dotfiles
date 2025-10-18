@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.tmux;
+  cfg = config.${namespace}.programs.tmux;
 in {
-  options.settings.programs.tmux = {
+  options.${namespace}.programs.tmux = {
     enable = mkEnableOption "tmux";
   };
 

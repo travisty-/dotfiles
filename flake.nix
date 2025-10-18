@@ -23,7 +23,8 @@
     nixpkgs,
     ...
   } @ inputs: let
-    lib = import ./lib {inherit inputs;};
+    lib = import ./lib {inherit inputs namespace;};
+    namespace = "internal";
   in {
     homeConfigurations = {
       travis = home-manager.lib.homeManagerConfiguration {
@@ -31,7 +32,7 @@
         modules = [./homes/travis];
         extraSpecialArgs = {
           lib = lib.extend (_: _: home-manager.lib);
-          inherit inputs;
+          inherit inputs namespace;
         };
       };
     };
@@ -41,7 +42,7 @@
         system = "x86_64-linux";
         modules = [./systems/earth];
         specialArgs = {
-          inherit inputs lib;
+          inherit inputs lib namespace;
         };
       };
     };

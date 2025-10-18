@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.settings.programs.powershell;
+  cfg = config.${namespace}.programs.powershell;
 in {
-  options.settings.programs.powershell = {
+  options.${namespace}.programs.powershell = {
     enable = mkEnableOption "PowerShell";
   };
 
