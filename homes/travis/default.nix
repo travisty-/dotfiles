@@ -107,6 +107,7 @@ with lib.${namespace}; {
       goland = enabled;
       pycharm = enabled;
       rider = enabled;
+      rustrover = enabled;
     };
 
     services = {

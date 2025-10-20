@@ -15,6 +15,7 @@ in {
     goland.enable = mkEnableOption "JetBrains GoLand";
     pycharm.enable = mkEnableOption "JetBrains PyCharm";
     rider.enable = mkEnableOption "JetBrains Rider";
+    rustrover.enable = mkEnableOption "JetBrains RustRover";
   };
 
   # https://nixos.wiki/wiki/Jetbrains_Tools
@@ -43,6 +44,7 @@ in {
         (optional cfg.goland.enable (withPlugins (withOpts jetbrains.goland)))
         (optional cfg.pycharm.enable (withPlugins (withOpts jetbrains.pycharm-professional)))
         (optional cfg.rider.enable (withPlugins (withOpts jetbrains.rider)))
+        (optional cfg.rustrover.enable (withPlugins (withOpts jetbrains.rust-rover)))
       ];
 
     home.file.".ideavimrc" = mkIf (any (x: x.enable) (attrValues cfg)) {
