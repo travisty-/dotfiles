@@ -215,6 +215,7 @@ in {
             bing.metaData.hidden = true;
             ebay.metaData.hidden = true;
             google.metaData.hidden = true;
+            perplexity.metaData.hidden = true;
             wikipedia.metaData.hidden = true;
           };
         };
