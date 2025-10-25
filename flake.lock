@@ -184,7 +184,8 @@
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nixpkgs": "nixpkgs",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "wallpapers": "wallpapers"
       }
     },
     "rust-overlay": {
@@ -225,6 +226,22 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761360968,
+        "narHash": "sha256-Q4QSBgaL5aqxaUU/+Q3GZdOVVRy/l6kw90kpILBEPBw=",
+        "owner": "travisty-",
+        "repo": "wallpapers",
+        "rev": "ad139b1a5b8223297b9ac90b3efccc6b827478de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "travisty-",
+        "repo": "wallpapers",
         "type": "github"
       }
     }

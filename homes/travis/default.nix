@@ -31,7 +31,7 @@ with lib.${namespace}; {
       enable = true;
       resources = {
         profilePicture = ../../files/images/crying-bear.png;
-        wallpaper = ../../files/wallpapers/black-cat.png;
+        wallpaper = "${inputs.wallpapers}/3440x1440/black-cat.png";
       };
       settings.monitors = [
         "DP-1, 3440x1440@175, 2560x0, 1, vrr, 3, bitdepth, 10"
