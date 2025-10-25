@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
@@ -15,5 +16,9 @@ in {
     services.swaync = {
       enable = true;
     };
+
+    home.packages = with pkgs; [
+      libnotify
+    ];
   };
 }
