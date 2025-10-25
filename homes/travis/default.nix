@@ -53,6 +53,7 @@ with lib.${namespace}; {
       discord = enabled;
       eza = enabled;
       fastfetch = enabled;
+      file = enabled;
       fd = enabled;
       firefox = enabled;
       fzf = enabled;
