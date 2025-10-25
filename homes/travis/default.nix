@@ -45,6 +45,7 @@ with lib.${namespace}; {
       amp = enabled;
       anki = enabled;
       bind = enabled;
+      btop = enabled;
       chezmoi = enabled;
       claude-code = enabled;
       deadnix = enabled;
