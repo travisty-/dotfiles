@@ -70,6 +70,7 @@ with lib.${namespace}; {
       nerd-fonts = enabled;
       obsidian = enabled;
       oh-my-posh = enabled;
+      osu = enabled;
       pcsx2 = enabled;
       powershell = enabled;
       qbittorrent = enabled;
