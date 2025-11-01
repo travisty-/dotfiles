@@ -13,6 +13,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    nixpkgs.overlays = [
+      (import ../../../overlays/qbittorrent.nix)
+    ];
+
     home.packages = with pkgs; [
       qbittorrent
     ];
