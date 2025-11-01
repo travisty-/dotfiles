@@ -52,6 +52,7 @@ with lib.${namespace}; {
       devenv = enabled;
       direnv = enabled;
       discord = enabled;
+      evince = enabled;
       eza = enabled;
       fastfetch = enabled;
       file = enabled;
