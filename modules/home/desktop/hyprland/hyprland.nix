@@ -354,7 +354,10 @@ in {
     };
 
     # https://wiki.hypr.land/Useful-Utilities/Must-have/#qt-wayland-support
-    qt.enable = true;
+    qt = {
+      enable = true;
+      style.name = "adwaita-dark";
+    };
 
     # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#fixing-problems-with-themes
     gtk = {
