@@ -30,6 +30,7 @@ in {
         pull.rebase = true;
         push.autosetupremote = true;
         push.default = "current";
+        push.useForceIfIncludes = true;
         rebase.autosquash = true;
         rebase.updaterefs = true;
         rerere.autoupdate = true;
