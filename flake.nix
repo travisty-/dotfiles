@@ -39,9 +39,9 @@
     namespace = "internal";
   in {
     homeConfigurations = {
-      travis = home-manager.lib.homeManagerConfiguration {
+      "travis@earth" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [./homes/travis];
+        modules = [(./. + "/homes/travis@earth")];
         extraSpecialArgs = {
           lib = lib.extend (_: _: home-manager.lib);
           inherit inputs namespace;
