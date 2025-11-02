@@ -4,13 +4,9 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.services.hyprpolkitagent;
+  inherit (lib) mkIf;
+  cfg = config.${namespace}.desktop.hyprland;
 in {
-  options.${namespace}.services.hyprpolkitagent = {
-    enable = mkEnableOption "hyprpolkitagent";
-  };
-
   # https://wiki.hypr.land/Hypr-Ecosystem/hyprpolkitagent
   config = mkIf cfg.enable {
     services.hyprpolkitagent = {

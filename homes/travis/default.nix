@@ -115,7 +115,6 @@ with lib.${namespace}; {
     };
 
     services = {
-      hyprpolkitagent = enabled;
       swaync = enabled;
     };
   };
