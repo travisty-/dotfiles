@@ -66,6 +66,7 @@ with lib.${namespace}; {
       jq = enabled;
       just = enabled;
       lazygit = enabled;
+      meld = enabled;
       mpv = enabled;
       neovim = enabled;
       nerd-fonts = enabled;
