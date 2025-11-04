@@ -33,7 +33,7 @@ in {
 
       "$terminal" = "ghostty";
       "$fileManager" = "nautilus";
-      "$menu" = "wofi --show drun";
+      "$menu" = "vicinae toggle";
 
       source = [
         "~/.config/hypr/themes/rose-pine.conf"
@@ -44,6 +44,7 @@ in {
         "[workspace special:magic silent] uwsm app -- $terminal"
         "systemctl --user enable --now hyprpolkitagent.service"
         "systemctl --user enable --now swaync.service"
+        "systemctl --user enable --now vicinae.service"
       ];
 
       # https://discourse.nixos.org/t/gamescope-not-working-after-updating-to-25-05-amd-gpu/65233/2
@@ -189,7 +190,7 @@ in {
         "$mainMod, M, exec, uwsm stop"
         "$mainMod, E, exec, uwsm app -- $fileManager"
         "$mainMod, V, togglefloating,"
-        "$mainMod, R, exec, uwsm app -- $menu"
+        "$mainMod, space, exec, uwsm app -- $menu"
         "$mainMod, P, pseudo," # dwindle
         "$mainMod, O, togglesplit," # dwindle
         "$mainMod, I, swapsplit," # dwindle
@@ -197,9 +198,9 @@ in {
         "$mainMod, S, togglegroup,"
 
         # Screenshot a region, window, or monitor.
-        ", PRINT, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
-        "$mainMod, PRINT, exec, uwsm app -- hyprshot --mode window --freeze --clipboard-only"
-        "$mainMod SHIFT, PRINT, exec, uwsm app -- hyprshot --mode output --freeze --clipboard-only"
+        ", print, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
+        "$mainMod, print, exec, uwsm app -- hyprshot --mode window --freeze --clipboard-only"
+        "$mainMod SHIFT, print, exec, uwsm app -- hyprshot --mode output --freeze --clipboard-only"
 
         # Move focus with mainMod + arrow keys.
         "$mainMod, left, movefocus, l"
@@ -284,6 +285,13 @@ in {
         ", XF86AudioPause, exec, uwsm app -- playerctl play-pause"
         ", XF86AudioPlay, exec, uwsm app -- playerctl play-pause"
         ", XF86AudioPrev, exec, uwsm app -- playerctl previous"
+      ];
+
+      # https://docs.vicinae.com/quickstart/hyprland
+      layerrule = [
+        "blur, vicinae"
+        "ignorezero, vicinae"
+        "noanim, vicinae"
       ];
 
       windowrule = [

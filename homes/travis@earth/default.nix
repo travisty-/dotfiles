@@ -117,6 +117,7 @@ with lib.${namespace}; {
 
     services = {
       swaync = enabled;
+      vicinae = enabled;
     };
   };
 }

@@ -28,6 +28,8 @@
       url = "github:travisty-/wallpapers";
       flake = false;
     };
+
+    vicinae.url = "github:vicinaehq/vicinae";
   };
 
   outputs = {
