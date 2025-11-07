@@ -3,5 +3,5 @@
   namespace,
   ...
 }: {
-  imports = lib.${namespace}.listModules ./.;
+  imports = lib.${namespace}.import ./.;
 }
