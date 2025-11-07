@@ -17,5 +17,8 @@ in {
     services.tailscale.extraSetFlags = [
       "--operator=travis" # TODO
     ];
+
+    # Prevent tailscaled from auto-starting.
+    systemd.services.tailscaled.wantedBy = lib.mkForce [];
   };
 }
