@@ -31,6 +31,7 @@ with lib.${namespace}; {
     hardware = {
       bluetooth = enabled;
       nvidia = enabled;
+      ryzen = enabled;
       xpadneo = enabled;
     };
 
