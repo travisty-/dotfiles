@@ -12,6 +12,11 @@ with lib.${namespace}; {
     ./configuration.nix
   ];
 
+  meta.user = {
+    description = "Travis Kinney";
+    username = "travis";
+  };
+
   sops = {
     defaultSopsFile = ../../secrets/secrets.enc.yaml;
     age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

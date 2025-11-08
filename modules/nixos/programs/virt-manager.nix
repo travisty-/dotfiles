@@ -6,6 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
+  inherit (config.meta.user) username;
   cfg = config.${namespace}.programs.virt-manager;
 in {
   options.${namespace}.programs.virt-manager = {
@@ -19,6 +20,6 @@ in {
 
     virtualisation.libvirtd.qemu.vhostUserPackages = [pkgs.virtiofsd];
 
-    users.users.travis.extraGroups = ["libvirtd"];
+    users.users.${username}.extraGroups = ["libvirtd"];
   };
 }

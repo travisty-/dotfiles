@@ -5,6 +5,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
+  inherit (config.meta.user) username;
   cfg = config.${namespace}.services.tailscale;
 in {
   options.${namespace}.services.tailscale = {
@@ -15,7 +16,7 @@ in {
   config = mkIf cfg.enable {
     services.tailscale.enable = true;
     services.tailscale.extraSetFlags = [
-      "--operator=travis" # TODO
+      "--operator=${username}"
     ];
 
     # Prevent tailscaled from auto-starting.

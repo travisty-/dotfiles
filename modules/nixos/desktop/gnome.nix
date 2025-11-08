@@ -6,6 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
+  inherit (config.meta.user) username;
   cfg = config.${namespace}.desktop.gnome;
 in {
   options.${namespace}.desktop.gnome = {
@@ -22,7 +23,7 @@ in {
 
     # Enable automatic login for the user.
     services.displayManager.autoLogin.enable = true;
-    services.displayManager.autoLogin.user = "travis";
+    services.displayManager.autoLogin.user = username;
 
     # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
     systemd.services."getty@tty1".enable = false;
@@ -35,9 +36,7 @@ in {
     services.udev.packages = with pkgs; [gnome-settings-daemon];
 
     # Workaround for GNOME profile picture: https://discourse.nixos.org/t/setting-the-user-profile-image-under-gnome/36232/10
-    systemd.tmpfiles.rules = let
-      username = "travis";
-    in [
+    systemd.tmpfiles.rules = [
       "f+ /var/lib/AccountsService/users/${username}  0577 root root - [User]\\nIcon=/var/lib/AccountsService/icons/${username}\\n"
       "L+ /var/lib/AccountsService/icons/${username}  - - - - /home/${username}/.face"
     ];
