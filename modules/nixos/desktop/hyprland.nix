@@ -22,6 +22,9 @@ in {
     # An application for managing GNOME keyring.
     programs.seahorse.enable = true;
 
+    # An application for managing disks.
+    programs.gnome-disks.enable = true;
+
     # A keyring is required for saving credentials.
     services.gnome.gnome-keyring.enable = true;
 
