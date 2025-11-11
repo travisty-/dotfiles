@@ -38,6 +38,7 @@ with lib.${namespace}; {
     programs = {
       _1password = enabled;
       bottles = enabled;
+      coolercontrol = enabled;
       docker = enabled;
       firefox = enabled;
       heroic = enabled;
