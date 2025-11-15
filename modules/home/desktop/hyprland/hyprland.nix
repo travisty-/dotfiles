@@ -33,6 +33,7 @@ in {
 
       "$terminal" = "ghostty";
       "$fileManager" = "nautilus";
+      "$passManager" = "1password";
       "$menu" = "vicinae toggle";
 
       source = [
@@ -196,6 +197,7 @@ in {
         "$mainMod, I, swapsplit," # dwindle
         "$mainMod, F, fullscreen,"
         "$mainMod, S, togglegroup,"
+        "$mainMod, code:51, exec, uwsm app -- $passManager"
 
         # Screenshot a region, window, or monitor.
         ", print, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
@@ -295,13 +297,16 @@ in {
       ];
 
       windowrule = [
-        # Example: "float,class:^(kitty)$,title:^(kitty)$"
+        # Example: "float, class:^(kitty)$, title:^(kitty)$"
+        "float, title:(1Password)"
+        "center, title:(1Password)"
+        "size 70% 70%, title:(1Password)"
 
         # Ignore maximize requests from apps.
         "suppressevent maximize, class:.*"
 
         # Fix some window dragging issues with XWayland.
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
       ];
     };
 
