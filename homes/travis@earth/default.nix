@@ -67,6 +67,7 @@ with lib.${namespace}; {
       just = enabled;
       lazygit = enabled;
       meld = enabled;
+      minecraft = enabled;
       mpv = enabled;
       neovim = enabled;
       nerd-fonts = enabled;
