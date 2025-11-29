@@ -116,6 +116,10 @@ with lib.${namespace}; {
       rustrover = enabled;
     };
 
+    programs.wayland = {
+      wlogout = enabled;
+    };
+
     services = {
       swaync = enabled;
       vicinae = enabled;
