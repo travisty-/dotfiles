@@ -21,5 +21,6 @@ in {
 
     # Prevent tailscaled from auto-starting.
     systemd.services.tailscaled.wantedBy = lib.mkForce [];
+    systemd.services.tailscaled-set.wantedBy = lib.mkForce [];
   };
 }
