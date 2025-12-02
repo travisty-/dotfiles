@@ -54,6 +54,7 @@ with lib.${namespace}; {
       openrgb = enabled;
       openssh = enabled;
       pipewire = enabled;
+      power-profiles = enabled;
       tailscale = enabled;
     };
 
