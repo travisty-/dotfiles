@@ -74,6 +74,7 @@ with lib.${namespace}; {
       obsidian = enabled;
       oh-my-posh = enabled;
       osu = enabled;
+      papers = enabled;
       pcsx2 = enabled;
       powershell = enabled;
       qbittorrent = enabled;
