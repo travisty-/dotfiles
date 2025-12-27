@@ -42,7 +42,7 @@ in {
         (optional cfg.toolbox.enable (withOpts jetbrains-toolbox))
         (optional cfg.datagrip.enable (withPlugins (withOpts jetbrains.datagrip)))
         (optional cfg.goland.enable (withPlugins (withOpts jetbrains.goland)))
-        (optional cfg.pycharm.enable (withPlugins (withOpts jetbrains.pycharm-professional)))
+        (optional cfg.pycharm.enable (withPlugins (withOpts jetbrains.pycharm)))
         (optional cfg.rider.enable (withPlugins (withOpts jetbrains.rider)))
         (optional cfg.rustrover.enable (withPlugins (withOpts jetbrains.rust-rover)))
       ];
