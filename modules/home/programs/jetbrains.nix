@@ -26,25 +26,15 @@ in {
       pkg.override {
         vmopts = "-Dawt.toolkit.name=WLToolkit";
       };
-
-    withPlugins = pkg:
-      with pkgs.jetbrains; (
-        plugins.addPlugins pkg [
-          "ideavim"
-          "nixidea"
-          "vscode-keymap"
-          "which-key"
-        ]
-      );
   in {
     home.packages = with pkgs;
       concatLists [
         (optional cfg.toolbox.enable (withOpts jetbrains-toolbox))
-        (optional cfg.datagrip.enable (withPlugins (withOpts jetbrains.datagrip)))
-        (optional cfg.goland.enable (withPlugins (withOpts jetbrains.goland)))
-        (optional cfg.pycharm.enable (withPlugins (withOpts jetbrains.pycharm)))
-        (optional cfg.rider.enable (withPlugins (withOpts jetbrains.rider)))
-        (optional cfg.rustrover.enable (withPlugins (withOpts jetbrains.rust-rover)))
+        (optional cfg.datagrip.enable (withOpts jetbrains.datagrip))
+        (optional cfg.goland.enable (withOpts jetbrains.goland))
+        (optional cfg.pycharm.enable (withOpts jetbrains.pycharm))
+        (optional cfg.rider.enable (withOpts jetbrains.rider))
+        (optional cfg.rustrover.enable (withOpts jetbrains.rust-rover))
       ];
 
     home.file.".ideavimrc" = mkIf (any (x: x.enable) (attrValues cfg)) {
