@@ -289,24 +289,50 @@ in {
         ", XF86AudioPrev, exec, uwsm app -- playerctl previous"
       ];
 
-      # https://docs.vicinae.com/quickstart/hyprland
       layerrule = [
-        "blur, vicinae"
-        "ignorezero, vicinae"
-        "noanim, vicinae"
+        {
+          # https://docs.vicinae.com/quickstart/hyprland
+          name = "vicinae";
+          blur = "on";
+          ignore_alpha = "0";
+          no_anim = "on";
+          "match:namespace" = "vicinae";
+        }
       ];
 
       windowrule = [
-        # Example: "float, class:^(kitty)$, title:^(kitty)$"
-        "float, title:(1Password)"
-        "center, title:(1Password)"
-        "size 70% 70%, title:(1Password)"
-
-        # Ignore maximize requests from apps.
-        "suppressevent maximize, class:.*"
-
-        # Fix some window dragging issues with XWayland.
-        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+        {
+          # https://jbmorley.co.uk/posts/2024-02-13-1password-and-hyprland
+          name = "1password";
+          float = "on";
+          center = "on";
+          size = "(monitor_w*0.7) (monitor_h*0.7)";
+          "match:title" = "1Password";
+        }
+        {
+          # Ignore maximize requests from apps.
+          name = "suppress-maximize-events";
+          suppress_event = "maximize";
+          "match:class" = ".*";
+        }
+        {
+          # Fix some window dragging issues with XWayland.
+          name = "fix-xwayland-drags";
+          no_focus = true;
+          "match:class" = "^$";
+          "match:title" = "^$";
+          "match:xwayland" = true;
+          "match:float" = true;
+          "match:fullscreen" = false;
+          "match:pin" = false;
+        }
+        {
+          # Move Hyprland run.
+          name = "move-hyprland-run";
+          float = "on";
+          move = "20 monitor_h-120";
+          "match:class" = "hyprland-run";
+        }
       ];
     };
 
