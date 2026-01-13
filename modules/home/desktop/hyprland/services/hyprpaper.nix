@@ -11,10 +11,15 @@ in {
     services.hyprpaper = {
       enable = true;
       settings = {
-        preload = ["${cfg.resources.wallpaper}"];
-        wallpaper = [", ${cfg.resources.wallpaper}"];
+        wallpaper = [
+          {
+            monitor = "";
+            path = cfg.resources.wallpaper;
+            fit_mode = "cover";
+          }
+        ];
         splash = false;
-        ipc = "on";
+        ipc = true;
       };
     };
   };
