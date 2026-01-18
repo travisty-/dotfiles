@@ -368,7 +368,7 @@ in {
     # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#in-tty
     programs.zsh.loginExtra = ''
       if uwsm check may-start; then
-          exec uwsm start hyprland-uwsm.desktop
+          exec uwsm start hyprland.desktop
       fi
     '';
 
