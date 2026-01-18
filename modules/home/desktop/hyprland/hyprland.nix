@@ -31,6 +31,7 @@ in {
     wayland.windowManager.hyprland.settings = {
       monitor = cfg.settings.monitors;
 
+      "$browser" = "firefox";
       "$terminal" = "ghostty";
       "$fileManager" = "nautilus";
       "$passManager" = "1password";
@@ -200,6 +201,9 @@ in {
         "$mainMod, F, fullscreen,"
         "$mainMod, S, togglegroup,"
         "$mainMod, code:51, exec, uwsm app -- $passManager"
+
+        "$mainMod, B, exec, uwsm app -- $browser"
+        "$mainMod SHIFT, B, exec, uwsm app -- $browser --private-window"
 
         # Screenshot a region, window, or monitor.
         ", print, exec, uwsm app -- hyprshot --mode region --freeze --clipboard-only"
