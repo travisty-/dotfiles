@@ -35,6 +35,7 @@ in {
       "$fileManager" = "nautilus";
       "$passManager" = "1password";
       "$menu" = "vicinae toggle";
+      "$clipboard" = "vicinae vicinae://extensions/vicinae/clipboard/history";
 
       source = [
         "~/.config/hypr/themes/rose-pine.conf"
@@ -192,6 +193,7 @@ in {
         "$mainMod, E, exec, uwsm app -- $fileManager"
         "$mainMod, V, togglefloating,"
         "$mainMod, space, exec, uwsm app -- $menu"
+        "$mainMod ALT, C, exec, uwsm app -- $clipboard"
         "$mainMod, P, pseudo," # dwindle
         "$mainMod, O, togglesplit," # dwindle
         "$mainMod, I, swapsplit," # dwindle
