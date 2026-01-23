@@ -21,5 +21,9 @@ in {
     programs.vesktop = {
       enable = true;
     };
+
+    services.arrpc = {
+      enable = true;
+    };
   };
 }
