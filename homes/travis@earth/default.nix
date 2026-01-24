@@ -118,6 +118,7 @@ with lib.${namespace}; {
     };
 
     programs.wayland = {
+      waybar = enabled;
       wlogout = enabled;
     };
 

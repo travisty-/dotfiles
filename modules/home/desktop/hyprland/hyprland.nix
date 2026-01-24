@@ -48,6 +48,7 @@ in {
         "systemctl --user enable --now hyprpolkitagent.service"
         "systemctl --user enable --now swaync.service"
         "systemctl --user enable --now vicinae.service"
+        "systemctl --user enable --now waybar.service"
       ];
 
       # https://discourse.nixos.org/t/gamescope-not-working-after-updating-to-25-05-amd-gpu/65233/2
