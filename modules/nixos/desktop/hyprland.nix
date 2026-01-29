@@ -40,5 +40,10 @@ in {
 
     # Allow Chromium and Electron-based applications to run without Xwayland.
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+    # https://github.com/NixOS/nixpkgs/pull/474174
+    environment.sessionVariables.XDG_DATA_DIRS = [
+      "${config.programs.hyprland.package}/share"
+    ];
   };
 }
