@@ -14,9 +14,9 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      xorg.xeyes
-      xorg.xlsclients
-      xorg.xrandr
+      xeyes
+      xlsclients
+      xrandr
     ];
   };
 }
