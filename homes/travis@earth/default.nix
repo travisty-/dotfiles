@@ -66,6 +66,7 @@ with lib.${namespace}; {
       jq = enabled;
       just = enabled;
       lazygit = enabled;
+      matrix = enabled;
       meld = enabled;
       minecraft = enabled;
       mpv = enabled;
