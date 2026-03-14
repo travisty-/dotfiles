@@ -197,8 +197,8 @@ in {
         "$mainMod, space, exec, uwsm app -- $menu"
         "$mainMod ALT, C, exec, uwsm app -- $clipboard"
         "$mainMod, P, pseudo," # dwindle
-        "$mainMod, O, togglesplit," # dwindle
-        "$mainMod, I, swapsplit," # dwindle
+        "$mainMod, O, layoutmsg, togglesplit" # dwindle
+        "$mainMod, I, layoutmsg, swapsplit" # dwindle
         "$mainMod, F, fullscreen,"
         "$mainMod, S, togglegroup,"
         "$mainMod, code:51, exec, uwsm app -- $passManager"
