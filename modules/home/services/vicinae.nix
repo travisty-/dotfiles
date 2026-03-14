@@ -46,7 +46,7 @@ in {
     };
 
     # Workaround to avoid creating a new backup every switch.
-    xdg.configFile."vicinae/settings.json".force = true;
+    xdg.configFile."vicinae/nix.json".force = true;
   };
 }
 /**
@@ -226,4 +226,3 @@ in {
         "providers": {}
 }
 */
-
