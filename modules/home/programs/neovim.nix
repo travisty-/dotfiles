@@ -16,10 +16,10 @@ in {
   config = mkIf cfg.enable {
     programs.neovim = {
       enable = true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      defaultEditor = true;
+      viAlias = false;
+      vimAlias = false;
+      vimdiffAlias = false;
+      defaultEditor = false;
     };
 
     # Workaround to rename Neovim's default "wrapper" desktop entry.
