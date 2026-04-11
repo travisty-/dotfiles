@@ -42,7 +42,6 @@ with lib.${namespace}; {
     programs = {
       _1password = enabled;
       alacritty = enabled;
-      amp = enabled;
       anki = enabled;
       bind = enabled;
       btop = enabled;
