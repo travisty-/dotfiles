@@ -266,11 +266,11 @@
     "wallpapers": {
       "flake": false,
       "locked": {
-        "lastModified": 1761360968,
-        "narHash": "sha256-Q4QSBgaL5aqxaUU/+Q3GZdOVVRy/l6kw90kpILBEPBw=",
+        "lastModified": 1775890228,
+        "narHash": "sha256-aqT3AR+Xlx6AzHwYZR87Vr4o92gUMeaXfd6FhZTYUWI=",
         "owner": "travisty-",
         "repo": "wallpapers",
-        "rev": "ad139b1a5b8223297b9ac90b3efccc6b827478de",
+        "rev": "83f9511a36552349e8f3ae859732c428ea3078f0",
         "type": "github"
       },
       "original": {
