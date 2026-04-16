@@ -41,6 +41,13 @@ in {
           "frontend-design@claude-plugins-official" = true;
           "superpowers@claude-plugins-official" = true;
         };
+        env = {
+          CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING = "1";
+          CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
+          CLAUDE_CODE_DISABLE_VIRTUAL_SCROLL = "1";
+          CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+          CLAUDE_CODE_NO_FLICKER = "1";
+        };
         model = "opus[1m]";
         effortLevel = "xhigh";
         skipAutoPermissionPrompt = true;
