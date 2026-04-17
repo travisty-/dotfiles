@@ -18,12 +18,17 @@ with lib.${namespace}; {
     username = "travis";
   };
 
-  # TODO: Remove generated key file in $XDG_RUNTIME_DIR/secrets.d
-  # once sops-nix natively supports encryption/decryption via SSH.
   sops = {
     defaultSopsFile = ../../secrets/secrets.enc.yaml;
-    age.sshKeyPaths = ["/home/travis/.ssh/id_ed25519"];
     validateSopsFiles = true;
+
+    # An empty string bypasses ssh-to-age key conversion in sops-install-secrets.
+    # Temporary workaround to avoid generating intermediate age-keys.txt files
+    # until sops-nix natively supports SSH keys. (sops-nix#695, sops-nix#824)
+    age.keyFile = "";
+    environment = {
+      SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/${config.home.homeDirectory}/.ssh/id_ed25519";
+    };
   };
 
   ${namespace} = {

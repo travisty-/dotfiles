@@ -19,8 +19,15 @@ with lib.${namespace}; {
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.enc.yaml;
-    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
     validateSopsFiles = true;
+
+    # An empty string bypasses ssh-to-age key conversion in sops-install-secrets.
+    # Temporary workaround to avoid generating intermediate age-keys.txt files
+    # until sops-nix natively supports SSH keys. (sops-nix#695, sops-nix#824)
+    age.keyFile = "";
+    environment = {
+      SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/etc/ssh/ssh_host_ed25519_key";
+    };
   };
 
   ${namespace} = {

@@ -86,7 +86,7 @@ User metadata (`meta.user`) is defined via options in `modules/*/options/meta.ni
 
 ### Secrets
 
-Managed with `sops-nix`. Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime via age keys derived from SSH keys. Modules can reference secrets via `config.sops.secrets.<name>` or template them into config files with `sops.templates`.
+Managed with `sops-nix`. Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime using SSH keys directly via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them into config files with `sops.templates`.
 
 ### Other Directories
 
