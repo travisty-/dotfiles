@@ -20,6 +20,7 @@ in {
       vimAlias = false;
       vimdiffAlias = false;
       defaultEditor = false;
+      sideloadInitLua = true;
     };
 
     # Workaround to rename Neovim's default "wrapper" desktop entry.
