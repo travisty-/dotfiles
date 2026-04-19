@@ -53,18 +53,10 @@ in {
         bindkey ';5C' forward-word
         bindkey ';5D' backward-word
       '';
-
-      profileExtra = ''
-        # Add user's private bin to PATH, if it exists.
-        if [ -d "$HOME/bin" ]; then
-            PATH="$HOME/bin:$PATH"
-        fi
-
-        # Add user's private bin to PATH, if it exists.
-        if [ -d "$HOME/.local/bin" ]; then
-            PATH="$HOME/.local/bin:$PATH"
-        fi
-      '';
     };
+
+    home.sessionPath = [
+      "$HOME/.local/bin"
+    ];
   };
 }
