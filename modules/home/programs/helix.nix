@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.helix;
-in {
-  options.${namespace}.programs.helix = {
-    enable = mkEnableOption "Helix";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.helix = {pkgs, ...}: {
     programs.helix = {
       enable = true;
       extraPackages = with pkgs; [nil nixd];

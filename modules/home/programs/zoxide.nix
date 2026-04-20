@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.zoxide;
-in {
-  options.${namespace}.programs.zoxide = {
-    enable = mkEnableOption "zoxide";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.zoxide = {
     programs.zoxide = {
       enable = true;
       options = ["--cmd cd"];

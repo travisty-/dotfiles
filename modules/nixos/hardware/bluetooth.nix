@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.hardware.bluetooth;
-in {
-  options.${namespace}.hardware.bluetooth = {
-    enable = mkEnableOption "Bluetooth";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.bluetooth = {
     hardware.bluetooth = {
       enable = true;
 

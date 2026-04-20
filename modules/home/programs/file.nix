@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.file;
-in {
-  options.${namespace}.programs.file = {
-    enable = mkEnableOption "File";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.file = {pkgs, ...}: {
     home.packages = with pkgs; [
       file
     ];

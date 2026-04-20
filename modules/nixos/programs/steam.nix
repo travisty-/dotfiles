@@ -1,19 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.steam;
-in {
-  options.${namespace}.programs.steam = {
-    enable = mkEnableOption "Steam";
-  };
-
   # https://nixos.wiki/wiki/Steam
-  config = mkIf cfg.enable {
+  flake.modules.nixos.steam = {pkgs, ...}: {
     programs.steam = {
       enable = true;
 

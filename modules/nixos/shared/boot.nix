@@ -1,3 +1,5 @@
-_: {
-  boot.tmp.cleanOnBoot = true;
+{
+  flake.modules.nixos.base = {
+    boot.tmp.cleanOnBoot = true;
+  };
 }

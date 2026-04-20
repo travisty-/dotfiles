@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.powershell;
-in {
-  options.${namespace}.programs.powershell = {
-    enable = mkEnableOption "PowerShell";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.powershell = {pkgs, ...}: {
     home.packages = with pkgs; [
       powershell
     ];

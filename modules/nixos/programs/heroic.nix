@@ -1,19 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.heroic;
-in {
-  options.${namespace}.programs.heroic = {
-    enable = mkEnableOption "Heroic Games Launcher";
-  };
-
   # https://wiki.nixos.org/wiki/Heroic_Games_Launcher
-  config = mkIf cfg.enable {
+  flake.modules.nixos.heroic = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       (heroic.override {
         extraPkgs = pkgs: [

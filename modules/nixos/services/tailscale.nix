@@ -1,19 +1,12 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.meta.user) username;
-  cfg = config.${namespace}.services.tailscale;
-in {
-  options.${namespace}.services.tailscale = {
-    enable = mkEnableOption "Tailscale";
-  };
-
   # https://nixos.wiki/wiki/Tailscale
-  config = mkIf cfg.enable {
+  flake.modules.nixos.tailscale = {
+    lib,
+    config,
+    ...
+  }: let
+    inherit (config.meta.user) username;
+  in {
     services.tailscale.enable = true;
     services.tailscale.extraSetFlags = [
       "--operator=${username}"

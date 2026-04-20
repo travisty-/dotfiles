@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.qbittorrent;
-in {
-  options.${namespace}.programs.qbittorrent = {
-    enable = mkEnableOption "qBittorrent";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.qbittorrent = {pkgs, ...}: {
     nixpkgs.overlays = [
       (import ../../../overlays/qbittorrent.nix)
     ];

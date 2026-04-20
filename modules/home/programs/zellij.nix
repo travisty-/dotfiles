@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.zellij;
-in {
-  options.${namespace}.programs.zellij = {
-    enable = mkEnableOption "Zellij";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.zellij = {
     programs.zellij = {
       enable = true;
       enableBashIntegration = false;

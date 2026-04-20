@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.hardware.nvidia;
-in {
-  options.${namespace}.hardware.nvidia = {
-    enable = mkEnableOption "Nvidia";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.nvidia = {config, ...}: {
     # Enable hardware accelerated graphics.
     hardware.graphics.enable = true;
 

@@ -1,19 +1,11 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.meta.user) username;
-  cfg = config.${namespace}.desktop.gnome;
-in {
-  options.${namespace}.desktop.gnome = {
-    enable = mkEnableOption "GNOME";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.gnome = {
+    config,
+    pkgs,
+    ...
+  }: let
+    inherit (config.meta.user) username;
+  in {
     # Enable the X11 windowing system.
     services.xserver.enable = true;
 

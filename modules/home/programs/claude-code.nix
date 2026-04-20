@@ -1,29 +1,16 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.claude-code;
-
-  statuslineScripts =
-    pkgs.runCommandLocal "claude-code-statusline" {
-      nativeBuildInputs = [pkgs.python3];
-    } ''
-      mkdir -p $out/bin
-      for file in ${../../../files/config/claude/scripts}/*.py; do
-        install -m 755 "$file" "$out/bin/$(basename "$file")"
-      done
-      patchShebangs $out/bin
-    '';
-in {
-  options.${namespace}.programs.claude-code = {
-    enable = mkEnableOption "Claude Code";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.claude-code = {pkgs, ...}: let
+    statuslineScripts =
+      pkgs.runCommandLocal "claude-code-statusline" {
+        nativeBuildInputs = [pkgs.python3];
+      } ''
+        mkdir -p $out/bin
+        for file in ${../../../files/config/claude/scripts}/*.py; do
+          install -m 755 "$file" "$out/bin/$(basename "$file")"
+        done
+        patchShebangs $out/bin
+      '';
+  in {
     programs.claude-code = {
       enable = true;
       settings = {

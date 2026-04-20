@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.hardware.xpadneo;
-in {
-  options.${namespace}.hardware.xpadneo = {
-    enable = mkEnableOption "xpadneo";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.xpadneo = {
     hardware.xpadneo.enable = true;
 
     # Disable HIDAPI to force SDL to use xpadneo's evdev interface.

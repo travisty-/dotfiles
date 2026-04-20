@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.anki;
-in {
-  options.${namespace}.programs.anki = {
-    enable = mkEnableOption "Anki";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.anki = {
     programs.anki = {
       enable = true;
     };

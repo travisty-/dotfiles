@@ -1,19 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.firefox;
-in {
-  options.${namespace}.programs.firefox = {
-    enable = mkEnableOption "Firefox";
-  };
-
   # https://nixos.wiki/wiki/Firefox
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.firefox = {pkgs, ...}: {
     programs.firefox = {
       enable = true;
 

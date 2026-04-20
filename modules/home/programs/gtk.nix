@@ -1,25 +1,25 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.${namespace}.programs.gtk;
-in {
-  options.${namespace}.programs.gtk = {
-    enable = mkEnableOption "GTK";
-    bookmarks = mkOption {
-      description = "Bookmarks in the sidebar of a GTK file manager.";
-      type = types.listOf types.str;
-      default = [];
+  flake.modules.homeManager.gtk = {
+    lib,
+    config,
+    ...
+  }: let
+    inherit (lib) mkOption types;
+    cfg = config.internal.programs.gtk;
+  in {
+    options.internal.programs.gtk = {
+      bookmarks = mkOption {
+        description = "Bookmarks in the sidebar of a GTK file manager.";
+        type = types.listOf types.str;
+        default = [];
+      };
     };
-  };
 
-  config = mkIf cfg.enable {
-    gtk = {
-      enable = true;
-      gtk3.bookmarks = cfg.bookmarks;
+    config = {
+      gtk = {
+        enable = true;
+        gtk3.bookmarks = cfg.bookmarks;
+      };
     };
   };
 }

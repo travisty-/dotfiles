@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.ghostty;
-in {
-  options.${namespace}.programs.ghostty = {
-    enable = mkEnableOption "Ghostty";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.ghostty = {
     programs.ghostty = {
       enable = true;
       enableBashIntegration = true;

@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.fzf;
-in {
-  options.${namespace}.programs.fzf = {
-    enable = mkEnableOption "fzf";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.fzf = {
     programs.fzf = {
       enable = true;
     };

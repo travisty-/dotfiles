@@ -1,19 +1,11 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.git;
-  user = config.meta.user;
-in {
-  options.${namespace}.programs.git = {
-    enable = mkEnableOption "Git";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.git = {
+    config,
+    pkgs,
+    ...
+  }: let
+    user = config.meta.user;
+  in {
     programs.git = {
       enable = true;
       settings = {

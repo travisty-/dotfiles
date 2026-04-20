@@ -1,23 +1,10 @@
-{
-  config,
-  lib,
-  inputs,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.services.vicinae;
-in {
-  options.${namespace}.services.vicinae = {
-    enable = mkEnableOption "Vicinae";
-  };
-
-  imports = [
-    inputs.vicinae.homeManagerModules.default
-  ];
-
+{inputs, ...}: {
   # https://docs.vicinae.com/nixos
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.vicinae = {...}: {
+    imports = [
+      inputs.vicinae.homeManagerModules.default
+    ];
+
     services.vicinae = {
       enable = true;
 

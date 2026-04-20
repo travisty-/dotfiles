@@ -1,18 +1,7 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.hm.gvariant) mkUint32;
-  cfg = config.${namespace}.desktop.gnome;
-in {
-  options.${namespace}.desktop.gnome = {
-    enable = mkEnableOption "GNOME";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.gnome = {lib, ...}: let
+    inherit (lib.hm.gvariant) mkUint32;
+  in {
     dconf = {
       enable = true;
       settings = {

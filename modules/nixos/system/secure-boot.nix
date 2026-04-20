@@ -1,25 +1,15 @@
-{
-  config,
-  inputs,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.system.secure-boot;
-in {
-  options.${namespace}.system.secure-boot = {
-    enable = mkEnableOption "Secure Boot";
-  };
-
-  imports = [
-    inputs.lanzaboote.nixosModules.lanzaboote
-  ];
-
+{inputs, ...}: {
   # https://wiki.nixos.org/wiki/Secure_Boot
   # https://nixos.wiki/wiki/Secure_Boot
-  config = mkIf cfg.enable {
+  flake.modules.nixos.secure-boot = {
+    lib,
+    pkgs,
+    ...
+  }: {
+    imports = [
+      inputs.lanzaboote.nixosModules.lanzaboote
+    ];
+
     environment.systemPackages = [
       pkgs.sbctl # For debugging and troubleshooting Secure Boot.
     ];

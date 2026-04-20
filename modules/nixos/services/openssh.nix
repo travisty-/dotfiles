@@ -1,18 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.services.openssh;
-in {
-  options.${namespace}.services.openssh = {
-    enable = mkEnableOption "OpenSSH";
-  };
-
   # https://nixos.wiki/wiki/SSH
-  config = mkIf cfg.enable {
+  flake.modules.nixos.openssh = {lib, ...}: {
     services.openssh.enable = true;
 
     # Prevent the SSH server from auto-starting.

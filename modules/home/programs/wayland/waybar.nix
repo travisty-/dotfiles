@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.wayland.waybar;
-in {
-  options.${namespace}.programs.wayland.waybar = {
-    enable = mkEnableOption "Waybar";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.waybar = {
     programs.waybar = {
       enable = true;
       systemd.enable = true;

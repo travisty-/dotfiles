@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.wayland.wlogout;
-in {
-  options.${namespace}.programs.wayland.wlogout = {
-    enable = mkEnableOption "wlogout";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.wlogout = {
     programs.wlogout = {
       enable = true;
 

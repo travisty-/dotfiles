@@ -1,20 +1,12 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.meta.user) username;
-  cfg = config.${namespace}.programs.virt-manager;
-in {
-  options.${namespace}.programs.virt-manager = {
-    enable = mkEnableOption "virt-manager";
-  };
-
   # https://wiki.nixos.org/wiki/Virt-manager
-  config = mkIf cfg.enable {
+  flake.modules.nixos.virt-manager = {
+    config,
+    pkgs,
+    ...
+  }: let
+    inherit (config.meta.user) username;
+  in {
     programs.virt-manager.enable = true;
     virtualisation.libvirtd.enable = true;
 

@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.oh-my-posh;
-in {
-  options.${namespace}.programs.oh-my-posh = {
-    enable = mkEnableOption "Oh My Posh";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.oh-my-posh = {pkgs, ...}: {
     programs.oh-my-posh = {
       enable = true;
       enableBashIntegration = false;

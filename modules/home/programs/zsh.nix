@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.zsh;
-in {
-  options.${namespace}.programs.zsh = {
-    enable = mkEnableOption "Zsh";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.zsh = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;

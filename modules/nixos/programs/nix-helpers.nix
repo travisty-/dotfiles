@@ -1,19 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.nix-helpers;
-in {
-  options.${namespace}.programs.nix-helpers = {
-    enable = mkEnableOption "Nix helpers";
-  };
-
   # https://nixos.wiki/wiki/Storage_optimization
-  config = mkIf cfg.enable {
+  flake.modules.nixos.nix-helpers = {pkgs, ...}: {
     programs.nh = {
       enable = true;
       clean.enable = true;

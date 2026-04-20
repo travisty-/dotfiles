@@ -1,19 +1,10 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.desktop.hyprland;
-in {
-  options.${namespace}.desktop.hyprland = {
-    enable = mkEnableOption "Hyprland";
-  };
-
   # https://wiki.hypr.land/Nix
-  config = mkIf cfg.enable {
+  flake.modules.nixos.hyprland = {
+    config,
+    pkgs,
+    ...
+  }: {
     programs.hyprland.enable = true;
 
     # The recommended way to start Hyprland on Systemd distros.

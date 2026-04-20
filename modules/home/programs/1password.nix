@@ -1,20 +1,13 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs._1password;
-  user = config.meta.user;
-in {
-  options.${namespace}.programs._1password = {
-    enable = mkEnableOption "1Password";
-  };
-
   # https://nixos.wiki/wiki/1Password
-  config = mkIf cfg.enable {
+  flake.modules.homeManager._1password = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    user = config.meta.user;
+  in {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;

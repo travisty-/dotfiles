@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.services.pipewire;
-in {
-  options.${namespace}.services.pipewire = {
-    enable = mkEnableOption "PipeWire";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.pipewire = {
     # Disable the PulseAudio sound server.
     services.pulseaudio.enable = false;
 

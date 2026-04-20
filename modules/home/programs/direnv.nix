@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.direnv;
-in {
-  options.${namespace}.programs.direnv = {
-    enable = mkEnableOption "direnv";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.direnv = {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;

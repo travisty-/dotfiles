@@ -1,19 +1,8 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.meta.user) username;
-  cfg = config.${namespace}.programs._1password;
-in {
-  options.${namespace}.programs._1password = {
-    enable = mkEnableOption "1Password";
-  };
-
   # https://nixos.wiki/wiki/1Password
-  config = mkIf cfg.enable {
+  flake.modules.nixos._1password = {config, ...}: let
+    inherit (config.meta.user) username;
+  in {
     programs._1password.enable = true;
     programs._1password-gui.enable = true;
 

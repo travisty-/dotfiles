@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.meld;
-in {
-  options.${namespace}.programs.meld = {
-    enable = mkEnableOption "Meld";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.meld = {pkgs, ...}: {
     home.packages = with pkgs; [
       meld
     ];

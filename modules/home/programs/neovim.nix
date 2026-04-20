@@ -1,19 +1,12 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.neovim;
-  final = config.programs.neovim.finalPackage;
-in {
-  options.${namespace}.programs.neovim = {
-    enable = mkEnableOption "Neovim";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.neovim = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    final = config.programs.neovim.finalPackage;
+  in {
     programs.neovim = {
       enable = true;
       viAlias = false;

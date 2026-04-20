@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.gh;
-in {
-  options.${namespace}.programs.gh = {
-    enable = mkEnableOption "GitHub CLI";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.gh = {
     programs.gh = {
       enable = true;
     };

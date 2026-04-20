@@ -1,17 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.eza;
-in {
-  options.${namespace}.programs.eza = {
-    enable = mkEnableOption "eza";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.eza = {
     programs.eza = {
       enable = true;
       enableBashIntegration = true;

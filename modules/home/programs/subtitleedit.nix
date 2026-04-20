@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.subtitleedit;
-in {
-  options.${namespace}.programs.subtitleedit = {
-    enable = mkEnableOption "Subtitle Edit";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.subtitleedit = {pkgs, ...}: {
     home.packages = with pkgs; [
       subtitleedit
     ];

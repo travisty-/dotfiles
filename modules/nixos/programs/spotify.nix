@@ -1,19 +1,6 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.spotify;
-in {
-  options.${namespace}.programs.spotify = {
-    enable = mkEnableOption "Spotify";
-  };
-
   # https://nixos.wiki/wiki/Spotify
-  config = mkIf cfg.enable {
+  flake.modules.nixos.spotify = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       spotify
     ];

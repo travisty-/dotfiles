@@ -1,41 +1,42 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkIf mkOption types;
-  cfg = config.${namespace}.desktop.gnome;
-in {
-  options.${namespace}.desktop.gnome.resources = {
-    monitors = mkOption {
-      description = "The path to the target monitor configuration file.";
-      type = types.path;
-    };
-    profilePicture = mkOption {
-      description = "The path to the target profile picture.";
-      type = types.path;
-    };
-    wallpaper = mkOption {
-      description = "The path to the target wallpaper.";
-      type = types.path;
-    };
-  };
-
-  config = mkIf cfg.enable {
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        color-shading-type = "solid";
-        picture-options = "centered";
-        picture-uri = "file://" + cfg.resources.wallpaper;
-        picture-uri-dark = "file://" + cfg.resources.wallpaper;
-        primary-color = "#77767B";
-        secondary-color = "#000000";
+  flake.modules.homeManager.gnome = {
+    lib,
+    config,
+    ...
+  }: let
+    inherit (lib) mkOption types;
+    cfg = config.internal.desktop.gnome;
+  in {
+    options.internal.desktop.gnome.resources = {
+      monitors = mkOption {
+        description = "The path to the target monitor configuration file.";
+        type = types.path;
+      };
+      profilePicture = mkOption {
+        description = "The path to the target profile picture.";
+        type = types.path;
+      };
+      wallpaper = mkOption {
+        description = "The path to the target wallpaper.";
+        type = types.path;
       };
     };
 
-    home.file.".face".source = cfg.resources.profilePicture;
+    config = {
+      dconf.settings = {
+        "org/gnome/desktop/background" = {
+          color-shading-type = "solid";
+          picture-options = "centered";
+          picture-uri = "file://" + cfg.resources.wallpaper;
+          picture-uri-dark = "file://" + cfg.resources.wallpaper;
+          primary-color = "#77767B";
+          secondary-color = "#000000";
+        };
+      };
 
-    xdg.configFile."monitors.xml".source = cfg.resources.monitors;
+      home.file.".face".source = cfg.resources.profilePicture;
+
+      xdg.configFile."monitors.xml".source = cfg.resources.monitors;
+    };
   };
 }

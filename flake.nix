@@ -2,10 +2,17 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    import-tree.url = "github:vic/import-tree";
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.3";
@@ -25,35 +32,7 @@
     vicinae.url = "github:vicinaehq/vicinae";
   };
 
-  outputs = {
-    home-manager,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    lib = import ./lib {inherit inputs namespace;};
-    namespace = "internal";
-  in {
-    homeConfigurations = {
-      "travis@earth" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [(./. + "/homes/travis@earth")];
-        extraSpecialArgs = {
-          lib = lib.extend (_: _: home-manager.lib);
-          inherit inputs namespace;
-        };
-      };
-    };
-
-    nixosConfigurations = {
-      earth = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./systems/earth];
-        specialArgs = {
-          inherit inputs lib namespace;
-        };
-      };
-    };
-
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-  };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;}
+    (inputs.import-tree ./modules);
 }

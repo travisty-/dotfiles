@@ -1,18 +1,5 @@
 {
-  config,
-  lib,
-  namespace,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.${namespace}.programs.bind;
-in {
-  options.${namespace}.programs.bind = {
-    enable = mkEnableOption "BIND 9";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.bind = {pkgs, ...}: {
     home.packages = with pkgs; [
       bind
     ];

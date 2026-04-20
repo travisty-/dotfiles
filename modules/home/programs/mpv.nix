@@ -1,18 +1,7 @@
 {
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.lib.file) mkOutOfStoreSymlink;
-  cfg = config.${namespace}.programs.mpv;
-in {
-  options.${namespace}.programs.mpv = {
-    enable = mkEnableOption "mpv";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.mpv = {config, ...}: let
+    inherit (config.lib.file) mkOutOfStoreSymlink;
+  in {
     programs.mpv = {
       enable = true;
     };
