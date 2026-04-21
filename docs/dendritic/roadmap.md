@@ -78,7 +78,4 @@ Move the overlay files from `overlays/` into the modules that use them (qbittorr
 
 mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` calls. Could add a `meta.repoPath` option set once in the user module.
 
-### GNOME pop-shell duplicate dconf keys
-
-`modules/home/desktop/gnome/pop-shell.nix` sets `"org/gnome/settings-daemon/plugins/media-keys"` in two places. The second one probably shadows the first. Needs an audit.
 
