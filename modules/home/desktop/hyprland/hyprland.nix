@@ -394,7 +394,7 @@
 
       # https://github.com/rose-pine/hyprland
       xdg.configFile."hypr/themes" = {
-        source = ../../../../files/config/hypr/themes;
+        source = ./themes;
         recursive = true;
       };
 

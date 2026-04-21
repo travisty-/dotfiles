@@ -5,7 +5,7 @@
     ];
 
     xdg.configFile."powershell/profile.ps1" = {
-      source = ../../../files/config/powershell/profile.ps1;
+      source = ./profile.ps1;
     };
   };
 }

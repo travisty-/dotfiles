@@ -72,7 +72,7 @@
     };
 
     sops = {
-      defaultSopsFile = ../../secrets/secrets.enc.yaml;
+      defaultSopsFile = ../../../secrets/secrets.enc.yaml;
       validateSopsFiles = true;
 
       # An empty string bypasses ssh-to-age key conversion in sops-install-secrets.
@@ -86,7 +86,7 @@
 
     internal.desktop.hyprland = {
       resources = {
-        profilePicture = ../../files/images/crying-bear.png;
+        profilePicture = ./profile-picture.png;
         wallpaper = "${inputs.wallpapers}/3440x1440/isometric-grid-mono.png";
       };
       settings.monitors = [

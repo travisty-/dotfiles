@@ -7,7 +7,7 @@
     };
 
     xdg.configFile."mpv" = {
-      source = mkOutOfStoreSymlink "/etc/nixos/files/config/mpv";
+      source = mkOutOfStoreSymlink "/etc/nixos/modules/home/programs/mpv";
       recursive = true;
     };
   };

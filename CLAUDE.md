@@ -165,7 +165,8 @@ Managed with `sops-nix`. The sops-nix module is imported in the shared base modu
 
 - **`overlays/`** — Custom package overrides
 - **`packages/`** — Custom package derivations
-- **`files/`**    — Static config files and images referenced by modules
+
+Static config files and assets are colocated with their feature modules (e.g., `modules/home/programs/mpv/` contains both the module and its config files).
 
 ### Flake Inputs
 

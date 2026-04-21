@@ -60,10 +60,6 @@ Open questions:
 
 Replace `hardware-configuration.nix` with nixos-facter's `facter.json`. Several dendritic configs use this (mightyiam, drupol, quasigod). Avoids having to manually maintain a generated file.
 
-## Colocate static files
-
-Move config files out of `files/` and put them next to their modules. For example, mpv config would live next to `modules/home/programs/mpv.nix` instead of in `files/config/mpv/`.
-
 ## Inline overlays
 
 Move the overlay files from `overlays/` into the modules that use them (qbittorrent, spotify, pop-shell).
@@ -72,10 +68,9 @@ Move the overlay files from `overlays/` into the modules that use them (qbittorr
 
 ### Dead code in configuration.nix
 
-`modules/hosts/earth/_config/configuration.nix` sets `boot.loader.systemd-boot.enable = true`, but secure-boot force-overrides it.
+`modules/hosts/earth/_config/configuration.nix` sets `boot.loader.systemd-boot.enable = true`, but secure-boot force-overrides it. Left as-is per Lanzaboote instructions.
 
 ### Hardcoded `/etc/nixos/` paths
 
-mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` calls. Could add a `meta.repoPath` option set once in the user module.
-
+mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` calls. Could add a `meta.repoPath` option set once in the user module, but it's still a hardcoded value either way.
 

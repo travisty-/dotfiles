@@ -38,7 +38,7 @@
         ];
 
       home.file.".ideavimrc" = mkIf (any (x: x.enable) (attrValues cfg)) {
-        source = mkOutOfStoreSymlink "/etc/nixos/files/config/jetbrains/.ideavimrc";
+        source = mkOutOfStoreSymlink "/etc/nixos/modules/home/programs/jetbrains/.ideavimrc";
       };
     };
   };

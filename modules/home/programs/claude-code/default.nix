@@ -5,7 +5,7 @@
         nativeBuildInputs = [pkgs.python3];
       } ''
         mkdir -p $out/bin
-        for file in ${../../../files/config/claude/scripts}/*.py; do
+        for file in ${./scripts}/*.py; do
           install -m 755 "$file" "$out/bin/$(basename "$file")"
         done
         patchShebangs $out/bin
