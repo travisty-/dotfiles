@@ -48,5 +48,45 @@
 
     # Allow Chromium and Electron-based applications to run without Xwayland.
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+    nixpkgs.overlays = [
+      # Workaround for missing Pop Shell keybindings and schemas.
+      (_: prev: {
+        gnomeExtensions =
+          prev.gnomeExtensions
+          // {
+            pop-shell = prev.gnomeExtensions.pop-shell.overrideAttrs (prevAttrs: {
+              postInstall =
+                (prevAttrs.postInstall or "")
+                + ''
+                  # Workaround for: https://github.com/NixOS/nixpkgs/issues/92265
+                  mkdir --parents "$out/share/gsettings-schemas/$name/glib-2.0"
+                  ln --symbolic "$out/share/gnome-shell/extensions/pop-shell@system76.com/schemas" "$out/share/gsettings-schemas/$name/glib-2.0/schemas"
+
+                  # Workaround for: https://github.com/NixOS/nixpkgs/issues/314969
+                  mkdir --parents "$out/share/gnome-control-center"
+                  ln --symbolic "$src/keybindings" "$out/share/gnome-control-center/keybindings"
+                '';
+            });
+          };
+      })
+
+      # Workaround for Spotify falling back to the default Chromium
+      # window decorations when running under Wayland in GNOME.
+      # https://www.reddit.com/r/NixOS/comments/17t8dce
+      (final: prev: {
+        spotify = prev.spotify.overrideAttrs (prevAttrs: {
+          buildInputs = (prevAttrs.buildInputs or []) ++ [final.makeWrapper];
+          postFixup =
+            (prevAttrs.postFixup or "")
+            + ''
+              wrapProgram $out/bin/spotify \
+                --set XDG_SESSION_TYPE x11 \
+                --unset NIXOS_OZONE_WL \
+                --unset WAYLAND_DISPLAY
+            '';
+        });
+      })
+    ];
   };
 }

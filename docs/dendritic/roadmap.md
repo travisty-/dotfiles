@@ -60,10 +60,6 @@ Open questions:
 
 Replace `hardware-configuration.nix` with nixos-facter's `facter.json`. Several dendritic configs use this (mightyiam, drupol, quasigod). Avoids having to manually maintain a generated file.
 
-## Inline overlays
-
-Move the overlay files from `overlays/` into the modules that use them (qbittorrent, spotify, pop-shell).
-
 ## Known issues
 
 ### Dead code in configuration.nix
