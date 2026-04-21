@@ -1,7 +1,7 @@
 {
+  config,
   inputs,
   lib,
-  config,
   ...
 }: let
   inherit (lib) mkDefault mkOption types;

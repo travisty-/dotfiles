@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.gnome = {
-    lib,
     config,
+    lib,
     ...
   }: let
     inherit (lib) mkOption types;

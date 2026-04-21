@@ -1,8 +1,8 @@
 {
   # https://wiki.nixos.org/wiki/Docker
   flake.modules.nixos.docker = {
-    lib,
     config,
+    lib,
     ...
   }: {
     virtualisation.docker = {

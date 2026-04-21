@@ -15,7 +15,7 @@ nh os switch # or: sudo nixos-rebuild switch --flake .#earth
 # Rebuild Home Manager user configuration
 nh home switch # or: home-manager switch --flake .#travis@earth
 
-# Format all Nix files (uses alejandra, defined in modules/flake/formatter.nix)
+# Format all Nix files (uses alejandra, defined in modules/features/flake/formatter.nix)
 nix fmt .
 
 # Update flake inputs
@@ -52,23 +52,17 @@ outputs = inputs:
 
 ```
 modules/
-  flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
-  nixos/          — NixOS feature modules
-    desktop/      — Desktop environment (hyprland, gnome)
-    hardware/     — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
-    options/      — Option declarations (meta.user)
-    programs/     — System-level programs (docker, steam, 1password, etc.)
-    services/     — System services (pipewire, openssh, tailscale, etc.)
-    shared/       — Base NixOS config (boot, fonts, locale, nix settings, sops, user)
-    system/       — System-level config (secure-boot)
-  home/           — Home Manager feature modules
-    desktop/      — Desktop customization (hyprland, gnome)
-    options/      — Option declarations (meta.user)
-    programs/     — User programs (git, firefox, zsh, etc.)
-    services/     — User services (swaync, vicinae)
-    shared/       — Base HM config (home defaults, sops, nix.conf)
-  hosts/          — Host definitions (e.g., hosts/earth/)
-  users/          — User definitions (e.g., users/travis@earth.nix)
+  features/
+    desktops/       — Desktop environments (hyprland, gnome) — cross-cutting
+    flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
+    hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
+    programs/       — Programs (git, firefox, zsh, steam, docker, etc.) — some cross-cutting
+    services/       — Services (pipewire, openssh, tailscale, swaync, vicinae, etc.)
+    shared/         — Base config (boot, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
+    system/         — System-level config (secure-boot)
+  profiles/         — (future) Feature groupings for composition
+  systems/          — System definitions (e.g., systems/earth/)
+  users/            — User definitions (e.g., users/travis@earth/)
 ```
 
 ### Module Pattern
@@ -86,19 +80,23 @@ Feature modules register themselves with `flake.modules.<class>.<name>` where `<
   };
 }
 
-# Module needing NixOS/HM args
+# Cross-cutting module (both classes in one file)
 {
-  flake.modules.nixos.bluetooth = {config, ...}: {
-    hardware.bluetooth.enable = true;
+  flake.modules.homeManager.firefox = {pkgs, ...}: {
+    programs.firefox = { ... };
+  };
+
+  flake.modules.nixos.firefox = {
+    programs.firefox.enable = true;
   };
 }
 ```
 
-Features are selected by adding them to a host/user's import list — no `mkEnableOption`/`mkIf` boilerplate.
+Features are selected by adding them to a host/user's import list — no `mkEnableOption`/`mkIf` boilerplate. In cross-cutting modules, classes are ordered alphabetically (homeManager before nixos).
 
-**Shared modules** (`*/shared/`) contribute to `flake.modules.<class>.base` using the Collector pattern — multiple files all set the same key and their contents merge via `deferredModule` semantics. Every host/user imports `base`.
+**Shared modules** (`features/shared/`) contribute to `flake.modules.<class>.base` using the Collector pattern — multiple files all set the same key and their contents merge via `deferredModule` semantics. Every host/user imports `base`. Some shared files are cross-cutting (e.g., `meta.nix` and `nixpkgs.nix` contribute to both classes).
 
-**Multi-file modules** (e.g., `home/desktop/hyprland/`): Multiple files contribute to the same `flake.modules.homeManager.hyprland`. Options can be declared in any file of the group.
+**Multi-file modules** (e.g., `features/desktops/hyprland/`): Multiple files contribute to the same `flake.modules.homeManager.hyprland`. The NixOS aspect lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
 
 **Modules with custom options** (e.g., `gtk.nix`, `jetbrains.nix`, `hyprland`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
 
@@ -118,7 +116,7 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 Hosts and users select features via import lists:
 
 ```nix
-# modules/hosts/earth/default.nix
+# modules/systems/earth/default.nix
 {inputs, ...}: {
   flake.modules.nixos.earth = {pkgs, ...}: {
     imports = [./_config/configuration.nix]
@@ -130,7 +128,7 @@ Hosts and users select features via import lists:
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "earth";
 }
 
-# modules/users/travis@earth.nix
+# modules/users/travis@earth/default.nix
 {inputs, ...}: {
   flake.modules.homeManager."travis@earth" = {config, ...}: {
     imports = with inputs.self.modules.homeManager; [
@@ -144,7 +142,7 @@ Hosts and users select features via import lists:
 
 Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) live in `_config/` subdirectories within the host, excluded from import-tree.
 
-### Flake Infrastructure (`modules/flake/`)
+### Flake Infrastructure (`modules/features/flake/`)
 
 - **`flake-parts.nix`** — Enables the `flake.modules` option
 - **`builders.nix`** — `flake.lib.mkNixos` and `flake.lib.mkHome` helpers
@@ -153,19 +151,19 @@ Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) l
 
 ### User Metadata
 
-`meta.user` options are defined in `modules/*/options/meta.nix` and set in host/user definitions:
+`meta.user` options are defined in `features/shared/meta.nix` (cross-cutting) and set in host/user definitions:
 - NixOS: `config.meta.user.{description, username}`
 - Home Manager: `config.meta.user.{name, email, signingKey, username}`
 
 ### Secrets
 
-Managed with `sops-nix`. The sops-nix module is imported in the shared base modules (`nixos/shared/secrets.nix`, `home/shared/config.nix`). Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime using SSH keys directly via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
+Managed with `sops-nix`. The sops-nix module is imported in the shared base modules (`features/shared/secrets.nix` for NixOS, `features/shared/config.nix` for HM). Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime using SSH keys directly via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
 
 ### Other Directories
 
 - **`packages/`** — Custom package derivations
 
-Static config files and assets are colocated with their feature modules (e.g., `modules/home/programs/mpv/` contains both the module and its config files).
+Static config files, overlays, and assets are colocated with their feature modules (e.g., `modules/features/programs/mpv/` contains both the module and its config files).
 
 ### Flake Inputs
 

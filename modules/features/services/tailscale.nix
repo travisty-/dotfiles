@@ -1,8 +1,8 @@
 {
   # https://nixos.wiki/wiki/Tailscale
   flake.modules.nixos.tailscale = {
-    lib,
     config,
+    lib,
     ...
   }: let
     inherit (config.meta.user) username;

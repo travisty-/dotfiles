@@ -2,12 +2,6 @@
 
 Things to do after the initial migration.
 
-## Cross-cutting modules
-
-Some modules are split across `nixos/` and `home/` (e.g., `nixos/programs/firefox.nix` and `home/programs/firefox.nix`). These could be merged into single files with both `flake.modules.nixos` and `flake.modules.homeManager` aspects.
-
-About half of the dendritic configs I looked at do this, the other half keep them split. Worth trying with firefox and 1password first to see which style I prefer. gnome and hyprland are also candidates.
-
 ## Profiles
 
 _Name subject to change, possibly components?_

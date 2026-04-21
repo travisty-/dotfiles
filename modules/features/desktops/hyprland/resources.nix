@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.hyprland = {
-    lib,
     config,
+    lib,
     ...
   }: let
     inherit (lib) mkOption types;

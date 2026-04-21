@@ -32,5 +32,11 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.production;
     };
+
+    # Relocate the driver's shader/JIT cache out of ~/.nv into $XDG_CACHE_HOME.
+    environment.sessionVariables = {
+      CUDA_CACHE_PATH = "$HOME/.cache/nvidia";
+      __GL_SHADER_DISK_CACHE_PATH = "$HOME/.cache/nvidia";
+    };
   };
 }
