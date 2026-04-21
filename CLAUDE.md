@@ -46,7 +46,7 @@ outputs = inputs:
 - **Aspect**: A feature's contribution to a specific class. If firefox needs both NixOS and HM config, those are two aspects of the firefox feature.
 - **Collector**: A pattern where multiple files contribute to the same `flake.modules.<class>.<name>` and their contents merge via `deferredModule` semantics.
 - **Base**: The shared baseline config every host/user imports (`flake.modules.<class>.base`). Built from multiple files via the Collector pattern.
-- **Profile** or **Component** (not yet implemented): A grouping of features composed into a single importable unit (e.g., a "cli" profile bundling zsh, eza, fd, fzf, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Naming TBD.
+- **Profile**: A grouping of features composed into a single importable unit (e.g., "desktop" bundling hyprland, waybar, gtk, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Namespaced under `flake.profiles.<class>.<name>`, separate from features at `flake.modules.<class>.<name>`.
 
 ### Module Structure
 
@@ -60,7 +60,7 @@ modules/
     services/       — Services (pipewire, openssh, tailscale, swaync, vicinae, etc.)
     shared/         — Base config (boot, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
     system/         — System-level config (secure-boot)
-  profiles/         — (future) Feature groupings for composition
+  profiles/         — Feature groupings for composition (desktop, gaming)
   systems/          — System definitions (e.g., systems/earth/)
   users/            — User definitions (e.g., users/travis@earth/)
 ```
@@ -111,19 +111,40 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 }
 ```
 
+### Profiles
+
+Profiles group related features into a single importable unit. They use a custom `flake.profiles` option (defined in `features/flake/profiles.nix`) namespaced as `flake.profiles.<class>.<name>`, keeping them separate from features at `flake.modules.<class>.<name>`. Cross-cutting profiles define both classes:
+
+```nix
+# modules/profiles/gaming.nix
+{inputs, ...}: {
+  flake.profiles.homeManager.gaming = {
+    imports = with inputs.self.modules.homeManager; [
+      discord minecraft osu pcsx2
+    ];
+  };
+
+  flake.profiles.nixos.gaming = {
+    imports = with inputs.self.modules.nixos; [
+      bottles heroic lutris steam xpadneo
+    ];
+  };
+}
+```
+
 ### Host/User Definitions
 
-Hosts and users select features via import lists:
+Hosts and users select profiles and features via import lists:
 
 ```nix
 # modules/systems/earth/default.nix
 {inputs, ...}: {
   flake.modules.nixos.earth = {pkgs, ...}: {
     imports = [./_config/configuration.nix]
+      ++ (with inputs.self.profiles.nixos; [ desktop gaming ])
       ++ (with inputs.self.modules.nixos; [
-        base bluetooth docker nvidia pipewire ...
+        base bluetooth docker nvidia ...
       ]);
-    # host-specific config (meta, sops, etc.)
   };
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "earth";
 }
@@ -131,10 +152,11 @@ Hosts and users select features via import lists:
 # modules/users/travis@earth/default.nix
 {inputs, ...}: {
   flake.modules.homeManager."travis@earth" = {config, ...}: {
-    imports = with inputs.self.modules.homeManager; [
-      base hyprland git firefox zsh ...
-    ];
-    # user-specific config (meta, sops, option values)
+    imports =
+      (with inputs.self.profiles.homeManager; [ desktop gaming ])
+      ++ (with inputs.self.modules.homeManager; [
+        base git firefox zsh ...
+      ]);
   };
   flake.homeConfigurations = inputs.self.lib.mkHome "x86_64-linux" "travis@earth";
 }

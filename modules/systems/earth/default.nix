@@ -4,32 +4,28 @@
       [
         ./_config/configuration.nix
       ]
+      ++ (with inputs.self.profiles.nixos; [
+        desktop
+        gaming
+      ])
       ++ (with inputs.self.modules.nixos; [
         base
+        _1password
         bluetooth
-        bottles
         coolercontrol
         docker
         firefox
         fstrim
-        heroic
-        hyprland
-        lutris
         nix-helpers
         nvidia
         openrgb
         openssh
-        pipewire
         power-profiles
         ryzen
         secure-boot
         spotify
-        steam
         tailscale
-        vicinae
         virt-manager
-        xpadneo
-        _1password
       ]);
 
     meta.user = {

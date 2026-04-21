@@ -4,27 +4,9 @@ Things to do after the initial migration.
 
 ## Profiles
 
-_Name subject to change, possibly components?_
+Desktop and gaming profiles are implemented. Profiles are namespaced under `flake.profiles.<class>.<name>` (custom option defined in `features/flake/profiles.nix`), separate from features at `flake.modules.<class>.<name>`. Add more profiles as needed when onboarding additional systems.
 
-Define profile modules that group related features into a single import. Useful when adding a second system so I don't end up duplicating the full import list.
-
-Thoughts for groupings:
-
-- cli: zsh, oh-my-posh, eza, fd, fzf, ripgrep, jq, yq, btop, fastfetch, file, bind, tree, trash, zoxide
-- development: git, gh, lazygit, meld, helix, neovim, vscode, jetbrains, direnv, devenv, claude-code, deadnix, statix, just
-- terminal: ghostty, alacritty, tmux, zellij
-- desktop: hyprland, waybar, wlogout, swaync, gtk, vicinae, nerd-fonts, xorg
-- media: mpv, qbittorrent, subtitleedit
-- gaming: steam, heroic, lutris, bottles, minecraft, osu, pcsx2
-- communication: discord, matrix
-- productivity: firefox, obsidian, papers, anki, evince, remmina
-
-Not grouped (import individually):
-
-- _1password, sops: security, keep explicit
-- solaar: Logitech-specific hardware
-- chezmoi: migration tool, might remove
-- powershell: not needed on every system
+Candidates for future profiles: cli, development, media, terminal, productivity, communication.
 
 ### Tag-based profiles (future)
 
