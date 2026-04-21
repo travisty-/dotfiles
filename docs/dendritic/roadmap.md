@@ -70,12 +70,6 @@ Move the overlay files from `overlays/` into the modules that use them (qbittorr
 
 ## Known issues
 
-From post-migration review. These are all in the current codebase.
-
-### Vicinae cachix substituter in NixOS base
-
-`modules/nixos/shared/settings.nix` has `vicinae.cachix.org` as a substituter. This belongs in the vicinae module, not in the shared base.
-
 ### Dead code in configuration.nix
 
 `modules/hosts/earth/_config/configuration.nix` sets `boot.loader.systemd-boot.enable = true`, but secure-boot force-overrides it.
@@ -88,6 +82,3 @@ mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` cal
 
 `modules/home/desktop/gnome/pop-shell.nix` sets `"org/gnome/settings-daemon/plugins/media-keys"` in two places. The second one probably shadows the first. Needs an audit.
 
-### Sops GitHub token in HM base
-
-`modules/home/shared/config.nix` sets up a sops GitHub access token for every user. If I add a user that doesn't need one, this should be a separate module instead of part of base.

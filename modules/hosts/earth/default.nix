@@ -26,6 +26,7 @@
         spotify
         steam
         tailscale
+        vicinae
         virt-manager
         xpadneo
         _1password
