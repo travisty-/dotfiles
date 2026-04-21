@@ -162,7 +162,7 @@ Hosts and users select profiles and features via import lists:
 }
 ```
 
-Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) live in `_config/` subdirectories within the host, excluded from import-tree.
+Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) and the host disk layout (`disko.nix`) live in `_config/` subdirectories within the host, excluded from import-tree.
 
 ### Flake Infrastructure (`modules/features/flake/`)
 
@@ -181,6 +181,10 @@ Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) l
 
 Managed with `sops-nix`. The sops-nix module is imported in the shared base modules (`features/shared/secrets.nix` for NixOS, `features/shared/config.nix` for HM). Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime using SSH keys directly via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
 
+### Disk layout
+
+Per-host disk layout is declared via `disko` in `modules/systems/<host>/_config/disko.nix`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration, replacing those stanzas in `hardware-configuration.nix`. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
+
 ### Other Directories
 
 - **`packages/`** — Custom package derivations
@@ -189,4 +193,4 @@ Static config files, overlays, and assets are colocated with their feature modul
 
 ### Flake Inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).

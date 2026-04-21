@@ -16,58 +16,6 @@
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
-    fsType = "btrfs";
-    options = ["subvol=@" "compress=zstd" "noatime" "x-gvfs-trash"];
-  };
-
-  boot.initrd.luks.devices."luks-17bc8fc5-5592-487f-a697-f738403676b0" = {
-    device = "/dev/disk/by-uuid/17bc8fc5-5592-487f-a697-f738403676b0";
-    allowDiscards = true;
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
-    fsType = "btrfs";
-    options = ["subvol=@home" "compress=zstd" "noatime" "x-gvfs-trash"];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
-    fsType = "btrfs";
-    options = ["subvol=@nix" "compress=zstd" "noatime" "x-gvfs-trash"];
-  };
-
-  fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/ca754b26-263d-4df8-ae19-341e11310fd0";
-    fsType = "btrfs";
-    options = ["subvol=@log" "compress=zstd" "noatime" "x-gvfs-trash"];
-  };
-
-  boot.initrd.luks.devices."luks-3426c936-e49d-48fa-9e41-ca1be20ce3a1" = {
-    device = "/dev/disk/by-uuid/3426c936-e49d-48fa-9e41-ca1be20ce3a1";
-    allowDiscards = true;
-  };
-
-  fileSystems."/media/data" = {
-    device = "/dev/disk/by-uuid/fd76b16b-cbb7-467b-92fd-3139bdb6f42d";
-    fsType = "btrfs";
-    options = ["subvol=@data" "compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
-  };
-
-  fileSystems."/media/games" = {
-    device = "/dev/disk/by-uuid/fd76b16b-cbb7-467b-92fd-3139bdb6f42d";
-    fsType = "btrfs";
-    options = ["subvol=@games" "compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/D20D-D83B";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
-  };
-
   swapDevices = [];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

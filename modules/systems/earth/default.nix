@@ -13,6 +13,7 @@
         _1password
         bluetooth
         coolercontrol
+        disko
         docker
         firefox
         fstrim
