@@ -31,9 +31,3 @@ Open questions:
 
 - How to define the `tags` option and the resolver infrastructure
 - Whether tags should be per-class (`tags.homeManager = ["cli"]`) or flat (`tags = ["cli"]`)
-
-## Known issues
-
-### Hardcoded `/etc/nixos/` paths
-
-mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` calls. Could add a `meta.repoPath` option set once in the user module, but it's still a hardcoded value either way.

@@ -6,6 +6,7 @@
     ...
   }: let
     inherit (lib) mkOption types;
+    inherit (config.meta) flake;
     cfg = config.internal.desktop.hyprland;
   in {
     options.internal.desktop.hyprland.settings = {
@@ -42,7 +43,7 @@
         ];
 
         exec-once = [
-          "[workspace 3 silent] uwsm app -- code /etc/nixos"
+          "[workspace 3 silent] uwsm app -- code ${flake}"
           "[workspace special:magic silent] uwsm app -- $terminal"
           "systemctl --user enable --now hyprpolkitagent.service"
           "systemctl --user enable --now swaync.service"

@@ -173,9 +173,10 @@ Per-host files live in the host directory (e.g., `modules/systems/earth/`): `def
 - **`formatter.nix`** — `perSystem` formatter (alejandra)
 - **`systems.nix`** — Supported architectures (`x86_64-linux`)
 
-### User Metadata
+### Metadata
 
-`meta.user` options are defined in `features/shared/meta.nix` (cross-cutting) and set in host/user definitions:
+`meta.*` options are defined in `features/shared/meta.nix` (cross-cutting) and set in host/user definitions:
+- `config.meta.flake` (both classes) — absolute path to the working tree of this flake; defaults to `/etc/nixos`. Used by modules that need a non-store path (e.g., `mkOutOfStoreSymlink` for live-editable configs, `programs.nh.flake`). Override per-host if the flake lives elsewhere.
 - NixOS: `config.meta.user.{description, shell, username}` — `shell` defaults to `pkgs.zsh` and is consumed by `features/shared/user.nix` to set `users.defaultUserShell`.
 - Home Manager: `config.meta.user.{name, email, signingKey, username}`
 
