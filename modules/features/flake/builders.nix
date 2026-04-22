@@ -27,7 +27,10 @@ in {
         inherit system;
         modules = [
           config.flake.modules.nixos.${name}
-          {nixpkgs.hostPlatform = mkDefault system;}
+          {
+            networking.hostName = mkDefault name;
+            nixpkgs.hostPlatform = mkDefault system;
+          }
         ];
         specialArgs = {
           inherit inputs;

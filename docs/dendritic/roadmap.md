@@ -15,11 +15,11 @@ Instead of manually listing modules in each profile, modules could self-declare 
 ```nix
 # modules/programs/btop.nix
 {
-  tags = ["cli"];
-
   flake.modules.homeManager.btop = {
     programs.btop.enable = true;
   };
+
+  tags = ["cli"];
 }
 ```
 

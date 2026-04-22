@@ -47,4 +47,12 @@
       "$HOME/.local/bin"
     ];
   };
+
+  flake.modules.nixos.zsh = {pkgs, ...}: {
+    programs.zsh.enable = true;
+    environment.shells = [pkgs.zsh];
+
+    # Enables completions for system packages (e.g. systemd).
+    environment.pathsToLink = ["/share/zsh"];
+  };
 }

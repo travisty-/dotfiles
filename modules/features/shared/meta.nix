@@ -28,17 +28,26 @@ in {
     };
   };
 
-  flake.modules.nixos.base.options.meta.user = {
-    description = mkOption {
-      type = types.str;
-      example = "<First Name> <Last Name>";
-      description = "The user's full name.";
-    };
+  flake.modules.nixos.base = {pkgs, ...}: {
+    options.meta.user = {
+      description = mkOption {
+        type = types.str;
+        example = "<First Name> <Last Name>";
+        description = "The user's full name.";
+      };
 
-    username = mkOption {
-      type = types.str;
-      example = "username";
-      description = "The user's username (login).";
+      shell = mkOption {
+        type = types.package;
+        default = pkgs.zsh;
+        example = pkgs.bash;
+        description = "The user's default login shell.";
+      };
+
+      username = mkOption {
+        type = types.str;
+        example = "username";
+        description = "The user's username (login).";
+      };
     };
   };
 }

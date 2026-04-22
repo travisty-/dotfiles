@@ -58,7 +58,7 @@ modules/
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
     programs/       — Programs (git, firefox, zsh, steam, docker, etc.) — some cross-cutting
     services/       — Services (pipewire, openssh, tailscale, swaync, vicinae, etc.)
-    shared/         — Base config (boot, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
+    shared/         — Base config (boot, btrfs, facter, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
     system/         — System-level config (secure-boot)
   profiles/         — Feature groupings for composition (desktop, gaming)
   systems/          — System definitions (e.g., systems/earth/)
@@ -140,8 +140,10 @@ Hosts and users select profiles and features via import lists:
 # modules/systems/earth/default.nix
 {inputs, ...}: {
   flake.modules.nixos.earth = {pkgs, ...}: {
-    imports = [./_config/configuration.nix]
-      ++ (with inputs.self.profiles.nixos; [ desktop gaming ])
+    imports =
+      (with inputs.self.profiles.nixos; [
+        desktop gaming
+      ])
       ++ (with inputs.self.modules.nixos; [
         base bluetooth docker nvidia ...
       ]);
@@ -162,19 +164,19 @@ Hosts and users select profiles and features via import lists:
 }
 ```
 
-Per-host files live in `_config/` subdirectories within the host, excluded from import-tree: `configuration.nix` (hostname, bootloader, timezone, etc.), `disko.nix` (disk layout), and `facter.json` (hardware report from nixos-facter).
+Per-host files live in the host directory (e.g., `modules/systems/earth/`): `default.nix` (feature imports, `meta.user`), `disko.nix` (disk layout, contributes to `flake.modules.nixos.<host>` as a collector), and `facter.json` (hardware report from nixos-facter, referenced via `features/shared/facter.nix`).
 
 ### Flake Infrastructure (`modules/features/flake/`)
 
 - **`flake-parts.nix`** — Enables the `flake.modules` option
-- **`builders.nix`** — `flake.lib.mkNixos` and `flake.lib.mkHome` helpers
+- **`builders.nix`** — `flake.lib.mkNixos` and `flake.lib.mkHome` helpers; `mkNixos` also sets `networking.hostName` and `nixpkgs.hostPlatform` from its arguments
 - **`formatter.nix`** — `perSystem` formatter (alejandra)
 - **`systems.nix`** — Supported architectures (`x86_64-linux`)
 
 ### User Metadata
 
 `meta.user` options are defined in `features/shared/meta.nix` (cross-cutting) and set in host/user definitions:
-- NixOS: `config.meta.user.{description, username}`
+- NixOS: `config.meta.user.{description, shell, username}` — `shell` defaults to `pkgs.zsh` and is consumed by `features/shared/user.nix` to set `users.defaultUserShell`.
 - Home Manager: `config.meta.user.{name, email, signingKey, username}`
 
 ### Secrets
@@ -183,11 +185,11 @@ Managed with `sops-nix`. The sops-nix module is imported in the shared base modu
 
 ### Disk layout
 
-Per-host disk layout is declared via `disko` in `modules/systems/<host>/_config/disko.nix`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
+Per-host disk layout is declared via `disko` in `modules/systems/<host>/disko.nix` as a flake-parts collector contributing to `flake.modules.nixos.<host>`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
 
 ### Hardware detection
 
-Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/_config/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
+Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. `features/shared/facter.nix` wires `reportPath` from the flake root plus `config.networking.hostName`, and disables facter's per-interface DHCP when NetworkManager is enabled. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
 
 ### Other Directories
 

@@ -1,10 +1,7 @@
 {inputs, ...}: {
-  flake.modules.nixos.earth = {pkgs, ...}: {
+  flake.modules.nixos.earth = {
     imports =
-      [
-        ./_config/configuration.nix
-      ]
-      ++ (with inputs.self.profiles.nixos; [
+      (with inputs.self.profiles.nixos; [
         desktop
         gaming
       ])
@@ -17,16 +14,19 @@
         docker
         firefox
         fstrim
+        networking
         nix-helpers
         nvidia
         openrgb
         openssh
         power-profiles
+        printing
         ryzen
         secure-boot
         spotify
         tailscale
         virt-manager
+        zsh
       ]);
 
     meta.user = {
@@ -53,17 +53,6 @@
       interval = "monthly";
       fileSystems = ["/"];
     };
-
-    # Install Zsh.
-    programs.zsh.enable = true;
-    environment.shells = [pkgs.zsh];
-    users.defaultUserShell = pkgs.zsh;
-
-    # Enables completion for system packages (e.g. systemd).
-    environment.pathsToLink = ["/share/zsh"];
-
-    # Set the default text editor for the system.
-    environment.sessionVariables.EDITOR = "vi";
   };
 
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "earth";
