@@ -64,19 +64,6 @@
       username = "travis";
     };
 
-    sops = {
-      defaultSopsFile = ../../../secrets/secrets.enc.yaml;
-      validateSopsFiles = true;
-
-      # An empty string bypasses ssh-to-age key conversion in sops-install-secrets.
-      # Temporary workaround to avoid generating intermediate age-keys.txt files
-      # until sops-nix natively supports SSH keys. (sops-nix#695, sops-nix#824)
-      age.keyFile = "";
-      environment = {
-        SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/${config.home.homeDirectory}/.ssh/id_ed25519";
-      };
-    };
-
     internal.desktop.hyprland = {
       resources = {
         profilePicture = ./profile-picture.png;

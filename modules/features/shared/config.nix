@@ -1,7 +1,5 @@
-{inputs, ...}: {
+{
   flake.modules.homeManager.base = {config, ...}: {
-    imports = [inputs.sops-nix.homeManagerModules.sops];
-
     sops.secrets.GITHUB_ACCESS_TOKEN = {};
 
     # https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-access-tokens

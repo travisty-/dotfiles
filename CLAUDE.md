@@ -181,7 +181,7 @@ Per-host files live in the host directory (e.g., `modules/systems/earth/`): `def
 
 ### Secrets
 
-Managed with `sops-nix`. The sops-nix module is imported in the shared base modules (`features/shared/secrets.nix` for NixOS, `features/shared/config.nix` for HM). Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime using SSH keys directly via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
+Managed with `sops-nix`. Cross-cutting setup lives in `features/shared/secrets.nix` for both classes; an `mkSopsConfig` helper there factors out the shared boilerplate (`defaultSopsFile`, `validateSopsFiles`, `age.keyFile = ""`) and parametrizes the SSH key path per class (host key for NixOS, user key for Home Manager). `features/shared/config.nix` retains class-specific secrets/templates (e.g., `GITHUB_ACCESS_TOKEN`, generated `nix.conf`). Encrypted secrets live in `secrets/secrets.enc.yaml`, decrypted at runtime via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`). The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients. Modules can reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
 
 ### Disk layout
 
