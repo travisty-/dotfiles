@@ -95,5 +95,5 @@
     };
   };
 
-  flake.homeConfigurations = inputs.self.lib.mkHome "x86_64-linux" "travis@earth";
+  flake.homeConfigurations = inputs.self.lib.mkHome "travis@earth" "x86_64-linux";
 }

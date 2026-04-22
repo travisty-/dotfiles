@@ -35,5 +35,5 @@
     };
   };
 
-  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "earth";
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "earth" "x86_64-linux";
 }

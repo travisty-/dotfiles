@@ -148,7 +148,7 @@ Hosts and users select profiles and features via import lists:
         base bluetooth docker nvidia ...
       ]);
   };
-  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "earth";
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "earth" "x86_64-linux";
 }
 
 # modules/users/travis@earth/default.nix
@@ -160,7 +160,7 @@ Hosts and users select profiles and features via import lists:
         base git firefox zsh ...
       ]);
   };
-  flake.homeConfigurations = inputs.self.lib.mkHome "x86_64-linux" "travis@earth";
+  flake.homeConfigurations = inputs.self.lib.mkHome "travis@earth" "x86_64-linux";
 }
 ```
 

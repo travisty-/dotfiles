@@ -12,7 +12,7 @@ in {
   };
 
   config.flake.lib = {
-    mkHome = system: name: {
+    mkHome = name: system: {
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [config.flake.modules.homeManager.${name}];
@@ -22,7 +22,7 @@ in {
       };
     };
 
-    mkNixos = system: name: {
+    mkNixos = name: system: {
       ${name} = lib.nixosSystem {
         inherit system;
         modules = [
