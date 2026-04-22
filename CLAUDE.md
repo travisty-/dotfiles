@@ -162,7 +162,7 @@ Hosts and users select profiles and features via import lists:
 }
 ```
 
-Auto-generated NixOS files (`configuration.nix`, `hardware-configuration.nix`) and the host disk layout (`disko.nix`) live in `_config/` subdirectories within the host, excluded from import-tree.
+Per-host files live in `_config/` subdirectories within the host, excluded from import-tree: `configuration.nix` (hostname, bootloader, timezone, etc.), `disko.nix` (disk layout), and `facter.json` (hardware report from nixos-facter).
 
 ### Flake Infrastructure (`modules/features/flake/`)
 
@@ -183,7 +183,11 @@ Managed with `sops-nix`. The sops-nix module is imported in the shared base modu
 
 ### Disk layout
 
-Per-host disk layout is declared via `disko` in `modules/systems/<host>/_config/disko.nix`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration, replacing those stanzas in `hardware-configuration.nix`. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
+Per-host disk layout is declared via `disko` in `modules/systems/<host>/_config/disko.nix`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
+
+### Hardware detection
+
+Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/_config/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
 
 ### Other Directories
 

@@ -3,10 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {pkgs, ...}: {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
     ./disko.nix
   ];
+
+  hardware.facter.reportPath = ./facter.json;
+  hardware.facter.detected.dhcp.enable = false;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

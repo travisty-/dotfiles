@@ -32,17 +32,8 @@ Open questions:
 - How to define the `tags` option and the resolver infrastructure
 - Whether tags should be per-class (`tags.homeManager = ["cli"]`) or flat (`tags = ["cli"]`)
 
-## nixos-facter
-
-Replace `hardware-configuration.nix` with nixos-facter's `facter.json`. Several dendritic configs use this (mightyiam, drupol, quasigod). Avoids having to manually maintain a generated file.
-
 ## Known issues
-
-### Dead code in configuration.nix
-
-`modules/hosts/earth/_config/configuration.nix` sets `boot.loader.systemd-boot.enable = true`, but secure-boot force-overrides it. Left as-is per Lanzaboote instructions.
 
 ### Hardcoded `/etc/nixos/` paths
 
 mpv and jetbrains modules hardcode `/etc/nixos/...` in `mkOutOfStoreSymlink` calls. Could add a `meta.repoPath` option set once in the user module, but it's still a hardcoded value either way.
-
