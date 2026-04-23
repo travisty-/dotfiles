@@ -4,12 +4,12 @@
     pkgs,
     ...
   }: let
-    user = config.meta.user;
+    inherit (config.meta) user;
   in {
     users.defaultUserShell = user.shell;
     users.users.${user.username} = {
       isNormalUser = true;
-      description = user.description;
+      inherit (user) description;
       extraGroups = ["networkmanager" "wheel"];
       packages = with pkgs; [
         # thunderbird

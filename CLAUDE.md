@@ -18,6 +18,12 @@ nh home switch # or: home-manager switch --flake .#travis@earth
 # Format all Nix files (uses alejandra, defined in modules/features/flake/formatter.nix)
 nix fmt .
 
+# Run all lint/format checks (alejandra, deadnix, statix via git-hooks.nix)
+nix flake check
+
+# Install the pre-commit git hook (run once per clone)
+nix develop
+
 # Update flake inputs
 nix flake update
 ```
@@ -171,6 +177,7 @@ Per-host files live in the host directory (e.g., `modules/systems/earth/`): `def
 - **`flake-parts.nix`** — Enables the `flake.modules` option
 - **`builders.nix`** — `flake.lib.mkNixos` and `flake.lib.mkHome` helpers; `mkNixos` also sets `networking.hostName` and `nixpkgs.hostPlatform` from its arguments
 - **`formatter.nix`** — `perSystem` formatter (alejandra)
+- **`git-hooks.nix`** — `perSystem` pre-commit hooks (alejandra, deadnix, statix) wired into `nix flake check`, plus a default devShell whose `shellHook` installs the git hook. Statix rule overrides live in `statix.toml` at the repo root, referenced via `${inputs.self}/statix.toml`
 - **`systems.nix`** — Supported architectures (`x86_64-linux`)
 
 ### Metadata
@@ -188,6 +195,15 @@ Managed with `sops-nix`. Cross-cutting setup lives in `features/shared/secrets.n
 
 Per-host disk layout is declared via `disko` in `modules/systems/<host>/disko.nix` as a flake-parts collector contributing to `flake.modules.nixos.<host>`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
 
+### Pre-commit hooks
+
+Two enforcement surfaces for the lint/format stack (alejandra, deadnix, statix):
+
+1. **`nix flake check`** — runs the hooks as a derivation against the full source tree. Always works, no install step.
+2. **Local git pre-commit hook** — runs on `git commit` against staged files only. Requires a one-time install per clone: entering `nix develop` triggers the devShell's `shellHook`, which writes `.git/hooks/pre-commit` and generates `.pre-commit-config.yaml` at the repo root. Both are host-local artifacts; `.pre-commit-config.yaml` is gitignored.
+
+Statix rule overrides (e.g. disabling `repeated_keys`) live in `statix.toml` at the repo root, referenced from the hook module via `${inputs.self}/statix.toml`.
+
 ### Hardware detection
 
 Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. `features/shared/facter.nix` wires `reportPath` from the flake root plus `config.networking.hostName`, and disables facter's per-interface DHCP when NetworkManager is enabled. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
@@ -200,4 +216,4 @@ Static config files, overlays, and assets are colocated with their feature modul
 
 ### Flake Inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).

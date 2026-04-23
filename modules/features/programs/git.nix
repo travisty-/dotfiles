@@ -4,7 +4,7 @@
     pkgs,
     ...
   }: let
-    user = config.meta.user;
+    inherit (config.meta) user;
   in {
     programs.git = {
       enable = true;

@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.base = {config, ...}: let
-    user = config.meta.user;
+    inherit (config.meta) user;
   in {
     # Home Manager needs a bit of information about you and the paths it should manage.
     home.username = user.username;

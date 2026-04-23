@@ -8,6 +8,22 @@ Desktop and gaming profiles are implemented. Profiles are namespaced under `flak
 
 Candidates for future profiles: cli, development, media, terminal, productivity, communication.
 
+## Statix: repeated_keys (W:20)
+
+`repeated_keys` is disabled in `statix.toml` to preserve the per-line
+assignment style the repo was written in (e.g., `programs.steam = {...}; programs.gamemode.enable = ...;`
+rather than `programs = { steam = {...}; gamemode.enable = ...; };`).
+
+16 sites across 11 files would trigger the rule if re-enabled. 12 exist
+because flattening would either bury load-bearing per-line comments
+(hyprland, gnome, secure-boot, vicinae, git) or merge genuinely separate
+subsystems sharing a prefix (`internal.*` in `travis@earth`). The other 4
+(`shared/config.nix`, `shared/boot.nix`, `programs/steam.nix`,
+`programs/1password.nix`) could flatten cleanly, but fixing only those
+creates a hybrid — worse than either pure approach.
+
+Decision: Keep disabled.
+
 ### Tag-based profiles (future)
 
 Instead of manually listing modules in each profile, modules could self-declare their tags:

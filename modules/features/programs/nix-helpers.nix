@@ -9,7 +9,7 @@
       enable = true;
       clean.enable = true;
       clean.extraArgs = "--keep-since 7d --keep 5 --optimise";
-      flake = config.meta.flake;
+      inherit (config.meta) flake;
     };
 
     environment.systemPackages = with pkgs; [
