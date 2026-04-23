@@ -8,24 +8,34 @@ A NixOS flake-based personal dotfiles repo managing both system (NixOS) and user
 
 ## Key Commands
 
-```sh
-# Rebuild NixOS system configuration
-nh os switch # or: sudo nixos-rebuild switch --flake .#earth
+Common tasks are wrapped in the [Justfile](./Justfile) at repo root. Run `just --list` for the menu.
 
-# Rebuild Home Manager user configuration
-nh home switch # or: home-manager switch --flake .#travis@earth
+```sh
+# Update flake inputs
+just update              # wraps: nix flake update
+
+# Rebuild NixOS system + Home Manager
+just upgrade             # wraps: nh os switch && nh home switch
+
+# Clean old generations and optimise the store
+just clean               # wraps: nh clean all --keep-since 7d --keep 5 --optimise
 
 # Format all Nix files (uses alejandra, defined in modules/features/flake/formatter.nix)
-nix fmt .
+just format              # wraps: nix fmt .
 
-# Run all lint/format checks (alejandra, deadnix, statix via git-hooks.nix)
-nix flake check
+# Run lint/format checks
+just check               # wraps: nix flake check (alejandra, deadnix, statix via git-hooks.nix)
+just lint                # runs deadnix + statix directly, faster than `check`
+
+# Load the flake in a Nix REPL (binds inputs + outputs at top level)
+just evaluate            # wraps: nix repl --expr 'builtins.getFlake (toString ./.)'
 
 # Install the pre-commit git hook (run once per clone)
-nix develop
+just install             # wraps: nix develop --command true
 
-# Update flake inputs
-nix flake update
+# Edit secrets or re-encrypt for new recipients (after .sops.yaml changes)
+just sops-edit           # wraps: sops secrets/secrets.enc.yaml
+just sops-rekey          # wraps: sops updatekeys secrets/secrets.enc.yaml
 ```
 
 The repo is symlinked to `/etc/nixos`. `nh` auto-detects the flake location.
