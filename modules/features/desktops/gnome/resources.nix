@@ -5,9 +5,9 @@
     ...
   }: let
     inherit (lib) mkOption types;
-    cfg = config.internal.desktop.gnome;
+    cfg = config.internal.desktops.gnome;
   in {
-    options.internal.desktop.gnome.resources = {
+    options.internal.desktops.gnome.resources = {
       monitors = mkOption {
         description = "The path to the target monitor configuration file.";
         type = types.path;

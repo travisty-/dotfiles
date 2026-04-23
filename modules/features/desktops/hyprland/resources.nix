@@ -5,9 +5,9 @@
     ...
   }: let
     inherit (lib) mkOption types;
-    cfg = config.internal.desktop.hyprland;
+    cfg = config.internal.desktops.hyprland;
   in {
-    options.internal.desktop.hyprland.resources = {
+    options.internal.desktops.hyprland.resources = {
       profilePicture = mkOption {
         description = "The path to the target profile picture.";
         type = types.path;

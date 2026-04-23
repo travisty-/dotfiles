@@ -7,9 +7,9 @@
   }: let
     inherit (lib) mkOption types;
     inherit (config.meta) flake;
-    cfg = config.internal.desktop.hyprland;
+    cfg = config.internal.desktops.hyprland;
   in {
-    options.internal.desktop.hyprland.settings = {
+    options.internal.desktops.hyprland.settings = {
       monitors = mkOption {
         description = "The target monitor settings.";
         type = types.listOf types.str;

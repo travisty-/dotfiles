@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.hyprland = {config, ...}: let
-    cfg = config.internal.desktop.hyprland;
+    cfg = config.internal.desktops.hyprland;
   in {
     config = {
       services.hyprpaper = {

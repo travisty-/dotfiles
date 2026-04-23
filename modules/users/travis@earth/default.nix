@@ -64,7 +64,7 @@
       username = "travis";
     };
 
-    internal.desktop.hyprland = {
+    internal.desktops.hyprland = {
       resources = {
         profilePicture = ./profile-picture.png;
         wallpaper = "${inputs.wallpapers}/3440x1440/isometric-grid-mono.png";
