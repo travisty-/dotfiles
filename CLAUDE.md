@@ -14,6 +14,9 @@ Common tasks are wrapped in the [Justfile](./Justfile) at repo root. Run `just -
 # Update flake inputs
 just update              # wraps: nix flake update
 
+# Bump a custom package's source pin (runs the package's passthru.updateScript)
+just update-package <name>  # wraps: nix-update --flake --use-update-script <name>
+
 # Rebuild NixOS system + Home Manager
 just upgrade             # wraps: nh os switch && nh home switch
 
@@ -72,6 +75,7 @@ modules/
     desktops/       — Desktop environments (hyprland, gnome) — cross-cutting
     flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
+    packages/       — Wiring modules for custom packages (see packages/ below)
     programs/       — Programs (git, firefox, zsh, steam, docker, etc.) — some cross-cutting
     services/       — Services (pipewire, openssh, tailscale, swaync, vicinae, etc.)
     shared/         — Base config (boot, btrfs, facter, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
@@ -218,12 +222,36 @@ Statix rule overrides (e.g. disabling `repeated_keys`) live in `statix.toml` at 
 
 Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. `features/shared/facter.nix` wires `reportPath` from the flake root plus `config.networking.hostName`, and disables facter's per-interface DHCP when NetworkManager is enabled. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
 
-### Other Directories
+### Custom packages
 
-- **`packages/`** — Custom package derivations
+Custom derivations live under `packages/<name>/` (outside `modules/` so import-tree doesn't try to evaluate them as flake-parts modules). Each package is wired by a per-file module at `modules/features/packages/<name>.nix` that both exposes the package as a flake output and provides a cross-cutting feature module:
+
+```nix
+{inputs, ...}: {
+  perSystem = {pkgs, ...}: {
+    packages.<name> = pkgs.callPackage "${inputs.self}/packages/<name>" {};
+  };
+
+  flake.modules.homeManager.<name> = {pkgs, ...}: {
+    home.packages = [
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.<name>
+    ];
+  };
+}
+```
+
+Path references use `${inputs.self}/<path>` rather than `../../../<path>` (matches the `statix.toml` pattern in `git-hooks.nix`). Features are consumed by adding `<name>` to the host/user import list like any other feature.
+
+Packages should ship a `passthru.updateScript` — a bash script that regenerates a sibling `sources.json` (hashes, version, git refs). Bump via `just update-package <name>`, which wraps `nix-update --flake --use-update-script <name>`. Update scripts must anchor output paths to `$PWD` (nix-update sets cwd to the flake root) rather than `$BASH_SOURCE`, which resolves to the read-only nix store path when invoked via `updateScript`. Source bumps are a separate, deliberate step — neither `nix flake update` nor `nh os/home switch` touch `passthru.updateScript`.
+
+See `docs/dendritic/roadmap.md` for documented extension paths (specialArg injection, namespaced overlay) if consumer boilerplate starts to grate.
 
 Static config files, overlays, and assets are colocated with their feature modules (e.g., `modules/features/programs/mpv/` contains both the module and its config files).
 
 ### Flake Inputs
 
 Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).
+
+### Further documentation
+
+- `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths

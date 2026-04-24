@@ -7,6 +7,10 @@ update *inputs:
     nix flake update {{inputs}}
 
 [group("build")]
+update-package name:
+    nix-update --flake --use-update-script {{name}}
+
+[group("build")]
 upgrade *args:
     nh os switch {{args}}
     nh home switch {{args}}

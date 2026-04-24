@@ -42,6 +42,7 @@
         papers
         powershell
         qbittorrent
+        raindrop
         remmina
         ripgrep
         solaar
