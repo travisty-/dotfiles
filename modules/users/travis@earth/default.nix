@@ -36,6 +36,7 @@
         meld
         mpv
         neovim
+        nix-update
         obsidian
         oh-my-posh
         papers
