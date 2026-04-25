@@ -14,6 +14,7 @@
 
   flake.profiles.nixos.desktop = {
     imports = with inputs.self.modules.nixos; [
+      fcitx5
       hyprland
       pipewire
       vicinae

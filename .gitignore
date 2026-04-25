@@ -1,4 +1,3 @@
 .pre-commit-config.yaml
 docs/dendritic/research.md
-docs/notes.md
-docs/todo.md
+docs/workspace/
