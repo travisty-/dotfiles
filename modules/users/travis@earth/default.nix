@@ -23,6 +23,7 @@
         fd
         file
         firefox
+        fish
         fzf
         gh
         ghostty

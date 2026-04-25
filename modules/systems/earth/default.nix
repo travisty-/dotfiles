@@ -13,6 +13,7 @@
         disko
         docker
         firefox
+        fish
         fstrim
         networking
         nix-helpers
