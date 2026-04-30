@@ -7,7 +7,11 @@
   }: let
     inherit (lib) mkOption types;
     inherit (config.meta) flake;
+    inherit (pkgs.writers) writePython3Bin;
     cfg = config.internal.desktops.hyprland;
+    movement =
+      writePython3Bin "movement.py" {flakeIgnore = ["E501"];}
+      (builtins.readFile ./scripts/movement.py);
   in {
     options.internal.desktops.hyprland.settings = {
       monitors = mkOption {
@@ -211,29 +215,29 @@
           "$mainMod, print, exec, uwsm app -- hyprshot --mode window --freeze --clipboard-only"
           "$mainMod SHIFT, print, exec, uwsm app -- hyprshot --mode output --freeze --clipboard-only"
 
-          # Move focus with mainMod + arrow keys.
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+          # Move focus (improved) with mainMod + arrow keys.
+          "$mainMod, left,  exec, ${lib.getExe movement} focus l"
+          "$mainMod, right, exec, ${lib.getExe movement} focus r"
+          "$mainMod, up,    exec, ${lib.getExe movement} focus u"
+          "$mainMod, down,  exec, ${lib.getExe movement} focus d"
 
-          # Move focus with mainMod + vim keys.
-          "$mainMod, H, movefocus, l"
-          "$mainMod, L, movefocus, r"
-          "$mainMod, K, movefocus, u"
-          "$mainMod, J, movefocus, d"
+          # Move focus (improved) with mainMod + vim keys.
+          "$mainMod, H, exec, ${lib.getExe movement} focus l"
+          "$mainMod, L, exec, ${lib.getExe movement} focus r"
+          "$mainMod, K, exec, ${lib.getExe movement} focus u"
+          "$mainMod, J, exec, ${lib.getExe movement} focus d"
 
-          # Move window with mainMod + arrow keys.
-          "$mainMod SHIFT, left, movewindow, l"
-          "$mainMod SHIFT, right, movewindow, r"
-          "$mainMod SHIFT, up, movewindow, u"
-          "$mainMod SHIFT, down, movewindow, d"
+          # Move window (improved) with mainMod + arrow keys.
+          "$mainMod SHIFT, left,  exec, ${lib.getExe movement} window l"
+          "$mainMod SHIFT, right, exec, ${lib.getExe movement} window r"
+          "$mainMod SHIFT, up,    exec, ${lib.getExe movement} window u"
+          "$mainMod SHIFT, down,  exec, ${lib.getExe movement} window d"
 
-          # Move window with mainMod + vim keys.
-          "$mainMod SHIFT, H, movewindow, l"
-          "$mainMod SHIFT, L, movewindow, r"
-          "$mainMod SHIFT, K, movewindow, u"
-          "$mainMod SHIFT, J, movewindow, d"
+          # Move window (improved) with mainMod + vim keys.
+          "$mainMod SHIFT, H, exec, ${lib.getExe movement} window l"
+          "$mainMod SHIFT, L, exec, ${lib.getExe movement} window r"
+          "$mainMod SHIFT, K, exec, ${lib.getExe movement} window u"
+          "$mainMod SHIFT, J, exec, ${lib.getExe movement} window d"
 
           # Switch workspaces with mainMod + [0-9].
           "$mainMod, 1, workspace, 1"
