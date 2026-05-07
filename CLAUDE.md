@@ -72,7 +72,7 @@ outputs = inputs:
 ```
 modules/
   features/
-    desktops/       — Desktop environments (hyprland, gnome) — cross-cutting
+    desktops/       — Desktop environments (hyprland, niri, gnome) — cross-cutting
     flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
     packages/       — Wiring modules for custom packages (see packages/ below)
@@ -250,8 +250,9 @@ Static config files, overlays, and assets are colocated with their feature modul
 
 ### Flake Inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake).
 
 ### Further documentation
 
 - `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths
+- `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work.

@@ -4,6 +4,7 @@
       gtk
       hyprland
       nerd-fonts
+      niri
       swaync
       vicinae
       waybar
@@ -16,6 +17,7 @@
     imports = with inputs.self.modules.nixos; [
       fcitx5
       hyprland
+      niri
       pipewire
       vicinae
     ];
