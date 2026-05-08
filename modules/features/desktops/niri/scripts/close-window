@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Automatically align viewport to rightmost position when closing windows.
+# https://github.com/Asthestarsfalll/piri/blob/main/src/plugins/window_rule.rs
+
+set -euo pipefail
+
+focused=$(niri msg --json focused-window)
+workspace_id=$(jq -r '.workspace_id // empty' <<< "$focused")
+column=$(jq -r '.layout.pos_in_scrolling_layout[0] // empty' <<< "$focused")
+
+if [ -z "$workspace_id" ] || [ -z "$column" ]; then
+  niri msg action close-window
+  exit 0
+fi
+
+windows=$(niri msg --json windows)
+
+# Count of windows in the focused column, including stacked/tabbed siblings.
+count=$(jq -r --argjson workspace_id "$workspace_id" --argjson column "$column" '
+  def pos: .layout.pos_in_scrolling_layout[0];
+  map(select(.workspace_id == $workspace_id and pos == $column)) | length
+' <<< "$windows")
+
+# Pre-select the target window before closing the current one; querying the focused
+# window immediately after closing returns the ID of the closed window due to a race
+# condition. Sorts by `[side, distance]` where windows to the right are prioritized,
+# matching Niri's default post-close auto-focus behavior. `(false < true)`
+target=$(jq -r --argjson workspace_id "$workspace_id" --argjson column "$column" '
+  def pos: .layout.pos_in_scrolling_layout[0];
+  map(select(.workspace_id == $workspace_id and pos != $column))
+  | sort_by([pos < $column, (pos - $column | abs)])
+  | .[0].id // empty
+' <<< "$windows")
+
+niri msg action close-window
+
+[ "$count" -eq 1 ] || exit 0
+
+niri msg action focus-column-first
+if [ -n "$target" ]
+  then niri msg action focus-window --id "$target"
+  else niri msg action focus-column-last
+fi

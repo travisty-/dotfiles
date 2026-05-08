@@ -5,9 +5,11 @@
     config,
     lib,
     pkgs,
+    scripts,
     ...
   }: let
     niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
+    cfg = config.internal.desktops.niri;
   in {
     imports = [inputs.niri.homeModules.config];
 
@@ -57,7 +59,7 @@
           # off = true;
           # natural-scroll = true;
           # accel-speed = 0.2;
-          # accel-profile = "flat";
+          accel-profile = "flat";
           # scroll-method = "no-scroll";
         };
 
@@ -73,12 +75,21 @@
         };
 
         # Uncomment this to make the mouse warp to the center of newly focused windows.
-        # warp-mouse-to-focus.enable = true;
+        warp-mouse-to-focus.enable = true;
 
         # Focus windows and outputs automatically when moving the mouse into them.
         # Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-        # focus-follows-mouse = { enable = true; max-scroll-amount = "0%"; };
+        focus-follows-mouse = {
+          enable = true;
+          max-scroll-amount = "0%";
+        };
+
+        # Pressing Mod+N from workspace N will cycle back to the previous workspace.
+        workspace-auto-back-and-forth = true;
       };
+
+      # Disable the hot corner that opens the overview on mouse over.
+      gestures.hot-corners.enable = false;
 
       # You can configure outputs by their name, which you can find
       # by running `niri msg outputs` while inside a niri instance.
@@ -116,6 +127,7 @@
       #   # automatically.
       #   position = { x = 1280; y = 0; };
       # };
+      inherit (cfg) outputs workspaces;
 
       # Settings that influence how windows are positioned and sized.
       # Find more information on the wiki:
@@ -123,6 +135,9 @@
       layout = {
         # Set gaps around windows in logical pixels.
         gaps = 16;
+
+        # Solid background; only visible at startup before the wallpaper activates.
+        background-color = "#000000";
 
         # When to center a column when changing focus, options are:
         # * "never", default behavior, focusing an off-screen column will keep at the left
@@ -283,14 +298,19 @@
         path = lib.getExe niriPkgs.xwayland-satellite-unstable;
       };
 
+      # Niri emits XCURSOR_SIZE into the environment of every spawned process,
+      # which applies it to X11 apps ran via `xwayland-satellite`.
+      cursor.size = 32;
+
       # Add lines like this to spawn processes at startup.
       # Note that running niri as a session supports xdg-desktop-autostart,
       # which may be more convenient to use.
       # See the binds section below for more spawn examples.
 
-      # This line starts waybar, a commonly used bar for Wayland compositors.
       spawn-at-startup = [
-        {argv = ["waybar"];}
+        {argv = ["1password" "--silent"];}
+        {argv = ["wl-clip-persist" "--clipboard" "both"];}
+        {argv = ["code" config.meta.flake];}
 
         # To run a shell command (with variables, pipes, etc.), use the sh form:
         # { sh = "qs -c ~/source/qs/MyAwesomeShell"; }
@@ -306,7 +326,7 @@
       # Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
       # This option will also fix border/focus ring drawing behind some semitransparent windows.
       # After enabling or disabling this, you need to restart the apps for this to take effect.
-      # prefer-no-csd = true;
+      prefer-no-csd = true;
 
       # You can change the path where screenshots are saved.
       # A ~ at the front will be expanded to the home directory.
@@ -368,16 +388,34 @@
         #   # block-out-from = "screencast";
         # }
 
-        # Example: enable rounded corners for all windows.
-        # {
-        #   geometry-corner-radius = {
-        #     top-left = 12.0;
-        #     top-right = 12.0;
-        #     bottom-left = 12.0;
-        #     bottom-right = 12.0;
-        #   };
-        #   clip-to-geometry = true;
-        # }
+        {
+          matches = [{app-id = "^1[Pp]assword$";}];
+          block-out-from = "screen-capture";
+          open-floating = true;
+        }
+
+        {
+          matches = [
+            {
+              app-id = "^[Cc]ode$";
+              at-startup = true;
+            }
+          ];
+          open-on-workspace = "2";
+          open-maximized = true;
+          open-focused = false;
+        }
+
+        # Enable rounded corners for all windows.
+        {
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+        }
       ];
 
       binds = with config.lib.niri.actions; {
@@ -396,17 +434,37 @@
         "Mod+Shift+Slash".action = show-hotkey-overlay;
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
-        "Mod+T" = {
-          action = spawn "alacritty";
-          hotkey-overlay.title = "Open a Terminal: alacritty";
+        "Mod+Return" = {
+          action = spawn "ghostty";
+          hotkey-overlay.title = "Open the Terminal";
         };
-        "Mod+D" = {
-          action = spawn "fuzzel";
-          hotkey-overlay.title = "Run an Application: fuzzel";
+        "Mod+E" = {
+          action = spawn "nautilus";
+          hotkey-overlay.title = "Open the File Manager";
+        };
+        "Mod+Backslash" = {
+          action = spawn "${scripts}/bin/toggle-window" "1password";
+          hotkey-overlay.title = "Open the Password Manager";
+        };
+        "Mod+Space" = {
+          action = spawn "vicinae" "toggle";
+          hotkey-overlay.title = "Launch an Application";
+        };
+        "Mod+Alt+C" = {
+          action = spawn "vicinae" "vicinae://launch/clipboard/history?toggle=true";
+          hotkey-overlay.title = "Open the Clipboard History";
+        };
+        "Mod+B" = {
+          action = spawn "firefox";
+          hotkey-overlay.title = "Open a Browser Window";
+        };
+        "Mod+Shift+B" = {
+          action = spawn "firefox" "--private-window";
+          hotkey-overlay.title = "Open an Incognito Window";
         };
         "Super+Alt+L" = {
           action = spawn "swaylock";
-          hotkey-overlay.title = "Lock the Screen: swaylock";
+          hotkey-overlay.title = "Lock the Screen";
         };
 
         # Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -478,49 +536,43 @@
           repeat = false;
         };
 
-        "Mod+Q" = {
-          action = close-window;
+        "Mod+W" = {
+          action = spawn "${scripts}/bin/close-window";
+          hotkey-overlay.title = "Close a Window";
           repeat = false;
         };
 
-        "Mod+Left".action = focus-column-left;
-        "Mod+Down".action = focus-window-down;
-        "Mod+Up".action = focus-window-up;
-        "Mod+Right".action = focus-column-right;
-        "Mod+H".action = focus-column-left;
-        "Mod+J".action = focus-window-down;
-        "Mod+K".action = focus-window-up;
-        "Mod+L".action = focus-column-right;
+        "Mod+Left".action = focus-column-or-monitor-left;
+        "Mod+Down".action = focus-window-or-workspace-down;
+        "Mod+Up".action = focus-window-or-workspace-up;
+        "Mod+Right".action = focus-column-or-monitor-right;
+        "Mod+H".action = focus-column-or-monitor-left;
+        "Mod+J".action = focus-window-or-workspace-down;
+        "Mod+K".action = focus-window-or-workspace-up;
+        "Mod+L".action = focus-column-or-monitor-right;
 
-        "Mod+Ctrl+Left".action = move-column-left;
-        "Mod+Ctrl+Down".action = move-window-down;
-        "Mod+Ctrl+Up".action = move-window-up;
-        "Mod+Ctrl+Right".action = move-column-right;
-        "Mod+Ctrl+H".action = move-column-left;
-        "Mod+Ctrl+J".action = move-window-down;
-        "Mod+Ctrl+K".action = move-window-up;
-        "Mod+Ctrl+L".action = move-column-right;
-
-        # Alternative commands that move across workspaces when reaching
-        # the first or last window in a column.
-        # "Mod+J".action = focus-window-or-workspace-down;
-        # "Mod+K".action = focus-window-or-workspace-up;
-        # "Mod+Ctrl+J".action = move-window-down-or-to-workspace-down;
-        # "Mod+Ctrl+K".action = move-window-up-or-to-workspace-up;
+        "Mod+Shift+Left".action = move-column-left-or-to-monitor-left;
+        "Mod+Shift+Down".action = move-window-down-or-to-workspace-down;
+        "Mod+Shift+Up".action = move-window-up-or-to-workspace-up;
+        "Mod+Shift+Right".action = move-column-right-or-to-monitor-right;
+        "Mod+Shift+H".action = move-column-left-or-to-monitor-left;
+        "Mod+Shift+J".action = move-window-down-or-to-workspace-down;
+        "Mod+Shift+K".action = move-window-up-or-to-workspace-up;
+        "Mod+Shift+L".action = move-column-right-or-to-monitor-right;
 
         "Mod+Home".action = focus-column-first;
         "Mod+End".action = focus-column-last;
-        "Mod+Ctrl+Home".action = move-column-to-first;
-        "Mod+Ctrl+End".action = move-column-to-last;
+        "Mod+Shift+Home".action = move-column-to-first;
+        "Mod+Shift+End".action = move-column-to-last;
 
-        "Mod+Shift+Left".action = focus-monitor-left;
-        "Mod+Shift+Down".action = focus-monitor-down;
-        "Mod+Shift+Up".action = focus-monitor-up;
-        "Mod+Shift+Right".action = focus-monitor-right;
-        "Mod+Shift+H".action = focus-monitor-left;
-        "Mod+Shift+J".action = focus-monitor-down;
-        "Mod+Shift+K".action = focus-monitor-up;
-        "Mod+Shift+L".action = focus-monitor-right;
+        "Mod+Ctrl+Left".action = focus-monitor-left;
+        "Mod+Ctrl+Down".action = focus-monitor-down;
+        "Mod+Ctrl+Up".action = focus-monitor-up;
+        "Mod+Ctrl+Right".action = focus-monitor-right;
+        "Mod+Ctrl+H".action = focus-monitor-left;
+        "Mod+Ctrl+J".action = focus-monitor-down;
+        "Mod+Ctrl+K".action = focus-monitor-up;
+        "Mod+Ctrl+L".action = focus-monitor-right;
 
         "Mod+Shift+Ctrl+Left".action = move-column-to-monitor-left;
         "Mod+Shift+Ctrl+Down".action = move-column-to-monitor-down;
@@ -543,19 +595,19 @@
         "Mod+Page_Up".action = focus-workspace-up;
         "Mod+U".action = focus-workspace-down;
         "Mod+I".action = focus-workspace-up;
-        "Mod+Ctrl+Page_Down".action = move-column-to-workspace-down;
-        "Mod+Ctrl+Page_Up".action = move-column-to-workspace-up;
-        "Mod+Ctrl+U".action = move-column-to-workspace-down;
-        "Mod+Ctrl+I".action = move-column-to-workspace-up;
+        "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
+        "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
+        "Mod+Shift+U".action = move-column-to-workspace-down;
+        "Mod+Shift+I".action = move-column-to-workspace-up;
 
         # Alternatively, there are commands to move just a single window:
-        # "Mod+Ctrl+Page_Down".action = move-window-to-workspace-down;
+        # "Mod+Shift+Page_Down".action = move-window-to-workspace-down;
         # ...
 
-        "Mod+Shift+Page_Down".action = move-workspace-down;
-        "Mod+Shift+Page_Up".action = move-workspace-up;
-        "Mod+Shift+U".action = move-workspace-down;
-        "Mod+Shift+I".action = move-workspace-up;
+        "Mod+Ctrl+Page_Down".action = move-workspace-down;
+        "Mod+Ctrl+Page_Up".action = move-workspace-up;
+        "Mod+Ctrl+U".action = move-workspace-down;
+        "Mod+Ctrl+I".action = move-workspace-up;
 
         # You can bind mouse wheel scroll ticks using the following syntax.
         # These binds will change direction based on the natural-scroll setting.
@@ -563,34 +615,32 @@
         # To avoid scrolling through workspaces really fast, you can use
         # the cooldown-ms property. The bind will be rate-limited to this value.
         # You can set a cooldown on any bind, but it's most useful for the wheel.
-        "Mod+WheelScrollDown" = {
-          action = focus-workspace-down;
-          cooldown-ms = 150;
-        };
-        "Mod+WheelScrollUp" = {
-          action = focus-workspace-up;
-          cooldown-ms = 150;
-        };
-        "Mod+Ctrl+WheelScrollDown" = {
-          action = move-column-to-workspace-down;
-          cooldown-ms = 150;
-        };
-        "Mod+Ctrl+WheelScrollUp" = {
-          action = move-column-to-workspace-up;
-          cooldown-ms = 150;
-        };
+        "Mod+WheelScrollDown".action = focus-column-right;
+        "Mod+WheelScrollUp".action = focus-column-left;
+        "Mod+Shift+WheelScrollDown".action = move-column-right;
+        "Mod+Shift+WheelScrollUp".action = move-column-left;
 
         "Mod+WheelScrollRight".action = focus-column-right;
         "Mod+WheelScrollLeft".action = focus-column-left;
-        "Mod+Ctrl+WheelScrollRight".action = move-column-right;
-        "Mod+Ctrl+WheelScrollLeft".action = move-column-left;
+        "Mod+Shift+WheelScrollRight".action = move-column-right;
+        "Mod+Shift+WheelScrollLeft".action = move-column-left;
 
-        # Usually scrolling up and down with Shift in applications results in
-        # horizontal scrolling; these binds replicate that.
-        "Mod+Shift+WheelScrollDown".action = focus-column-right;
-        "Mod+Shift+WheelScrollUp".action = focus-column-left;
-        "Mod+Ctrl+Shift+WheelScrollDown".action = move-column-right;
-        "Mod+Ctrl+Shift+WheelScrollUp".action = move-column-left;
+        "Mod+Ctrl+WheelScrollDown" = {
+          action = focus-workspace-down;
+          cooldown-ms = 150;
+        };
+        "Mod+Ctrl+WheelScrollUp" = {
+          action = focus-workspace-up;
+          cooldown-ms = 150;
+        };
+        "Mod+Ctrl+Shift+WheelScrollDown" = {
+          action = move-column-to-workspace-down;
+          cooldown-ms = 150;
+        };
+        "Mod+Ctrl+Shift+WheelScrollUp" = {
+          action = move-column-to-workspace-up;
+          cooldown-ms = 150;
+        };
 
         # Similarly, you can bind touchpad scroll "ticks".
         # Touchpad scrolling is continuous, so for these binds it is split into
@@ -620,18 +670,18 @@
         "Mod+9".action = focus-workspace 9;
 
         # https://github.com/sodiboo/niri-flake/issues/1018
-        "Mod+Ctrl+1".action.move-column-to-workspace = 1;
-        "Mod+Ctrl+2".action.move-column-to-workspace = 2;
-        "Mod+Ctrl+3".action.move-column-to-workspace = 3;
-        "Mod+Ctrl+4".action.move-column-to-workspace = 4;
-        "Mod+Ctrl+5".action.move-column-to-workspace = 5;
-        "Mod+Ctrl+6".action.move-column-to-workspace = 6;
-        "Mod+Ctrl+7".action.move-column-to-workspace = 7;
-        "Mod+Ctrl+8".action.move-column-to-workspace = 8;
-        "Mod+Ctrl+9".action.move-column-to-workspace = 9;
+        "Mod+Shift+1".action.move-column-to-workspace = 1;
+        "Mod+Shift+2".action.move-column-to-workspace = 2;
+        "Mod+Shift+3".action.move-column-to-workspace = 3;
+        "Mod+Shift+4".action.move-column-to-workspace = 4;
+        "Mod+Shift+5".action.move-column-to-workspace = 5;
+        "Mod+Shift+6".action.move-column-to-workspace = 6;
+        "Mod+Shift+7".action.move-column-to-workspace = 7;
+        "Mod+Shift+8".action.move-column-to-workspace = 8;
+        "Mod+Shift+9".action.move-column-to-workspace = 9;
 
         # Alternatively, there are commands to move just a single window:
-        # "Mod+Ctrl+1".action.move-window-to-workspace = 1;
+        # "Mod+Shift+1".action.move-window-to-workspace = 1;
 
         # Switches focus between the current and the previous workspace.
         # "Mod+Tab".action = focus-workspace-previous;
@@ -666,7 +716,7 @@
 
         # Expand the focused column to space not taken up by other fully visible columns.
         # Makes the column "fill the rest of the space".
-        "Mod+Ctrl+F".action = expand-column-to-available-width;
+        "Mod+G".action = expand-column-to-available-width;
 
         "Mod+C".action = center-column;
 
@@ -695,7 +745,7 @@
         # Toggle tabbed column display mode.
         # Windows in this column will appear as vertical tabs,
         # rather than stacked on top of each other.
-        "Mod+W".action = toggle-column-tabbed-display;
+        "Mod+T".action = toggle-column-tabbed-display;
 
         # Actions to switch layouts.
         # Note: if you uncomment these, make sure you do NOT have
@@ -707,8 +757,8 @@
 
         # https://github.com/sodiboo/niri-flake/issues/1018
         "Print".action.screenshot = {};
-        "Ctrl+Print".action.screenshot-screen = {};
-        "Alt+Print".action.screenshot-window = {};
+        "Ctrl+Print".action.screenshot-screen = {write-to-disk = false;};
+        "Alt+Print".action.screenshot-window = {write-to-disk = false;};
 
         # Applications such as remote-desktop clients and software KVM switches may
         # request that niri stops processing the keyboard shortcuts defined here
@@ -724,7 +774,7 @@
         };
 
         # The quit action will show a confirmation dialog to avoid accidental exits.
-        "Mod+Shift+E".action = quit;
+        # "Mod+Shift+E".action = quit;
         "Ctrl+Alt+Delete".action = quit;
 
         # Powers off the monitors. To turn them back on, do any input like

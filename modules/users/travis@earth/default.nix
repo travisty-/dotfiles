@@ -78,6 +78,42 @@
       ];
     };
 
+    internal.desktops.niri = {
+      profilePicture = ./profile-picture.png;
+      wallpaper = "${inputs.wallpapers}/3440x1440/isometric-grid-mono.png";
+      outputs = {
+        "DP-1" = {
+          mode = {
+            width = 3440;
+            height = 1440;
+            refresh = 174.963;
+          };
+          position = {
+            x = 2560;
+            y = 0;
+          };
+          focus-at-startup = true;
+          variable-refresh-rate = "on-demand"; # true
+        };
+        "DP-2" = {
+          mode = {
+            width = 2560;
+            height = 1440;
+            refresh = 143.964;
+          };
+          position = {
+            x = 0;
+            y = 0;
+          };
+          variable-refresh-rate = "on-demand"; # true
+        };
+      };
+      workspaces = {
+        "1".open-on-output = "DP-1";
+        "2".open-on-output = "DP-1";
+      };
+    };
+
     internal.programs.gtk.bookmarks = [
       "file://${config.home.homeDirectory}/Documents"
       "file://${config.home.homeDirectory}/Downloads"

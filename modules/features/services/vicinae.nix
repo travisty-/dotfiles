@@ -29,6 +29,7 @@
         launcher_window.opacity = 0.95;
         launcher_window.blur.enabled = true;
         launcher_window.dim_around = true;
+        launcher_window.layer_shell.layer = "overlay";
       };
     };
 

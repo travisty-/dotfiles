@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+  cat <<EOF >&2
+Usage: $0 <app_id> [command...]
+  <app_id>     Wayland app_id to match against open windows.
+  [command...] Command to launch if no matching window exists.
+               Defaults to <app_id> if omitted.
+EOF
+  exit 1
+}
+
+[ $# -ge 1 ] || usage
+
+app_id="$1"; shift
+command=("${@:-$app_id}")
+
+id=$(niri msg --json windows | jq -r --arg app_id "$app_id" \
+  'first(.[] | select(.app_id == $app_id) | .id) // empty')
+
+if [ -n "$id" ]
+  then niri msg action close-window --id "$id"
+  else exec "${command[@]}"
+fi

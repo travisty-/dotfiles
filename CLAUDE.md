@@ -116,7 +116,11 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 **Shared modules** (`features/shared/`) contribute to `flake.modules.<class>.base` using the Collector pattern — multiple files all set the same key and their contents merge via `deferredModule` semantics. Every host/user imports `base`. Some shared files are cross-cutting (e.g., `meta.nix` and `nixpkgs.nix` contribute to both classes).
 
-**Multi-file modules** (e.g., `features/desktops/hyprland/`): Multiple files contribute to the same `flake.modules.homeManager.hyprland`. The NixOS aspect lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
+**Multi-file modules** (e.g., `features/desktops/hyprland/`, `features/desktops/niri/`): Multiple files contribute to the same `flake.modules.<class>.<name>` and merge via `deferredModule` semantics. The NixOS aspect of an HM-named feature lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
+
+**`let` bindings are file-local.** To share a computed value between files of a multi-file module, set `_module.args.<name> = ...` inside the deferred module; consumers in any contributing file destructure it as a regular module argument (e.g. `flake.modules.homeManager.niri = {<name>, ...}: ...`).
+
+**Auto-discovery via `_module.args`.** The niri feature uses this pattern in `modules/features/desktops/niri/scripts.nix`: every regular file under `scripts/` is wrapped via `pkgs.writeShellScriptBin` and joined into a single `pkgs.symlinkJoin` derivation exposed as `_module.args.scripts`. Any niri.nix file then references a script via `${scripts}/bin/<name>`. Drop a new file in `scripts/`, reference its bin path — no further Nix wiring needed. The pattern is generic and other multi-file features can adopt the same shape.
 
 **Modules with custom options** (e.g., `gtk.nix`, `jetbrains.nix`, `hyprland`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
 
@@ -221,6 +225,10 @@ Statix rule overrides (e.g. disabling `repeated_keys`) live in `statix.toml` at 
 ### Hardware detection
 
 Per-host hardware detection is declared via `nixos-facter` in `modules/systems/<host>/facter.json`; the `hardware.facter` NixOS module (upstreamed in nixpkgs) consumes the report and derives kernel modules for disk/USB/network/graphics, CPU microcode, redistributable firmware, `hostPlatform`, `kvm-{amd,intel}`, and per-interface DHCP. `features/shared/facter.nix` wires `reportPath` from the flake root plus `config.networking.hostName`, and disables facter's per-interface DHCP when NetworkManager is enabled. Generate with `sudo nix run nixpkgs#nixos-facter -- -o facter.json` and regenerate when hardware changes. Replaces the manually-maintained `hardware-configuration.nix`.
+
+### Session start
+
+No display manager. `getty@tty1.service` shows a standard `login:` prompt. After credentials, zsh's `programs.zsh.loginExtra` (set in `modules/features/desktops/niri/settings.nix`) execs `niri-session -l` — but only when `$XDG_VTNR -eq 1` and `$WAYLAND_DISPLAY` is empty, so other VTs and SSH sessions drop into a normal shell. The `-l` argument bypasses niri-session's internal login-shell re-exec; without it the wrapper re-sources `~/.zlogin` and infinite-loops ([niri-wm/niri#1914](https://github.com/niri-wm/niri/issues/1914)). The flag is undocumented but stable in practice — niri-session uses it as its own internal "already wrapped" marker.
 
 ### Custom packages
 

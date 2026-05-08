@@ -31,6 +31,9 @@
     services.gvfs.enable = true;
 
     # Allow Chromium and Electron-based applications to run without Xwayland.
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    environment.sessionVariables = {
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
+      NIXOS_OZONE_WL = "1";
+    };
   };
 }

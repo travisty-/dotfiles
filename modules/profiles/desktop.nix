@@ -1,6 +1,7 @@
 {inputs, ...}: {
   flake.profiles.homeManager.desktop = {
     imports = with inputs.self.modules.homeManager; [
+      clipboard
       gtk
       hyprland
       nerd-fonts
