@@ -72,7 +72,7 @@ outputs = inputs:
 ```
 modules/
   features/
-    desktops/       — Desktop environments (hyprland, niri, gnome) — cross-cutting
+    desktops/       — Desktop environments (hyprland, niri, gnome) and shells (noctalia, paired with niri) — cross-cutting
     flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
     packages/       — Wiring modules for custom packages (see packages/ below)
@@ -258,7 +258,9 @@ Static config files, overlays, and assets are colocated with their feature modul
 
 ### Flake Inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake), `noctalia` (Quickshell-based desktop shell).
+
+**Cachix-backed inputs deliberately skip `inputs.nixpkgs.follows = "nixpkgs"`** (`niri`, `vicinae`, `noctalia`). Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`) — forcing local source compiles on every bump. The closure-size cost of an extra nixpkgs revision is the deliberate tradeoff. The other inputs (`disko`, `home-manager`, `sops-nix`, `lanzaboote`, `git-hooks`) follow safely because they ship Nix modules / build infrastructure rather than precompiled binaries — the hash divergence has no real cost.
 
 ### Further documentation
 

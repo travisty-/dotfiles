@@ -31,6 +31,8 @@
 
     niri.url = "github:sodiboo/niri-flake";
 
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

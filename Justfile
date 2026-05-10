@@ -47,3 +47,14 @@ sops-edit:
 [group("secrets")]
 sops-rekey:
     sops updatekeys secrets/secrets.enc.yaml
+
+[group("noctalia")]
+[script("bash")]
+diff-settings:
+    nix shell nixpkgs#json-diff --command json-diff \
+        <(jq --sort-keys . ~/.config/noctalia/settings.json) \
+        <(noctalia-shell ipc call state all | jq --sort-keys .settings)
+
+[group("noctalia")]
+dump-settings:
+    noctalia-shell ipc call state all | jq .settings

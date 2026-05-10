@@ -6,6 +6,7 @@
       hyprland
       nerd-fonts
       niri
+      noctalia
       swaync
       vicinae
       waybar
@@ -19,6 +20,7 @@
       fcitx5
       hyprland
       niri
+      noctalia
       pipewire
       vicinae
     ];

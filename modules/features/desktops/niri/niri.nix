@@ -8,6 +8,7 @@
     scripts,
     ...
   }: let
+    noctalia = cmd: ["noctalia-shell" "ipc" "call"] ++ lib.splitString " " cmd;
     niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
     cfg = config.internal.desktops.niri;
   in {
@@ -308,6 +309,7 @@
       # See the binds section below for more spawn examples.
 
       spawn-at-startup = [
+        {argv = ["noctalia-shell"];}
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
         {argv = ["code" config.meta.flake];}
@@ -418,6 +420,10 @@
         }
       ];
 
+      # Allows Noctalia's notification actions and window-activation requests to
+      # focus the originating window even when the xdg-activation serial is stale.
+      debug.honor-xdg-activation-with-invalid-serial = [];
+
       binds = with config.lib.niri.actions; {
         # Keys consist of modifiers separated by + signs, followed by an XKB key name
         # in the end. To find an XKB name for a particular key, you may use a program
@@ -463,7 +469,7 @@
           hotkey-overlay.title = "Open an Incognito Window";
         };
         "Super+Alt+L" = {
-          action = spawn "swaylock";
+          action.spawn = noctalia "lockScreen lock";
           hotkey-overlay.title = "Lock the Screen";
         };
 
@@ -476,55 +482,46 @@
           hotkey-overlay.hidden = true;
         };
 
-        # Example volume keys mappings for PipeWire & WirePlumber.
-        # The allow-when-locked=true property makes them work even when the session is locked.
-        # Using spawn-sh allows to pass multiple arguments together with the command.
-        # "-l 1.0" limits the volume to 100%.
         "XF86AudioRaiseVolume" = {
-          action = spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
+          action.spawn = noctalia "volume increase";
           allow-when-locked = true;
         };
         "XF86AudioLowerVolume" = {
-          action = spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+          action.spawn = noctalia "volume decrease";
           allow-when-locked = true;
         };
         "XF86AudioMute" = {
-          action = spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          action.spawn = noctalia "volume muteOutput";
           allow-when-locked = true;
         };
         "XF86AudioMicMute" = {
-          action = spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          action.spawn = noctalia "volume muteInput";
           allow-when-locked = true;
         };
 
-        # Example media keys mapping using playerctl.
-        # This will work with any MPRIS-enabled media player.
         "XF86AudioPlay" = {
-          action = spawn-sh "playerctl play-pause";
+          action.spawn = noctalia "media playPause";
           allow-when-locked = true;
         };
         "XF86AudioStop" = {
-          action = spawn-sh "playerctl stop";
+          action.spawn = noctalia "media stop";
           allow-when-locked = true;
         };
         "XF86AudioPrev" = {
-          action = spawn-sh "playerctl previous";
+          action.spawn = noctalia "media previous";
           allow-when-locked = true;
         };
         "XF86AudioNext" = {
-          action = spawn-sh "playerctl next";
+          action.spawn = noctalia "media next";
           allow-when-locked = true;
         };
 
-        # Example brightness key mappings for brightnessctl.
-        # You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-        # but you need to manually put each argument in separate "" quotes.
         "XF86MonBrightnessUp" = {
-          action = spawn "brightnessctl" "--class=backlight" "set" "+10%";
+          action.spawn = noctalia "brightness increase";
           allow-when-locked = true;
         };
         "XF86MonBrightnessDown" = {
-          action = spawn "brightnessctl" "--class=backlight" "set" "10%-";
+          action.spawn = noctalia "brightness decrease";
           allow-when-locked = true;
         };
 
