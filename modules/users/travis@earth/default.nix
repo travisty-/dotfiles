@@ -80,7 +80,6 @@
 
     internal.desktops.niri = {
       profilePicture = ./profile-picture.png;
-      wallpaper = "${inputs.wallpapers}/3440x1440/isometric-grid-mono.png";
       outputs = {
         "DP-1" = {
           mode = {

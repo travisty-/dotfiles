@@ -39,6 +39,11 @@ just install             # wraps: nix develop --command true
 # Edit secrets or re-encrypt for new recipients (after .sops.yaml changes)
 just sops-edit           # wraps: sops secrets/secrets.enc.yaml
 just sops-rekey          # wraps: sops updatekeys secrets/secrets.enc.yaml
+
+# Inspect the running Noctalia shell's in-memory settings via Quickshell IPC.
+# Use diff-settings to identify GUI-side changes that need porting back to settings.nix.
+just diff-settings       # wraps: json-diff against `noctalia-shell ipc call state all`
+just dump-settings       # wraps: noctalia-shell ipc call state all | jq .settings
 ```
 
 The repo is symlinked to `/etc/nixos`. `nh` auto-detects the flake location.
@@ -121,6 +126,8 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 **`let` bindings are file-local.** To share a computed value between files of a multi-file module, set `_module.args.<name> = ...` inside the deferred module; consumers in any contributing file destructure it as a regular module argument (e.g. `flake.modules.homeManager.niri = {<name>, ...}: ...`).
 
 **Auto-discovery via `_module.args`.** The niri feature uses this pattern in `modules/features/desktops/niri/scripts.nix`: every regular file under `scripts/` is wrapped via `pkgs.writeShellScriptBin` and joined into a single `pkgs.symlinkJoin` derivation exposed as `_module.args.scripts`. Any niri.nix file then references a script via `${scripts}/bin/<name>`. Drop a new file in `scripts/`, reference its bin path — no further Nix wiring needed. The pattern is generic and other multi-file features can adopt the same shape.
+
+**Auto-discovery via `xdg.configFile`.** A simpler variant lives in `modules/features/desktops/noctalia/colorschemes.nix`: every `*.json` in the sibling `colorschemes/` directory auto-wires to `~/.config/noctalia/colorschemes/<Name>/<Name>.json` via `lib.mapAttrs'`. Used when the artifacts are config files consumed directly by the app, not cross-file Nix values — no `_module.args` machinery needed.
 
 **Modules with custom options** (e.g., `gtk.nix`, `jetbrains.nix`, `hyprland`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
 
@@ -265,4 +272,6 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 ### Further documentation
 
 - `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths
-- `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work.
+- `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work. Notable front doors to consult before changing active areas:
+  - `docs/workspace/niri/migration.md` — niri/Noctalia migration status, decision log, cutover prep. The desktop profile currently parallel-installs niri + hyprland; niri is the target, hyprland is in archival mode pending physical cutover.
+  - `docs/workspace/issue-tracker.md` — cross-project upstream issues (drafts ready to file, items we're tracking, known limitations). Check before filing new issues against niri / noctalia / niri-flake / nixpkgs / etc.

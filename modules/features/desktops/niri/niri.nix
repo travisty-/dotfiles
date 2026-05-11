@@ -420,6 +420,16 @@
         }
       ];
 
+      # Allows Noctalia to render a blurred and dimmed copy of your wallpaper
+      # that only appears in the backdrop of Niri's overview. Also requires the
+      # "Enable overview wallpaper" setting to be enabled.
+      layer-rules = [
+        {
+          matches = [{namespace = "^noctalia-overview-.*$";}];
+          place-within-backdrop = true;
+        }
+      ];
+
       # Allows Noctalia's notification actions and window-activation requests to
       # focus the originating window even when the xdg-activation serial is stale.
       debug.honor-xdg-activation-with-invalid-serial = [];
@@ -779,5 +789,32 @@
         "Mod+Shift+P".action = power-off-monitors;
       };
     };
+
+    # Add raw KDL extensions for features that niri-flake doesn't support yet;
+    # revalidated via `niri validate` so errors still surface at build time.
+    # https://docs.noctalia.dev/v4/getting-started/compositor-settings/niri/#blur
+    xdg.configFile.niri-config.source = let
+      inherit (inputs.niri.lib.internal) validated-config-for;
+      inherit (config.programs.niri) finalConfig package;
+    in
+      lib.mkForce (
+        validated-config-for pkgs package ''
+          ${finalConfig}
+
+          window-rule {
+            background-effect {
+              blur true
+              xray false
+            }
+          }
+
+          layer-rule {
+            match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+            background-effect {
+              xray false
+            }
+          }
+        ''
+      );
   };
 }

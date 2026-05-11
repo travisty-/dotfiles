@@ -24,12 +24,6 @@
         description = "Path to the user's profile picture.";
         type = types.path;
       };
-
-      # TODO: Wire this up with `swaybg` or something similar.
-      wallpaper = mkOption {
-        description = "Path to the user's wallpaper.";
-        type = types.path;
-      };
     };
 
     config = {

@@ -52,8 +52,8 @@ sops-rekey:
 [script("bash")]
 diff-settings:
     nix shell nixpkgs#json-diff --command json-diff \
-        <(jq --sort-keys . ~/.config/noctalia/settings.json) \
-        <(noctalia-shell ipc call state all | jq --sort-keys .settings)
+        <(jq --sort-keys 'del(.location.name)' ~/.config/noctalia/settings.json) \
+        <(noctalia-shell ipc call state all | jq --sort-keys '.settings | del(.location.name)')
 
 [group("noctalia")]
 dump-settings:
