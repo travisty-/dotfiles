@@ -7,6 +7,7 @@
       nerd-fonts
       niri
       noctalia
+      qt
       swaync
       vicinae
       waybar

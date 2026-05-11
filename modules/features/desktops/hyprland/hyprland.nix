@@ -402,34 +402,6 @@
         source = ./themes;
         recursive = true;
       };
-
-      # https://wiki.hypr.land/Useful-Utilities/Must-have/#qt-wayland-support
-      qt = {
-        enable = true;
-        style.name = "adwaita-dark";
-      };
-
-      # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#fixing-problems-with-themes
-      gtk = {
-        enable = true;
-
-        colorScheme = "dark";
-
-        theme = {
-          package = pkgs.gnome-themes-extra;
-          name = "Adwaita-dark";
-        };
-
-        iconTheme = {
-          package = pkgs.adwaita-icon-theme;
-          name = "Adwaita";
-        };
-
-        font = {
-          name = "Sans";
-          size = 11;
-        };
-      };
     };
   };
 }
