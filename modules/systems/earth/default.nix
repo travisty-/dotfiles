@@ -10,6 +10,7 @@
         _1password
         bluetooth
         coolercontrol
+        disable-rgb
         disko
         docker
         firefox
