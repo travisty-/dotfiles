@@ -36,6 +36,19 @@ just evaluate            # wraps: nix repl --expr 'builtins.getFlake (toString .
 # Install the pre-commit git hook (run once per clone)
 just install             # wraps: nix develop --command true
 
+# Amend the staged changes into HEAD without re-opening the editor
+just amend               # wraps: git commit --amend --no-edit
+
+# Pick a commit interactively (fzf, last 50, git show preview) and create a fixup commit for it
+just fixup               # wraps: git log | fzf --accept-nth=1 | xargs --no-run-if-empty git commit --fixup
+
+# Interactive rebase with autostash, autosquash, and author-date preservation
+just rebase <count>      # wraps: git rebase -i HEAD~<count> --autostash --autosquash --committer-date-is-author-date
+                         # extra flags pass through: just rebase 7 -- --exec 'just check'
+
+# Safe force-push (lease + includes-check)
+just push                # wraps: git push --force-with-lease --force-if-includes
+
 # Edit secrets or re-encrypt for new recipients (after .sops.yaml changes)
 just sops-edit           # wraps: sops secrets/secrets.enc.yaml
 just sops-rekey          # wraps: sops updatekeys secrets/secrets.enc.yaml
