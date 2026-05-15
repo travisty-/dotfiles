@@ -7,10 +7,7 @@
       niri
       noctalia
       qt
-      swaync
       vicinae
-      waybar
-      wlogout
       xorg
     ];
   };
