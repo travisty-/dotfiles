@@ -49,6 +49,10 @@ just rebase <count>      # wraps: git rebase -i HEAD~<count> --autostash --autos
 # Safe force-push (lease + includes-check)
 just push                # wraps: git push --force-with-lease --force-if-includes
 
+# Clone the Neovim config repo to ~/.config/nvim if it doesn't exist yet.
+# Lua side lives in travisty-/neovim, not this repo — bootstrap on fresh hosts.
+just clone               # wraps: git clone git@github.com:travisty-/neovim ~/.config/nvim
+
 # Edit secrets or re-encrypt for new recipients (after .sops.yaml changes)
 just sops-edit           # wraps: sops secrets/secrets.enc.yaml
 just sops-rekey          # wraps: sops updatekeys secrets/secrets.enc.yaml
@@ -287,4 +291,9 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 - `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths
 - `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work. Notable front doors to consult before changing active areas:
   - `docs/workspace/niri/migration.md` — niri/Noctalia migration record. Physical cutover completed 2026-05-14: hyprland removed, niri is the sole compositor.
+  - `docs/workspace/neovim/migration.md` — Neovim migration status, decision log, plan. **Build-out complete (Nix + Lua side); daily-driving from 2026-05-15.** LazyVim repo cloned directly to `~/.config/nvim` (canonical home; `~/Source/personal/neovim` is a manual reverse-symlink for repo grouping); the neovim feature at `modules/features/programs/neovim.nix` imports nerd-fonts directly.
+
+    Nix supplies the toolchain via `extraPackages` and nvim-treesitter+grammars via `programs.neovim.plugins`. A dev override in lazy.nvim points the nvim-treesitter spec at the Nix copy symlinked into `xdg.dataFile."nvim/nix/nvim-treesitter"`, so the plugin, bundled queries, and parsers all match nixpkgs revision.
+
+    The Nix bridge lives in `~/.config/nvim/lua/config/nix.lua`: `M.override(opts)` applies perf flags, the dev override, and plugin-spec injections (Mason disable + treesitter `ensure_installed = {}`) via `table.insert(opts.spec, ...)` — all gated on `vim.env.VIMRUNTIME:match("/nix/store")`, no-op elsewhere. `lua/config/lazy.lua` is byte-identical to the LazyVim starter except for the wrapping call. See migration.md decision log for rationale; `example-config.md` is historical (the original sketch).
   - `docs/workspace/issue-tracker.md` — cross-project upstream issues (drafts ready to file, items we're tracking, known limitations). Check before filing new issues against niri / noctalia / niri-flake / nixpkgs / etc.

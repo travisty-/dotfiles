@@ -58,6 +58,10 @@ push *args:
 rebase count *args:
     git rebase -i HEAD~{{count}} --autosquash --autostash --committer-date-is-author-date {{args}}
 
+[group("neovim")]
+clone:
+    [ -d ~/.config/nvim ] || git clone git@github.com:travisty-/neovim ~/.config/nvim
+
 [group("secrets")]
 sops-edit:
     sops secrets/secrets.enc.yaml
