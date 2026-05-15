@@ -15,7 +15,7 @@
           "shift+enter=text:\\n"
         ];
         term = "xterm-256color";
-        theme = "Adwaita Dark";
+        theme = "iTerm2 Dark Background";
       };
     };
   };
