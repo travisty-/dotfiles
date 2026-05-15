@@ -286,5 +286,5 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 
 - `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths
 - `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work. Notable front doors to consult before changing active areas:
-  - `docs/workspace/niri/migration.md` — niri/Noctalia migration status, decision log, cutover prep. The desktop profile currently parallel-installs niri + hyprland; niri is the target, hyprland is in archival mode pending physical cutover.
+  - `docs/workspace/niri/migration.md` — niri/Noctalia migration record. Physical cutover completed 2026-05-14: hyprland removed, niri is the sole compositor.
   - `docs/workspace/issue-tracker.md` — cross-project upstream issues (drafts ready to file, items we're tracking, known limitations). Check before filing new issues against niri / noctalia / niri-flake / nixpkgs / etc.

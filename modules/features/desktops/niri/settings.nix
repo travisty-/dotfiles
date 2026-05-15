@@ -1,14 +1,9 @@
 {
-  flake.modules.homeManager.niri = {
-    lib,
-    pkgs,
-    ...
-  }: {
+  flake.modules.homeManager.niri = {pkgs, ...}: {
     # Niri uses `xdg-desktop-portal-gnome` so apps like Nautilus read these settings.
     dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
-    # `lib.mkForce` overrides hyprland/hyprcursor.nix (temporary).
-    home.pointerCursor = lib.mkForce {
+    home.pointerCursor = {
       enable = true;
       gtk.enable = true;
       x11.enable = true;
