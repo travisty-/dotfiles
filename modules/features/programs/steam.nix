@@ -9,7 +9,6 @@
       # variable. See: https://github.com/ValveSoftware/steam-for-linux/issues/6310.
       extraCompatPackages = with pkgs; [proton-ge-bin];
 
-      gamescopeSession.enable = true;
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
       remotePlay.openFirewall = true;
