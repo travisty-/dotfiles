@@ -11,6 +11,7 @@
         bluetooth
         coolercontrol
         disable-rgb
+        i2c
         disko
         docker
         firefox
