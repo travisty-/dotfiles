@@ -20,30 +20,49 @@
         widgets = {
           left = map mkWidget [
             {
-              id = "Launcher";
-              useDistroLogo = true;
+              id = "Workspace";
+              labelMode = "none";
             }
             {
-              id = "Clock";
-              formatHorizontal = "h:mm AP ddd, MMM dd";
+              id = "SystemMonitor";
+              compactMode = false;
+              showMemoryAsPercent = true;
             }
-            {id = "SystemMonitor";}
-            {id = "ActiveWindow";}
             {
-              id = "MediaMini";
-              showVisualizer = true;
+              id = "ActiveWindow";
+              showText = false;
             }
           ];
           center = map mkWidget [
-            {id = "Workspace";}
+            {
+              id = "MediaMini";
+              maxWidth = 400;
+              scrollingMode = "always";
+              showArtistFirst = false;
+              showVisualizer = true;
+            }
           ];
           right = map mkWidget [
-            {id = "Tray";}
-            {id = "NotificationHistory";}
-            {id = "Battery";}
+            {
+              id = "Tray";
+              blacklist = ["Keyboard*"];
+              colorizeIcons = true;
+              drawerEnabled = false;
+            }
             {id = "Volume";}
-            {id = "Brightness";}
-            {id = "ControlCenter";}
+            {id = "Battery";}
+            {
+              id = "NotificationHistory";
+              hideWhenZeroUnread = true;
+            }
+            {
+              id = "Clock";
+              formatHorizontal = "ddd MMM d h:mm AP";
+            }
+            {
+              id = "ControlCenter";
+              useDistroLogo = true;
+            }
           ];
         };
       };
@@ -53,6 +72,11 @@
         dimmerOpacity = 0;
       };
 
+      dock = {
+        groupApps = true;
+        groupClickAction = "list";
+      };
+
       colorSchemes = {
         generationMethod = "content";
         predefinedScheme = "Monochrome";
@@ -60,6 +84,11 @@
       };
 
       location.useFahrenheit = true;
+
+      nightLight = {
+        enabled = true;
+        nightTemp = "5000";
+      };
 
       wallpaper = {
         directory = "${inputs.wallpapers}";

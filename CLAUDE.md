@@ -146,6 +146,8 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 **Auto-discovery via `xdg.configFile`.** A simpler variant lives in `modules/features/desktops/noctalia/colorschemes.nix`: every `*.json` in the sibling `colorschemes/` directory auto-wires to `~/.config/noctalia/colorschemes/<Name>/<Name>.json` via `lib.mapAttrs'`. Used when the artifacts are config files consumed directly by the app, not cross-file Nix values — no `_module.args` machinery needed.
 
+**Hybrid defaults via `importJSON` + `recursiveUpdate`.** For apps whose upstream ships JSON defaults (currently `modules/features/desktops/noctalia/settings.nix`), the pattern is: `importJSON` the upstream `Assets/settings-default.json` (and `Assets/settings-widgets-default.json`) at eval time, then `recursiveUpdate defaults { ...overrides }` so the on-disk file mirrors the in-memory shape. A `mkWidget` helper pulls per-widget defaults from `widgetDefaults.bar.${widget.id}` so each widget entry only needs to declare deltas. The point is reproducible diffs: `just diff-settings` shows only what the user has actually changed via the GUI vs. what Nix declares, instead of every default-value field as a phantom diff.
+
 **Modules with custom options** (e.g., `gtk.nix`, `jetbrains.nix`, `hyprland`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
 
 **Modules importing flake inputs** (e.g., `secure-boot.nix`, `vicinae.nix`): The outer function receives flake-parts args (`{inputs, ...}:`), and the inner deferred module captures `inputs` via closure:
