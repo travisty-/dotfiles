@@ -81,13 +81,13 @@ outputs = inputs:
 ### Terminology
 
 - **Configuration**: The evaluated result of combining modules. Three levels exist: the flake-parts configuration (top-level), a NixOS configuration (e.g., `nixosConfigurations.earth`), and a Home Manager configuration (e.g., `homeConfigurations."travis@earth"`).
-- **Class**: The target system for a module. The `<class>` in `flake.modules.<class>.<name>` (e.g., `nixos`, `homeManager`).
-- **Module**: Overloaded term. A flake-parts module is any `.nix` file under `modules/` (outer layer, receives `{inputs, config, lib, ...}`). A NixOS or HM module is the value inside `flake.modules.<class>.<name>` (inner layer, receives `{config, pkgs, lib, ...}`). Every flake-parts module contains one or more NixOS/HM modules.
+- **Class**: The target system for a module. The `<class>` in `flake.modules.<class>.<aspect>` (e.g., `nixos`, `homeManager`).
+- **Module**: Overloaded term. A flake-parts module is any `.nix` file under `modules/` (outer layer, receives `{inputs, config, lib, ...}`). A NixOS or HM module is the value inside `flake.modules.<class>.<aspect>` (inner layer, receives `{config, pkgs, lib, ...}`). Every flake-parts module contains one or more NixOS/HM modules.
 - **Feature**: A logical capability like "firefox" or "hyprland." A feature is what a file (or directory) implements. It may have aspects for one or more classes.
 - **Aspect**: A feature's contribution to a specific class. If firefox needs both NixOS and HM config, those are two aspects of the firefox feature.
-- **Collector**: A pattern where multiple files contribute to the same `flake.modules.<class>.<name>` and their contents merge via `deferredModule` semantics.
+- **Collector**: A pattern where multiple files contribute to the same `flake.modules.<class>.<aspect>` and their contents merge via `deferredModule` semantics.
 - **Base**: The shared baseline config every host/user imports (`flake.modules.<class>.base`). Built from multiple files via the Collector pattern.
-- **Profile**: A grouping of features composed into a single importable unit (e.g., "desktop" bundling hyprland, waybar, gtk, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Namespaced under `flake.profiles.<class>.<name>`, separate from features at `flake.modules.<class>.<name>`.
+- **Profile**: A grouping of features composed into a single importable unit (e.g., "desktop" bundling hyprland, waybar, gtk, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Namespaced under `flake.profiles.<class>.<name>`, separate from features at `flake.modules.<class>.<aspect>`.
 
 ### Module Structure
 
@@ -109,7 +109,7 @@ modules/
 
 ### Module Pattern
 
-Feature modules register themselves with `flake.modules.<class>.<name>` where `<class>` is `nixos` or `homeManager`:
+Feature modules register themselves with `flake.modules.<class>.<aspect>` where `<class>` is `nixos` or `homeManager`:
 
 ```nix
 # Simple module (no function args needed)
@@ -138,7 +138,7 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 **Shared modules** (`features/shared/`) contribute to `flake.modules.<class>.base` using the Collector pattern — multiple files all set the same key and their contents merge via `deferredModule` semantics. Every host/user imports `base`. Some shared files are cross-cutting (e.g., `meta.nix` and `nixpkgs.nix` contribute to both classes).
 
-**Multi-file modules** (e.g., `features/desktops/hyprland/`, `features/desktops/niri/`): Multiple files contribute to the same `flake.modules.<class>.<name>` and merge via `deferredModule` semantics. The NixOS aspect of an HM-named feature lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
+**Multi-file modules** (e.g., `features/desktops/hyprland/`, `features/desktops/niri/`): Multiple files contribute to the same `flake.modules.<class>.<aspect>` and merge via `deferredModule` semantics. The NixOS aspect of an HM-named feature lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
 
 **`let` bindings are file-local.** To share a computed value between files of a multi-file module, set `_module.args.<name> = ...` inside the deferred module; consumers in any contributing file destructure it as a regular module argument (e.g. `flake.modules.homeManager.niri = {<name>, ...}: ...`).
 
@@ -163,7 +163,7 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 ### Profiles
 
-Profiles group related features into a single importable unit. They use a custom `flake.profiles` option (defined in `features/flake/profiles.nix`) namespaced as `flake.profiles.<class>.<name>`, keeping them separate from features at `flake.modules.<class>.<name>`. Cross-cutting profiles define both classes:
+Profiles group related features into a single importable unit. They use a custom `flake.profiles` option (defined in `features/flake/profiles.nix`) namespaced as `flake.profiles.<class>.<name>`, keeping them separate from features at `flake.modules.<class>.<aspect>`. Cross-cutting profiles define both classes:
 
 ```nix
 # modules/profiles/gaming.nix
@@ -278,8 +278,6 @@ Path references use `${inputs.self}/<path>` rather than `../../../<path>` (match
 
 Packages should ship a `passthru.updateScript` — a bash script that regenerates a sibling `sources.json` (hashes, version, git refs). Bump via `just update-package <name>`, which wraps `nix-update --flake --use-update-script <name>`. Update scripts must anchor output paths to `$PWD` (nix-update sets cwd to the flake root) rather than `$BASH_SOURCE`, which resolves to the read-only nix store path when invoked via `updateScript`. Source bumps are a separate, deliberate step — neither `nix flake update` nor `nh os/home switch` touch `passthru.updateScript`.
 
-See `docs/dendritic/roadmap.md` for documented extension paths (specialArg injection, namespaced overlay) if consumer boilerplate starts to grate.
-
 Static config files, overlays, and assets are colocated with their feature modules (e.g., `modules/features/programs/mpv/` contains both the module and its config files).
 
 ### Flake Inputs
@@ -290,7 +288,6 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 
 ### Further documentation
 
-- `docs/dendritic/roadmap.md` — post-migration roadmap: profiles, tag-based composition, custom-package extension paths
 - `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work. Notable front doors to consult before changing active areas:
   - `docs/workspace/niri/migration.md` — niri/Noctalia migration record. Physical cutover completed 2026-05-14: hyprland removed, niri is the sole compositor.
   - `docs/workspace/neovim/migration.md` — Neovim migration status, decision log, plan. **Build-out complete (Nix + Lua side); daily-driving from 2026-05-15.** LazyVim repo cloned directly to `~/.config/nvim` (canonical home; `~/Source/personal/neovim` is a manual reverse-symlink for repo grouping); the neovim feature at `modules/features/programs/neovim.nix` imports nerd-fonts directly.
