@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A NixOS flake-based personal dotfiles repo managing both system (NixOS) and user (Home Manager) configuration for a single machine (`earth`). Home Manager is standalone (separate rebuild from NixOS).
+A NixOS flake-based personal dotfiles repo managing both system (NixOS) and user (Home Manager) configuration. Currently one host (`earth`) and one user (`travis@earth`); the layout is multi-host and multi-user capable. Home Manager is standalone (separate rebuild from NixOS).
 
 ## Key Commands
 
@@ -69,7 +69,7 @@ The repo is symlinked to `/etc/nixos`. `nh` auto-detects the flake location.
 
 ### Dendritic Pattern (flake-parts + import-tree)
 
-The flake uses the [Dendritic Pattern](https://github.com/mightyiam/dendritic): `flake-parts` for top-level module composition and `import-tree` for automatic file discovery. Every `.nix` file under `modules/` is a flake-parts module. Paths containing `/_` are excluded from auto-import.
+The flake uses the [Dendritic Pattern](https://github.com/mightyiam/dendritic): `flake-parts` for top-level module composition and `import-tree` for automatic file discovery. Every `.nix` file under `modules/` is a flake-parts module. Paths containing `/_` are excluded from auto-import. Effectively a vertical slice architecture: each feature manages its full cross-class implementation in one place.
 
 ```nix
 # flake.nix
@@ -94,12 +94,12 @@ outputs = inputs:
 ```
 modules/
   features/
-    desktops/       — Desktop environments (hyprland, niri, gnome) and shells (noctalia, paired with niri) — cross-cutting
+    desktops/       — Compositor (niri) and desktop shell (noctalia) — cross-cutting
     flake/          — Flake infrastructure (flake-parts, builders, formatter, systems)
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
     packages/       — Wiring modules for custom packages (see packages/ below)
     programs/       — Programs (git, firefox, zsh, steam, docker, etc.) — some cross-cutting
-    services/       — Services (pipewire, openssh, tailscale, swaync, vicinae, etc.)
+    services/       — Services (pipewire, openssh, tailscale, vicinae, etc.)
     shared/         — Base config (boot, btrfs, facter, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
     system/         — System-level config (secure-boot)
   profiles/         — Feature groupings for composition (desktop, gaming)
