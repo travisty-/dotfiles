@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Steam
   flake.modules.nixos.steam = {pkgs, ...}: {
     programs.steam = {
       enable = true;

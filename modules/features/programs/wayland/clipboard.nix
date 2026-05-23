@@ -1,4 +1,3 @@
-# https://wiki.nixos.org/wiki/Clipboard
 {
   flake.modules.homeManager.clipboard = {pkgs, ...}: {
     home.packages = with pkgs; [

@@ -1,5 +1,4 @@
 {inputs, ...}: {
-  # https://github.com/sodiboo/niri-flake#nixos-module
   flake.modules.nixos.niri = {pkgs, ...}: let
     niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
   in {

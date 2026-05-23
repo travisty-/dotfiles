@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/1Password
   flake.modules.homeManager._1password = {
     config,
     lib,

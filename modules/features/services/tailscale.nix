@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Tailscale
   flake.modules.nixos.tailscale = {
     config,
     lib,

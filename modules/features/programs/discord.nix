@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Discord
   flake.modules.homeManager.discord = {pkgs, ...}: {
     home.packages = with pkgs; [
       discord

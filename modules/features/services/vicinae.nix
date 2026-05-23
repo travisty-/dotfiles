@@ -1,5 +1,4 @@
 {inputs, ...}: {
-  # https://docs.vicinae.com/nixos
   flake.modules.homeManager.vicinae = {...}: {
     imports = [
       inputs.vicinae.homeManagerModules.default

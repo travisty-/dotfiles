@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Firefox
   flake.modules.homeManager.firefox = {pkgs, ...}: {
     programs.firefox = {
       enable = true;

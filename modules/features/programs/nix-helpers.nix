@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Storage_optimization
   flake.modules.nixos.nix-helpers = {
     config,
     pkgs,

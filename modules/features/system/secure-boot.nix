@@ -1,6 +1,4 @@
 {inputs, ...}: {
-  # https://wiki.nixos.org/wiki/Secure_Boot
-  # https://nixos.wiki/wiki/Secure_Boot
   flake.modules.nixos.secure-boot = {
     lib,
     pkgs,

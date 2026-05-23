@@ -1,4 +1,3 @@
-# https://wiki.nixos.org/wiki/Noctalia_Shell
 {inputs, ...}: {
   flake.modules.homeManager.noctalia = {pkgs, ...}: {
     imports = [inputs.noctalia.homeModules.default];

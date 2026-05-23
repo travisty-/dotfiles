@@ -1,5 +1,4 @@
 {
-  # https://wiki.nixos.org/wiki/Docker
   flake.modules.nixos.docker = {
     config,
     lib,

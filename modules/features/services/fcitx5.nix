@@ -1,4 +1,3 @@
-# https://wiki.nixos.org/wiki/Fcitx5
 {
   flake.modules.nixos.fcitx5 = {pkgs, ...}: {
     i18n.inputMethod = {

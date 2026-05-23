@@ -1,4 +1,3 @@
-# https://wiki.nixos.org/wiki/OpenRGB
 {
   flake.modules.nixos.disable-rgb = {pkgs, ...}: let
     disable-rgb = "${pkgs.openrgb}/bin/openrgb --noautoconnect --config /run --device NVIDIA --mode Direct --brightness 0";

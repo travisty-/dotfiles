@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/Spotify
   flake.modules.nixos.spotify = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       spotify

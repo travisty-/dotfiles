@@ -1,5 +1,4 @@
 {
-  # https://wiki.nixos.org/wiki/Virt-manager
   flake.modules.nixos.virt-manager = {
     config,
     pkgs,

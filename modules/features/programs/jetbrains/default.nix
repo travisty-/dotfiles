@@ -19,8 +19,6 @@
       rustrover.enable = mkEnableOption "JetBrains RustRover";
     };
 
-    # https://nixos.wiki/wiki/Jetbrains_Tools
-    # https://wiki.nixos.org/wiki/Jetbrains_Tools
     # https://github.com/NixOS/nixpkgs/issues/240444
     config = let
       withOpts = pkg:

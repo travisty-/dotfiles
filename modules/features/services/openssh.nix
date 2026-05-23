@@ -1,5 +1,4 @@
 {
-  # https://nixos.wiki/wiki/SSH
   flake.modules.nixos.openssh = {lib, ...}: {
     services.openssh.enable = true;
 
