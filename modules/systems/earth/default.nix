@@ -9,6 +9,7 @@
         base
         _1password
         bluetooth
+        btrbk
         coolercontrol
         disable-rgb
         i2c

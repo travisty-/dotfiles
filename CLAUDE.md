@@ -239,6 +239,12 @@ Managed with `sops-nix`. Cross-cutting setup lives in `features/shared/secrets.n
 
 Per-host disk layout is declared via `disko` in `modules/systems/<host>/disko.nix` as a flake-parts collector contributing to `flake.modules.nixos.<host>`; the `disko` NixOS module generates `fileSystems` and `boot.initrd.luks.devices` from that declaration. The earth layout describes existing partitions (it was adopted onto a running system), so partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUKS `name = "luks-<uuid>"` preserves the device mapper path used by the current initrd. Never run the destructive `disko` CLI — the module-only path is what's wired up.
 
+### Backups
+
+Two complementary features cover home-directory recovery:
+
+- **`services/btrbk.nix`** — hourly read-only BTRFS snapshots of `/home` into `/.snapshots/`. Provides instant local rollback for accidental deletions (`cp /.snapshots/home.<timestamp>/path .`). Same disk as the source, so it's a recovery convenience, not a backup against drive failure.
+
 ### Pre-commit hooks
 
 Two enforcement surfaces for the lint/format stack (alejandra, deadnix, statix):
