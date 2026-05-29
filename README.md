@@ -11,6 +11,7 @@ My personal dotfiles, managed with Nix.
 | Launcher      | Vicinae               |
 | Terminal      | Ghostty               |
 | Editor        | Neovim[^1], VS Code   |
+| File manager  | Yazi, Nautilus        |
 | Browser       | Firefox               |
 
 ## Infrastructure

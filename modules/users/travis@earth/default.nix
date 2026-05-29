@@ -54,6 +54,7 @@
         trash
         tree
         vscode
+        yazi
         yq
         zellij
         zoxide
