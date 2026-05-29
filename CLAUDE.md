@@ -65,6 +65,20 @@ just dump-settings       # wraps: noctalia-shell ipc call state all | jq .settin
 
 The repo is symlinked to `/etc/nixos`. `nh` auto-detects the flake location.
 
+## Inspecting & verifying a change
+
+Iterating on a module without a full `just upgrade`. NixOS and Home Manager are separate flake outputs (`nixosConfigurations.earth`, `homeConfigurations."travis@earth"`), so target whichever you touched:
+
+- **Eval one value** (fastest feedback; add `--json` / `--apply` to project or pretty-print):
+  - NixOS — `nix eval .#nixosConfigurations.earth.config.services.restic.backups.b2.exclude`
+  - Home Manager — `nix eval '.#homeConfigurations."travis@earth".config.home.homeDirectory'`
+- **Build without switching**:
+  - NixOS — `nh os build` (or `nix build .#nixosConfigurations.earth.config.system.build.toplevel`)
+  - Home Manager — `nh home build` (or `nix build '.#homeConfigurations."travis@earth".activationPackage'`)
+- **Full lint/format/eval gate**: `just check`.
+
+Caveat: the flake is a dirty local git tree, so Nix sees the *working-tree* contents of **tracked** files — a newly created file is invisible to `nix eval` / `nix build` / `just check` until it's `git add`-ed. Stage new files before evaluating.
+
 ## Architecture
 
 ### Dendritic Pattern (flake-parts + import-tree)
@@ -245,6 +259,10 @@ Two complementary features cover home-directory recovery:
 
 - **`services/btrbk.nix`** — hourly read-only BTRFS snapshots of `/home` into `/.snapshots/`. Provides instant local rollback for accidental deletions (`cp /.snapshots/home.<timestamp>/path .`). Same disk as the source, so it's a recovery convenience, not a backup against drive failure.
 
+- **`services/restic.nix`** — daily encrypted backup of `/home` to Backblaze B2 via the S3-compatible API. The repository path is `<bucket>/<username>@<hostname>` so future hosts can share a bucket. Credentials (`RESTIC_PASSWORD`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) are SOPS secrets.
+
+The two keystones for recovery are `RESTIC_PASSWORD` and the host SSH key that serves as the SOPS age key (`/etc/ssh/ssh_host_ed25519_key`). Both must be escrowed off-machine — neither lives in the flake. Losing either renders the backup unrecoverable.
+
 ### Pre-commit hooks
 
 Two enforcement surfaces for the lint/format stack (alejandra, deadnix, statix):
@@ -294,6 +312,10 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 
 ### Further documentation
 
+The `docs/` tree splits into how-to / reference / scratch:
+
+- `docs/how-to/` — committed, task-oriented guides for steps done outside the flake (e.g. `set-up-restic-backups.md`: provisioning the B2 bucket + credentials that `services/restic.nix` consumes).
+- `docs/reference/` — committed reference material kept for convenience (e.g. `niri/default-config.kdl`, niri's upstream default config).
 - `docs/workspace/` (gitignored) — personal scratch area for in-progress research notes, the long-running TODO list (`todo.md`), and per-topic review docs. Not meant to be committed; treat as the source of truth for current open questions and pending work. Notable front doors to consult before changing active areas:
   - `docs/workspace/niri/migration.md` — niri/Noctalia migration record. Physical cutover completed 2026-05-14: hyprland removed, niri is the sole compositor.
   - `docs/workspace/neovim/migration.md` — Neovim migration status, decision log, plan. **Build-out complete (Nix + Lua side); daily-driving from 2026-05-15.** LazyVim repo cloned directly to `~/.config/nvim` (canonical home; `~/Source/personal/neovim` is a manual reverse-symlink for repo grouping); the neovim feature at `modules/features/programs/neovim.nix` imports nerd-fonts directly.

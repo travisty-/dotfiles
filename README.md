@@ -19,6 +19,7 @@ My personal dotfiles, managed with Nix.
 - Disk partitioning via [`disko`](https://github.com/nix-community/disko)
 - Hardware detection via [`nixos-facter`](https://github.com/nix-community/nixos-facter)
 - Pre-commit hooks via [`git-hooks.nix`](https://github.com/cachix/git-hooks.nix)
+- Scheduled backups via [`restic`](https://github.com/restic/restic)
 - Secret management via [`sops-nix`](https://github.com/Mic92/sops-nix)
 - Secure boot via [`lanzaboote`](https://github.com/nix-community/lanzaboote)
 
@@ -29,6 +30,7 @@ My personal dotfiles, managed with Nix.
 ```
 .
 ├── docs/
+│   ├── how-to/         # Task-oriented guides
 │   └── reference/      # Reference documentation
 ├── modules/            # Import root. Every .nix file is auto-imported
 │   ├── features/       # One file (or directory) per logical capability

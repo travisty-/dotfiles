@@ -25,6 +25,7 @@
         openssh
         power-profiles
         printing
+        restic
         ryzen
         secure-boot
         spotify
