@@ -28,6 +28,7 @@
         restic
         ryzen
         secure-boot
+        solaar
         spotify
         tailscale
         virt-manager

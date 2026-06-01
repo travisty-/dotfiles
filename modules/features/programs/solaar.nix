@@ -4,4 +4,8 @@
       solaar
     ];
   };
+
+  flake.modules.nixos.solaar = {pkgs, ...}: {
+    services.udev.packages = [pkgs.solaar];
+  };
 }
