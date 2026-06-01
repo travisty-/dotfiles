@@ -397,6 +397,11 @@
         }
 
         {
+          matches = [{app-id = ''^org\.qbittorrent\.qBittorrent$'';}];
+          open-floating = true;
+        }
+
+        {
           matches = [
             {
               app-id = "^[Cc]ode$";
