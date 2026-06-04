@@ -312,6 +312,7 @@
         {argv = ["noctalia-shell"];}
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
+        {argv = ["ghostty" "--class=com.mitchellh.ghostty.scratch"];}
         {argv = ["code" config.meta.flake];}
 
         # To run a shell command (with variables, pipes, etc.), use the sh form:
@@ -409,6 +410,18 @@
             }
           ];
           open-on-workspace = "2";
+          open-maximized = true;
+          open-focused = false;
+        }
+
+        {
+          matches = [
+            {
+              app-id = ''^com\.mitchellh\.ghostty\.scratch$'';
+              at-startup = true;
+            }
+          ];
+          open-on-workspace = "scratch";
           open-maximized = true;
           open-focused = false;
         }
@@ -691,6 +704,10 @@
         "Mod+Shift+7".action.move-column-to-workspace = 7;
         "Mod+Shift+8".action.move-column-to-workspace = 8;
         "Mod+Shift+9".action.move-column-to-workspace = 9;
+
+        # https://github.com/sodiboo/niri-flake/issues/1018
+        "Mod+Grave".action = spawn "${scripts}/bin/focus-scratch";
+        "Mod+Shift+Grave".action.move-column-to-workspace = "scratch";
 
         # Alternatively, there are commands to move just a single window:
         # "Mod+Shift+1".action.move-window-to-workspace = 1;

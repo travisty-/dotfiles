@@ -100,6 +100,8 @@
       workspaces = {
         "1".open-on-output = "DP-1";
         "2".open-on-output = "DP-1";
+        "3".open-on-output = "DP-1";
+        "scratch".open-on-output = "DP-1";
       };
     };
 

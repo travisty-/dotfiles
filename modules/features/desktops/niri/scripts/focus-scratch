@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Summon the scratch workspace to the focused monitor, then focus it.
+
+set -euo pipefail
+
+workspace=$(niri msg --json workspaces \
+  | jq -r 'first(.[] | select(.is_focused)) | .name // empty')
+
+if [ "$workspace" != "scratch" ]; then
+  output=$(niri msg --json focused-output | jq -r '.name')
+  niri msg action move-workspace-to-monitor --reference scratch "$output"
+fi
+
+niri msg action focus-workspace scratch
