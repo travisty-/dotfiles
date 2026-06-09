@@ -50,6 +50,7 @@
         sops
         statix
         subtitleedit
+        tabiew
         tmux
         trash
         tree
