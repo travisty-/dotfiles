@@ -25,9 +25,10 @@
       profiles.default = {
         search = {
           force = true;
-          default = "ddg";
+          default = "kagi";
 
           order = [
+            "kagi"
             "ddg"
             "nix-packages"
             "nix-options"
@@ -41,6 +42,13 @@
           ];
 
           engines = {
+            kagi = {
+              name = "Kagi";
+              urls = [{template = "https://kagi.com/search?q={searchTerms}";}];
+              icon = "https://kagi.com/favicon.ico";
+              definedAliases = ["@kagi" "@k"];
+            };
+
             nix-packages = {
               name = "Nix Packages";
               urls = [
