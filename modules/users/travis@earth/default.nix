@@ -2,64 +2,28 @@
   flake.modules.homeManager."travis@earth" = {config, ...}: {
     imports =
       (with inputs.self.profiles.homeManager; [
+        cli
         desktop
+        development
         gaming
+        terminal
       ])
       ++ (with inputs.self.modules.homeManager; [
         base
         _1password
-        alacritty
         anki
-        bind
-        btop
-        chezmoi
-        claude-code
-        deadnix
-        devenv
-        direnv
         evince
-        eza
-        fastfetch
-        fd
-        file
         firefox
-        fish
-        fzf
-        gh
-        ghostty
-        git
-        helix
-        jetbrains
-        jq
-        just
-        lazygit
         matrix
         meld
         mpv
-        neovim
-        nix-update
         obsidian
-        oh-my-posh
         papers
-        powershell
         qbittorrent
         raindrop
         remmina
-        ripgrep
         solaar
-        sops
-        statix
         subtitleedit
-        tabiew
-        tmux
-        trash
-        tree
-        vscode
-        yazi
-        yq
-        zellij
-        zoxide
-        zsh
       ]);
 
     meta.user = {

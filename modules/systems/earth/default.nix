@@ -3,7 +3,9 @@
     imports =
       (with inputs.self.profiles.nixos; [
         desktop
+        development
         gaming
+        terminal
       ])
       ++ (with inputs.self.modules.nixos; [
         base
@@ -14,9 +16,7 @@
         disable-rgb
         i2c
         disko
-        docker
         firefox
-        fish
         fstrim
         networking
         nix-helpers
@@ -31,8 +31,6 @@
         solaar
         spotify
         tailscale
-        virt-manager
-        zsh
       ]);
 
     meta.user = {
