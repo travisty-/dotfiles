@@ -14,12 +14,6 @@
         default = {};
       };
 
-      workspaces = mkOption {
-        description = "Configures named workspaces.";
-        type = types.attrsOf types.attrs;
-        default = {};
-      };
-
       profilePicture = mkOption {
         description = "Path to the user's profile picture.";
         type = types.path;

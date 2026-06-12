@@ -72,7 +72,8 @@
     internal.desktops.niri = {
       profilePicture = ./profile-picture.png;
       outputs = {
-        "DP-1" = {
+        primary = {
+          name = "DP-1";
           mode = {
             width = 3440;
             height = 1440;
@@ -85,7 +86,8 @@
           focus-at-startup = true;
           variable-refresh-rate = "on-demand"; # true
         };
-        "DP-2" = {
+        secondary = {
+          name = "DP-2";
           mode = {
             width = 2560;
             height = 1440;
@@ -97,12 +99,6 @@
           };
           variable-refresh-rate = "on-demand"; # true
         };
-      };
-      workspaces = {
-        "1".open-on-output = "DP-1";
-        "2".open-on-output = "DP-1";
-        "3".open-on-output = "DP-1";
-        "scratch".open-on-output = "DP-1";
       };
     };
 

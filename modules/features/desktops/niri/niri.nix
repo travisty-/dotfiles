@@ -11,6 +11,7 @@
     noctalia = cmd: ["noctalia-shell" "ipc" "call"] ++ lib.splitString " " cmd;
     niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
     cfg = config.internal.desktops.niri;
+    primary = cfg.outputs.primary.name;
   in {
     imports = [inputs.niri.homeModules.config];
 
@@ -128,7 +129,16 @@
       #   # automatically.
       #   position = { x = 1280; y = 0; };
       # };
-      inherit (cfg) outputs workspaces;
+      inherit (cfg) outputs;
+
+      # You can declare named workspaces at the top level of the config:
+      # https://niri-wm.github.io/niri/Configuration:-Named-Workspaces
+      workspaces = {
+        "1".open-on-output = primary;
+        "2".open-on-output = primary;
+        "3".open-on-output = primary;
+        "scratch".open-on-output = primary;
+      };
 
       # Settings that influence how windows are positioned and sized.
       # Find more information on the wiki:
@@ -424,6 +434,13 @@
           open-on-workspace = "scratch";
           open-maximized = true;
           open-focused = false;
+        }
+
+        {
+          matches = [{app-id = ''^steam_app_\d+$'';}];
+          open-fullscreen = true;
+          open-on-output = primary;
+          variable-refresh-rate = true;
         }
 
         # Enable rounded corners for all windows.
