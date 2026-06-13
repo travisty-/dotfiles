@@ -97,11 +97,11 @@ outputs = inputs:
 - **Configuration**: The evaluated result of combining modules. Three levels exist: the flake-parts configuration (top-level), a NixOS configuration (e.g., `nixosConfigurations.earth`), and a Home Manager configuration (e.g., `homeConfigurations."travis@earth"`).
 - **Class**: The target system for a module. The `<class>` in `flake.modules.<class>.<aspect>` (e.g., `nixos`, `homeManager`).
 - **Module**: Overloaded term. A flake-parts module is any `.nix` file under `modules/` (outer layer, receives `{inputs, config, lib, ...}`). A NixOS or HM module is the value inside `flake.modules.<class>.<aspect>` (inner layer, receives `{config, pkgs, lib, ...}`). Every flake-parts module contains one or more NixOS/HM modules.
-- **Feature**: A logical capability like "firefox" or "hyprland." A feature is what a file (or directory) implements. It may have aspects for one or more classes.
+- **Feature**: A logical capability like "firefox" or "niri." A feature is what a file (or directory) implements. It may have aspects for one or more classes.
 - **Aspect**: A feature's contribution to a specific class. If firefox needs both NixOS and HM config, those are two aspects of the firefox feature.
 - **Collector**: A pattern where multiple files contribute to the same `flake.modules.<class>.<aspect>` and their contents merge via `deferredModule` semantics.
 - **Base**: The shared baseline config every host/user imports (`flake.modules.<class>.base`). Built from multiple files via the Collector pattern.
-- **Profile**: A grouping of features composed into a single importable unit (e.g., "desktop" bundling hyprland, waybar, gtk, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Namespaced under `flake.profiles.<class>.<name>`, separate from features at `flake.modules.<class>.<aspect>`.
+- **Profile**: A grouping of features composed into a single importable unit (e.g., "desktop" bundling niri, noctalia, gtk, etc.). Unlike a feature, a profile doesn't define config itself, it just imports features. Namespaced under `flake.profiles.<class>.<name>`, separate from features at `flake.modules.<class>.<aspect>`.
 
 ### Module Structure
 
@@ -152,7 +152,7 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 **Shared modules** (`features/shared/`) contribute to `flake.modules.<class>.base` using the Collector pattern — multiple files all set the same key and their contents merge via `deferredModule` semantics. Every host/user imports `base`. Some shared files are cross-cutting (e.g., `meta.nix` and `nixpkgs.nix` contribute to both classes).
 
-**Multi-file modules** (e.g., `features/desktops/hyprland/`, `features/desktops/niri/`): Multiple files contribute to the same `flake.modules.<class>.<aspect>` and merge via `deferredModule` semantics. The NixOS aspect of an HM-named feature lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
+**Multi-file modules** (e.g., `features/desktops/niri/`, `features/desktops/noctalia/`): Multiple files contribute to the same `flake.modules.<class>.<aspect>` and merge via `deferredModule` semantics. The NixOS aspect of an HM-named feature lives in `nixos.nix` within the directory. Options can be declared in any file of the group.
 
 **`let` bindings are file-local.** To share a computed value between files of a multi-file module, set `_module.args.<name> = ...` inside the deferred module; consumers in any contributing file destructure it as a regular module argument (e.g. `flake.modules.homeManager.niri = {<name>, ...}: ...`).
 
@@ -162,7 +162,7 @@ Features are selected by adding them to a host/user's import list — no `mkEnab
 
 **Hybrid defaults via `importJSON` + `recursiveUpdate`.** For apps whose upstream ships JSON defaults (currently `modules/features/desktops/noctalia/settings.nix`), the pattern is: `importJSON` the upstream `Assets/settings-default.json` (and `Assets/settings-widgets-default.json`) at eval time, then `recursiveUpdate defaults { ...overrides }` so the on-disk file mirrors the in-memory shape. A `mkWidget` helper pulls per-widget defaults from `widgetDefaults.bar.${widget.id}` so each widget entry only needs to declare deltas. The point is reproducible diffs: `just diff-settings` shows only what the user has actually changed via the GUI vs. what Nix declares, instead of every default-value field as a phantom diff.
 
-**Modules with custom options** (e.g., `gtk.nix`, `jetbrains.nix`, `hyprland`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
+**Modules with custom options** (e.g., `gtk.nix`, `jetbrains/`, `niri`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`). Values are set in user/host definitions.
 
 **Modules importing flake inputs** (e.g., `secure-boot.nix`, `vicinae.nix`): The outer function receives flake-parts args (`{inputs, ...}:`), and the inner deferred module captures `inputs` via closure:
 
