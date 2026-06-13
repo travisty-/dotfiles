@@ -31,9 +31,6 @@
         launcher_window.layer_shell.layer = "overlay";
       };
     };
-
-    # Workaround to avoid creating a new backup every switch.
-    xdg.configFile."vicinae/nix.json".force = true;
   };
 
   flake.modules.nixos.vicinae = {

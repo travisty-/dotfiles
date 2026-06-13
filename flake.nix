@@ -31,7 +31,7 @@
 
     niri.url = "github:sodiboo/niri-flake";
 
-    noctalia.url = "github:noctalia-dev/noctalia-shell";
+    noctalia.url = "github:noctalia-dev/noctalia-shell/v4.7.7";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
