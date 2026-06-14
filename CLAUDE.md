@@ -61,6 +61,10 @@ just sops-rekey          # wraps: sops updatekeys secrets/secrets.enc.yaml
 # Use diff-settings to identify GUI-side changes that need porting back to settings.nix.
 just diff-settings       # wraps: json-diff against `noctalia-shell ipc call state all`
 just dump-settings       # wraps: noctalia-shell ipc call state all | jq .settings
+
+# Show what Restic excludes from the B2 backup: each exclusion root with its on-disk size, largest first.
+# Compares on-disk dirs (to <depth>, default 4) against the latest snapshot; needs sudo for the repo.
+just restic-excluded     # wraps: du -sh over (`find ~` minus `sudo restic-b2 ls latest`)
 ```
 
 The repo is symlinked to `/etc/nixos`. `nh` auto-detects the flake location.
