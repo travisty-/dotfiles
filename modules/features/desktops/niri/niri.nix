@@ -323,7 +323,7 @@
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
         {argv = ["ghostty" "--class=com.mitchellh.ghostty.scratch"];}
-        {argv = ["code" config.meta.flake];}
+        {argv = ["ghostty" "--class=com.mitchellh.ghostty.neovim" "-e" "nvim" "/etc/nixos"];}
 
         # To run a shell command (with variables, pipes, etc.), use the sh form:
         # { sh = "qs -c ~/source/qs/MyAwesomeShell"; }
@@ -415,7 +415,7 @@
         {
           matches = [
             {
-              app-id = "^[Cc]ode$";
+              app-id = ''^com\.mitchellh\.ghostty\.neovim$'';
               at-startup = true;
             }
           ];
