@@ -4,6 +4,7 @@
       claude-code
       deadnix
       devenv
+      editorconfig
       gh
       git
       helix
