@@ -19,6 +19,10 @@
       defaultEditor = false;
       sideloadInitLua = true;
 
+      # We override what argv0 the wrapper binary uses so that anything that depends
+      # on it (e.g. tmux-resurrect, tmux-continuum) doesn't see the /nix/store path.
+      extraWrapperArgs = ["--argv0" "nvim"];
+
       # We install nvim-treesitter (with all grammars) via Nix so the plugin,
       # bundled queries, and parsers all share the same version and revision.
       plugins = with pkgs.vimPlugins; [markdown-preview-nvim treesitter];
