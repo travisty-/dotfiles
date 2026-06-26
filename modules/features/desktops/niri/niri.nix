@@ -322,8 +322,7 @@
         {argv = ["noctalia-shell"];}
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
-        {argv = ["ghostty" "--class=com.mitchellh.ghostty.scratch"];}
-        {argv = ["ghostty" "--class=com.mitchellh.ghostty.neovim" "-e" "nvim" "/etc/nixos"];}
+        {argv = ["ghostty" "--class=com.mitchellh.ghostty" "-e" "tmux" "new-session" "-A" "-s" "dotfiles"];}
 
         # To run a shell command (with variables, pipes, etc.), use the sh form:
         # { sh = "qs -c ~/source/qs/MyAwesomeShell"; }
@@ -415,19 +414,7 @@
         {
           matches = [
             {
-              app-id = ''^com\.mitchellh\.ghostty\.neovim$'';
-              at-startup = true;
-            }
-          ];
-          open-on-workspace = "2";
-          open-maximized = true;
-          open-focused = false;
-        }
-
-        {
-          matches = [
-            {
-              app-id = ''^com\.mitchellh\.ghostty\.scratch$'';
+              app-id = ''^com\.mitchellh\.ghostty$'';
               at-startup = true;
             }
           ];
