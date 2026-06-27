@@ -97,6 +97,29 @@
 
         # Include key bindings without notes in list.
         bind -N "List key bindings" ? list-keys -Na
+
+        # Keybindings for smart-splits.nvim: https://github.com/NixOS/nixpkgs/pull/505204
+        # Smart directional navigation with awareness of Neovim splits (wrapping disabled).
+        bind -n C-h if -F '#{@pane-is-vim}' { send-keys C-h } { if -F '#{pane_at_left}'   "" 'select-pane -L' }
+        bind -n C-j if -F '#{@pane-is-vim}' { send-keys C-j } { if -F '#{pane_at_bottom}' "" 'select-pane -D' }
+        bind -n C-k if -F '#{@pane-is-vim}' { send-keys C-k } { if -F '#{pane_at_top}'    "" 'select-pane -U' }
+        bind -n C-l if -F '#{@pane-is-vim}' { send-keys C-l } { if -F '#{pane_at_right}'  "" 'select-pane -R' }
+
+        # Smart pane resizing with awareness of Neovim splits.
+        bind -n C-Up    if -F '#{@pane-is-vim}' { send-keys C-Up }    { resize-pane -U 5 }
+        bind -n C-Down  if -F '#{@pane-is-vim}' { send-keys C-Down }  { resize-pane -D 5 }
+        bind -n C-Left  if -F '#{@pane-is-vim}' { send-keys C-Left }  { resize-pane -L 5 }
+        bind -n C-Right if -F '#{@pane-is-vim}' { send-keys C-Right } { resize-pane -R 5 }
+
+        # Smart copy mode with awareness of Neovim splits.
+        bind -T copy-mode-vi C-h select-pane -L
+        bind -T copy-mode-vi C-j select-pane -D
+        bind -T copy-mode-vi C-k select-pane -U
+        bind -T copy-mode-vi C-l select-pane -R
+
+        # Restore the default readline key binding for clearing the screen (`<C-l>`).
+        # `<C-l>` is also used for navigation in nvim/tmux, so we relay it via `<F48>`.
+        bind -N "Clear screen" C-l if -F '#{@pane-is-vim}' { send-keys C-S-F12 } { send-keys C-l }
       '';
     };
   };
