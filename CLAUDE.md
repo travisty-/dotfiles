@@ -117,7 +117,7 @@ modules/
     hardware/       — Hardware drivers (bluetooth, nvidia, ryzen, xpadneo)
     packages/       — Wiring modules for custom packages (see packages/ below)
     programs/       — Programs (git, firefox, zsh, steam, docker, etc.) — some cross-cutting
-    services/       — Services (pipewire, openssh, tailscale, vicinae, etc.)
+    services/       — Services (pipewire, openssh, tailscale, etc.)
     shared/         — Base config (boot, btrfs, facter, fonts, locale, meta, nixpkgs, nix settings, home defaults, sops)
     system/         — System-level config (secure-boot)
   profiles/         — Feature groupings for composition (desktop, gaming)
