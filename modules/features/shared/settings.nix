@@ -8,6 +8,7 @@
         "pipe-operators"
       ];
       trusted-users = ["@wheel"];
+      use-xdg-base-directories = true;
     };
   };
 }
