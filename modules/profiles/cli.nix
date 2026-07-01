@@ -10,6 +10,7 @@
       fd
       file
       fzf
+      gum
       jq
       ripgrep
       tabiew
