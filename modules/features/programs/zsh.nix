@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.zsh = {
+  flake.modules.homeManager.zsh = {config, ...}: {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -20,8 +20,13 @@
         ignoreAllDups = true;
         ignoreDups = true;
         ignoreSpace = true;
+        path = "${config.xdg.stateHome}/zsh/history";
         share = true;
       };
+
+      envExtra = ''
+        export ZSH_COMPDUMP="${config.xdg.cacheHome}/oh-my-zsh/zcompdump-$ZSH_VERSION"
+      '';
 
       initContent = ''
         setopt BANG_HIST              # Treat the '!' character specially during expansion.
@@ -50,6 +55,7 @@
 
   flake.modules.nixos.zsh = {pkgs, ...}: {
     programs.zsh.enable = true;
+    programs.zsh.enableGlobalCompInit = false; # Use oh-my-zsh's compinit
     environment.shells = [pkgs.zsh];
     environment.pathsToLink = ["/share/zsh"];
   };
