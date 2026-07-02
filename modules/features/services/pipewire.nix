@@ -19,5 +19,8 @@
       # is enabled by default. No need to redfine it in your config for now.)
       # media-session.enable = true;
     };
+
+    # Relocate the PulseAudio cookie (~/.pulse-cookie) into $XDG_CONFIG_HOME.
+    environment.sessionVariables.PULSE_COOKIE = "$HOME/.config/pulse/cookie";
   };
 }
