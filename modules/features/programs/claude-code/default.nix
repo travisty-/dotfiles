@@ -1,5 +1,9 @@
 {
-  flake.modules.homeManager.claude-code = {pkgs, ...}: let
+  flake.modules.homeManager.claude-code = {
+    config,
+    pkgs,
+    ...
+  }: let
     statuslineScripts =
       pkgs.runCommandLocal "claude-code-statusline" {
         nativeBuildInputs = [pkgs.python3];
@@ -13,6 +17,7 @@
   in {
     programs.claude-code = {
       enable = true;
+      configDir = "${config.xdg.configHome}/claude";
       settings = {
         attribution = {
           commit = "";
