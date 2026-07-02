@@ -14,6 +14,7 @@
         anki
         evince
         firefox
+        gpg
         matrix
         meld
         mpv
