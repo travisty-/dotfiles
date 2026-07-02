@@ -24,6 +24,7 @@
         remmina
         solaar
         subtitleedit
+        vim
       ]);
 
     meta.user = {
