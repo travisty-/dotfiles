@@ -3,6 +3,7 @@
     imports = with inputs.self.modules.homeManager; [
       bind
       btop
+      chafa
       chezmoi
       direnv
       eza
