@@ -95,6 +95,10 @@
         bind -N "Choose a session" s choose-tree -sNNZ
         bind -N "Choose a window" w choose-tree -wNNZ
 
+        # https://github.com/tmux/tmux/issues/5056
+        # bind -N "Choose a session" s 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nskh'
+        # bind -N "Choose a window" w 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nwkh'
+
         # Include key bindings without notes in list.
         bind -N "List key bindings" ? list-keys -Na
 
