@@ -1,9 +1,5 @@
 {
-  flake.modules.homeManager.tmux = {
-    lib,
-    pkgs,
-    ...
-  }: {
+  flake.modules.homeManager.tmux = {pkgs, ...}: {
     programs.tmux = {
       enable = true;
       focusEvents = true;
@@ -20,18 +16,7 @@
 
       plugins = with pkgs.tmuxPlugins; [
         {
-          # https://github.com/NixOS/nixpkgs/pull/511304
-          plugin = assert lib.assertMsg (lib.versionOlder dotbar.version "0.3.3")
-          "tmuxPlugins.dotbar.version: ${dotbar.version} (>= 0.3.3)";
-            dotbar.overrideAttrs (_: {
-              version = "0.3.3";
-              src = pkgs.fetchFromGitHub {
-                owner = "vaaleyard";
-                repo = "tmux-dotbar";
-                tag = "0.3.3";
-                hash = "sha256-CAKEN8Sk3t0nonV2R9df/DFTTUrVnbso0ZVGgeeGINM=";
-              };
-            });
+          plugin = dotbar;
           extraConfig = ''
             set -g @tmux-dotbar-bg "default"
             set -g @tmux-dotbar-bold-current-window true
