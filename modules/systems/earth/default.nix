@@ -5,6 +5,7 @@
         desktop
         development
         gaming
+        media
         terminal
       ])
       ++ (with inputs.self.modules.nixos; [
@@ -29,7 +30,6 @@
         ryzen
         secure-boot
         solaar
-        spotify
         tailscale
       ]);
 

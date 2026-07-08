@@ -6,25 +6,21 @@
         desktop
         development
         gaming
+        media
+        productivity
         terminal
       ])
       ++ (with inputs.self.modules.homeManager; [
         base
         _1password
-        anki
         evince
         firefox
         gpg
         matrix
         meld
-        mpv
-        obsidian
         papers
-        qbittorrent
-        raindrop
         remmina
         solaar
-        subtitleedit
         vim
       ]);
 
