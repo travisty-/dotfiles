@@ -17,5 +17,16 @@
     ];
   };
 
-  flake.modules.nixos.base.nixpkgs.overlays = [];
+  flake.modules.nixos.base.nixpkgs.overlays = [
+    # https://github.com/NixOS/nixpkgs/issues/540025
+    (_: prev: {
+      pythonPackagesExtensions =
+        prev.pythonPackagesExtensions
+        ++ [
+          (_: pyprev: {
+            patool = pyprev.patool.overridePythonAttrs (_: {doCheck = false;});
+          })
+        ];
+    })
+  ];
 }
