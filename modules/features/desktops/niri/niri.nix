@@ -5,11 +5,11 @@
     config,
     lib,
     pkgs,
-    scripts,
     ...
   }: let
     noctalia = cmd: ["noctalia-shell" "ipc" "call"] ++ lib.splitString " " cmd;
     niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
+    scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
   in {
