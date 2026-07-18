@@ -8,6 +8,11 @@
   }: {
     nixpkgs.overlays = [];
 
+    # https://github.com/NixOS/nixpkgs/issues/537847
+    nixpkgs.config.permittedInsecurePackages = [
+      "electron-40.10.5"
+    ];
+
     assertions = [
       {
         # https://github.com/tmux/tmux/issues/5056
