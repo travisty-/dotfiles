@@ -43,6 +43,11 @@
       recursive = true;
     };
 
+    # Compatability shim for @astrojs/ts-plugin: https://github.com/LazyVim/LazyVim/discussions/6892
+    xdg.dataFile."nvim/mason/packages/astro-language-server/node_modules/@astrojs/ts-plugin" = {
+      source = "${pkgs.astro-language-server}/lib/node_modules/astro-language-server/packages/language-tools/ts-plugin";
+    };
+
     # Workaround to rename Neovim's default "wrapper" desktop entry.
     # https://discourse.nixos.org/t/make-neovim-wrapper-desktop-optional
     home.packages = [
