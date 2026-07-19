@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Amend the selected commit (hash in $1) with staged changes. This is equivalent
+# to lazygit's built-in amend, but adds `--committer-date-is-author-date`.
+
+set -euo pipefail
+
+if [ "$(git rev-parse HEAD)" = "$1" ]; then
+  git commit --amend --no-edit --allow-empty --allow-empty-message
+else
+  git commit --fixup="$1"
+  base=$(git rev-parse --verify -q "$1"^) || base=--root
+  GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true \
+    git rebase --interactive --autostash --keep-empty --rebase-merges \
+    --autosquash --committer-date-is-author-date "$base"
+fi
