@@ -2,6 +2,7 @@
   flake.profiles.homeManager.shell = {
     imports = with inputs.self.modules.homeManager; [
       fish
+      nushell
       oh-my-posh
       powershell
       zsh
