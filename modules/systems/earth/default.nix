@@ -6,7 +6,7 @@
         development
         gaming
         media
-        terminal
+        shell
       ])
       ++ (with inputs.self.modules.nixos; [
         base

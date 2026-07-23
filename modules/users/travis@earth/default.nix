@@ -8,7 +8,7 @@
         gaming
         media
         productivity
-        terminal
+        shell
       ])
       ++ (with inputs.self.modules.homeManager; [
         base

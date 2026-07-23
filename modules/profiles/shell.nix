@@ -1,16 +1,14 @@
 {inputs, ...}: {
-  flake.profiles.homeManager.terminal = {
+  flake.profiles.homeManager.shell = {
     imports = with inputs.self.modules.homeManager; [
-      alacritty
       fish
-      ghostty
       oh-my-posh
       powershell
       zsh
     ];
   };
 
-  flake.profiles.nixos.terminal = {
+  flake.profiles.nixos.shell = {
     imports = with inputs.self.modules.nixos; [
       fish
       zsh

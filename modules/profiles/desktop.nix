@@ -1,8 +1,10 @@
 {inputs, ...}: {
   flake.profiles.homeManager.desktop = {
     imports = with inputs.self.modules.homeManager; [
+      alacritty
       clipboard
       fcitx5
+      ghostty
       gtk
       nerd-fonts
       niri
