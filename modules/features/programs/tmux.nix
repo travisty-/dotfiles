@@ -23,19 +23,11 @@
           '';
         }
         {
-          plugin = resurrect.overrideAttrs (_: {
-            src = pkgs.fetchFromGitHub {
-              owner = "travisty-";
-              repo = "tmux-resurrect";
-              rev = "97365d7bca848b7e836f13a85d4ecda2f3d7efa3";
-              hash = "sha256-SUk3MNYn5DFKsTp1TBiAgvkAnOB4ZF4kNjkACpx4U9E=";
-              fetchSubmodules = true;
-            };
-          });
+          plugin = resurrect;
           extraConfig = ''
             set -g @resurrect-capture-pane-contents 'on'
             set -g @resurrect-pane-contents-area 'visible'
-            set -g @resurrect-strategy-nvim 'persistence'
+            set -g @resurrect-processes '"nvim->nvim -c \"lua require([[persistence]]).load()\""'
             set -g @resurrect-dir '~/.local/share/tmux/resurrect';
           '';
         }
