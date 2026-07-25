@@ -8,11 +8,6 @@
   }: {
     nixpkgs.overlays = [];
 
-    # https://github.com/NixOS/nixpkgs/issues/537847
-    nixpkgs.config.permittedInsecurePackages = [
-      "electron-40.10.5"
-    ];
-
     assertions = [
       {
         # https://github.com/tmux/tmux/issues/5056
@@ -22,16 +17,5 @@
     ];
   };
 
-  flake.modules.nixos.base.nixpkgs.overlays = [
-    # https://github.com/NixOS/nixpkgs/issues/540025
-    (_: prev: {
-      pythonPackagesExtensions =
-        prev.pythonPackagesExtensions
-        ++ [
-          (_: pyprev: {
-            patool = pyprev.patool.overridePythonAttrs (_: {doCheck = false;});
-          })
-        ];
-    })
-  ];
+  flake.modules.nixos.base.nixpkgs.overlays = [];
 }
