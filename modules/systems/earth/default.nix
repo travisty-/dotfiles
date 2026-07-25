@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.nixos.earth = {
+  flake.modules.nixos.earth = {pkgs, ...}: {
     imports =
       (with inputs.self.profiles.nixos; [
         desktop
@@ -36,6 +36,7 @@
     meta.user = {
       description = "Travis Kinney";
       username = "travis";
+      shell = pkgs.fish;
     };
   };
 

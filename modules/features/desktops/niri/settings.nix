@@ -17,5 +17,12 @@
         exec niri-session -l
       fi
     '';
+
+    # https://github.com/niri-wm/niri/issues/1914
+    programs.fish.loginShellInit = ''
+      if test -z "$WAYLAND_DISPLAY" && test "$XDG_VTNR" -eq 1
+        exec niri-session -l
+      end
+    '';
   };
 }
