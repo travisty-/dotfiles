@@ -18,6 +18,8 @@
     programs.claude-code = {
       enable = true;
       configDir = "${config.xdg.configHome}/claude";
+      context = ./_CLAUDE.md;
+      rulesDir = ./rules;
       settings = {
         attribution = {
           commit = "";
