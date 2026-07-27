@@ -20,6 +20,10 @@
       settings = {
         commit.gpgsign = true;
         gpg.format = "ssh";
+        gpg.ssh.allowedSignersFile = toString (pkgs.writeTextFile {
+          name = "git-allowed-signers";
+          text = ''${user.email} namespaces="git" ${user.signingKey}'';
+        });
         gpg.ssh.program = getExe' pkgs._1password-gui "op-ssh-sign";
         user.signingKey = user.signingKey;
       };
