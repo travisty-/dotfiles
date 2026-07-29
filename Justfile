@@ -31,6 +31,7 @@ check:
 lint:
     deadnix --fail .
     statix check .
+    rumdl check .
 
 [group("develop")]
 evaluate:

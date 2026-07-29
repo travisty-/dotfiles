@@ -13,6 +13,7 @@
       lazygit
       neovim
       nix-update
+      rumdl
       sops
       statix
       vscode

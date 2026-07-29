@@ -8,6 +8,7 @@
   }: {
     pre-commit.settings.hooks = {
       deadnix.enable = true;
+      rumdl.enable = true;
       statix = {
         enable = true;
         settings.config = "${inputs.self}/statix.toml";

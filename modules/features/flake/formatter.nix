@@ -4,6 +4,7 @@
   perSystem = _: {
     treefmt.programs = {
       alejandra.enable = true;
+      rumdl-format.enable = true;
     };
   };
 }
