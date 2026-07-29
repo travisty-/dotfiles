@@ -1,4 +1,4 @@
-# dotfiles
+# Dotfiles
 
 My personal dotfiles, managed with Nix.
 
@@ -20,6 +20,7 @@ My personal dotfiles, managed with Nix.
 - Disk partitioning via [`disko`](https://github.com/nix-community/disko)
 - Hardware detection via [`nixos-facter`](https://github.com/nix-community/nixos-facter)
 - Pre-commit hooks via [`git-hooks.nix`](https://github.com/cachix/git-hooks.nix)
+- Formatting (tree) via [`treefmt-nix`](https://github.com/numtide/treefmt-nix)
 - Scheduled backups via [`restic`](https://github.com/restic/restic)
 - Secret management via [`sops-nix`](https://github.com/Mic92/sops-nix)
 - Secure boot via [`lanzaboote`](https://github.com/nix-community/lanzaboote)
@@ -28,7 +29,7 @@ My personal dotfiles, managed with Nix.
 
 ## Overview
 
-```
+```text
 .
 ├── docs/
 │   ├── how-to/         # Task-oriented guides
