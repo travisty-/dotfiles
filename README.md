@@ -16,7 +16,7 @@ My personal dotfiles, managed with Nix.
 
 ## Infrastructure
 
-- Module system via [`flake-parts`](https://github.com/hercules-ci/flake-parts) and [`import-tree`](https://github.com/vic/import-tree)
+- Module system via [`flake-parts`][1] and [`import-tree`][2]
 - Disk partitioning via [`disko`](https://github.com/nix-community/disko)
 - Hardware detection via [`nixos-facter`](https://github.com/nix-community/nixos-facter)
 - Pre-commit hooks via [`git-hooks.nix`](https://github.com/cachix/git-hooks.nix)
@@ -24,6 +24,9 @@ My personal dotfiles, managed with Nix.
 - Scheduled backups via [`restic`](https://github.com/restic/restic)
 - Secret management via [`sops-nix`](https://github.com/Mic92/sops-nix)
 - Secure boot via [`lanzaboote`](https://github.com/nix-community/lanzaboote)
+
+[1]: https://github.com/hercules-ci/flake-parts
+[2]: https://github.com/vic/import-tree
 
 [^1]: Configuration in [travisty-/neovim](https://github.com/travisty-/neovim).
 
@@ -44,17 +47,12 @@ My personal dotfiles, managed with Nix.
 │   │   ├── services/   # Background services (typically systemd)
 │   │   ├── shared/     # Shared modules imported by every user and host
 │   │   └── system/     # System-specific features (e.g., secure boot)
-│   ├── profiles/       # Named feature categories to simplify imports
+│   ├── profiles/       # Collections of features to simplify imports
 │   ├── systems/        # Host-specific configuration
 │   └── users/          # User-specific configuration (user@host)
 ├── packages/           # Sources of custom packages (see features/packages)
 ├── secrets/            # Secrets (encrypted with SOPS via SSH keys)
 ├── CLAUDE.md           # Documentation for Claude (claude /init)
 ├── flake.nix           # Entry point: flake-parts + import-tree => modules
-├── Justfile            # Recipes for common tasks (just --list)
-└── statix.toml         # Custom linting rules for Statix
+└── Justfile            # Recipes for common tasks (just --list)
 ```
-
-Every `.nix` file under `modules/` is a flake-parts module that registers features under `flake.modules.<class>.<aspect>`. A feature is a logical capability, implemented as either a single file or a directory of multiple files, and may also span multiple classes (`nixos`, `homeManager`, `darwin`). This is effectively a vertical slice architecture: each feature manages its full cross-class implementation in one place (also known as the dendritic pattern).
-
-Systems and users compose configurations by importing features and profiles. Home Manager runs standalone, so the system and user configurations rebuild independently. See [CLAUDE.md](./CLAUDE.md) for terminology and conventions.
