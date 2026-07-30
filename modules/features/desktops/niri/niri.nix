@@ -12,6 +12,7 @@
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
+    secondary = cfg.outputs.secondary.name;
   in {
     imports = [inputs.niri.homeModules.config];
 
@@ -428,6 +429,23 @@
           open-fullscreen = true;
           open-on-output = primary;
           variable-refresh-rate = true;
+        }
+
+        # https://niri-wm.github.io/niri/Application-Issues.html#steam
+        {
+          matches = [
+            {
+              app-id = "^steam$";
+              title = ''^notificationtoasts_\d+_desktop$'';
+            }
+          ];
+          default-floating-position = {
+            x = 10;
+            y = 10;
+            relative-to = "bottom-right";
+          };
+          open-focused = false;
+          open-on-output = secondary;
         }
 
         # Enable rounded corners for all windows.
