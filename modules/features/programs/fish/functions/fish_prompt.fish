@@ -21,6 +21,7 @@ function fish_prompt --description="robbyrussell"
     set -l cyan (set_color -o cyan)
     set -l blue (set_color -o blue)
     set -l yellow (set_color -o yellow)
+    set -l purple (set_color -o 7c3aed)
     set -l reset (set_color reset)
 
     set -l arrow
@@ -40,6 +41,10 @@ function fish_prompt --description="robbyrussell"
         if _prompt_git_dirty
             set -a parts "$yellow ✗"
         end
+    end
+
+    if set -q DEVENV_ROOT
+        set -a parts "$purple ●"
     end
 
     echo -n -s $parts $reset ' '

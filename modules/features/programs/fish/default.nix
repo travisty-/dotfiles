@@ -26,6 +26,10 @@
       source = ./functions/fish_prompt.fish;
     };
 
+    xdg.configFile."fish/conf.d/00-async-prompt.fish" = {
+      source = ./conf.d/00-async-prompt.fish;
+    };
+
     home.sessionPath = [
       "$HOME/.local/bin"
     ];
