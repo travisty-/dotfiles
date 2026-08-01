@@ -22,6 +22,10 @@
         ];
     };
 
+    xdg.configFile."fish/functions/fish_prompt.fish" = {
+      source = ./functions/fish_prompt.fish;
+    };
+
     home.sessionPath = [
       "$HOME/.local/bin"
     ];
