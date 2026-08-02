@@ -1,0 +1,17 @@
+flake := "@flake@"
+
+[private]
+default:
+    @just --justfile "{{ justfile() }}" --list
+
+flake *args:
+    @just --justfile {{ flake }}/Justfile --working-directory {{ flake }} {{ args }}
+
+run pkg *args:
+    nix run nixpkgs#{{ pkg }} -- {{ args }}
+
+shell +pkgs:
+    nix shell {{ prepend("nixpkgs#", pkgs) }}
+
+why pkg:
+    nix why-depends /run/current-system nixpkgs#{{ pkg }}
