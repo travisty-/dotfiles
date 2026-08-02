@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p nix curl jq prefetch-npm-deps
+#!nix-shell -i bash -p curl jq nix prefetch-npm-deps
 # shellcheck shell=bash
 
 # Regenerates the hashes in sources.json. Pass a version to pin a

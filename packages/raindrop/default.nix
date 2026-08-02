@@ -1,5 +1,3 @@
-# Two-step build: raindropio/app (webapp) and raindropio/desktop (shell).
-# They are two separate projects upstream with their own package.json files.
 {
   asar,
   buildNpmPackage,
@@ -10,8 +8,6 @@
   makeDesktopItem,
   makeWrapper,
 }: let
-  pname = "raindrop";
-
   sources = lib.importJSON ./sources.json;
   inherit (sources) version;
 
@@ -43,7 +39,10 @@
   };
 in
   buildNpmPackage {
-    inherit pname version;
+    pname = "raindrop";
+    inherit version;
+
+    __structuredAttrs = true;
 
     src = fetchFromGitHub {
       owner = "raindropio";
@@ -75,7 +74,7 @@ in
     installPhase = ''
       runHook preInstall
 
-      mkdir -p $out/share/${pname}
+      mkdir -p $out/share/raindrop
 
       # The path must match how the desktop app references the webapp submodule.
       mkdir -p app/webapp/dist/electron/prod
@@ -87,15 +86,15 @@ in
       # --ignore-scripts prevents post-install hooks from running (and failing).
       npm prune --prefix app --omit=dev --ignore-scripts 2>/dev/null || true
 
-      asar pack app $out/share/${pname}/app.asar
+      asar pack app $out/share/raindrop/app.asar
 
       for size in 16 32 48 64 128 256 512; do
         install -Dm 644 "build/linux/''${size}x''${size}.png" \
-          "$out/share/icons/hicolor/''${size}x''${size}/apps/${pname}.png"
+          "$out/share/icons/hicolor/''${size}x''${size}/apps/raindrop.png"
       done
 
-      makeWrapper ${lib.getExe electron} $out/bin/${pname} \
-        --add-flags $out/share/${pname}/app.asar \
+      makeWrapper ${lib.getExe electron} $out/bin/raindrop \
+        --add-flags $out/share/raindrop/app.asar \
         --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}" \
         --set-default ELECTRON_FORCE_IS_PACKAGED 1 \
         --set-default ELECTRON_IS_DEV 0 \
@@ -106,9 +105,9 @@ in
 
     desktopItems = [
       (makeDesktopItem {
-        name = pname;
-        icon = pname;
-        exec = "${pname} %U";
+        name = "raindrop";
+        icon = "raindrop";
+        exec = "raindrop %U";
         desktopName = "Raindrop.io";
         genericName = "Bookmark Manager";
         comment = "All-in-one bookmark manager";
@@ -120,12 +119,13 @@ in
 
     passthru.updateScript = ./update.sh;
 
-    meta = with lib; {
-      homepage = "https://raindrop.io";
+    meta = {
       description = "All-in-one bookmark manager";
-      license = licenses.mit;
-      maintainers = with maintainers; [];
+      homepage = "https://raindrop.io";
+      changelog = "https://github.com/raindropio/desktop/releases/tag/v${version}";
+      license = lib.licenses.mit;
+      maintainers = [];
+      mainProgram = "raindrop";
       platforms = ["x86_64-linux"];
-      mainProgram = pname;
     };
   }
