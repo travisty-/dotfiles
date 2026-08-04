@@ -53,6 +53,7 @@
           "go/pkg"
         ]
         ++ [
+          "**/forks/nixpkgs"
           "*.bak"
           "*.db-shm"
           "*.db-wal"
