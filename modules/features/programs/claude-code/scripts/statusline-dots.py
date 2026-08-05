@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # https://nyosegawa.com/posts/claude-code-statusline-rate-limits
 """Pattern 1: Minimal dots - Colored circles with numbers only"""
 
@@ -12,6 +10,7 @@ DIM = '\033[2m'
 BOLD = '\033[1m'
 RESET = '\033[0m'
 
+
 def gradient(pct):
     if pct < 50:
         r = int(pct * 5.1)
@@ -20,9 +19,11 @@ def gradient(pct):
         g = int(200 - (pct - 50) * 4)
         return f'\033[38;2;255;{max(g, 0)};60m'
 
+
 def dot(pct):
     p = round(pct)
     return f'{gradient(pct)}●{RESET} {BOLD}{p}%{RESET}'
+
 
 model = data.get('model', {}).get('display_name', 'Claude')
 parts = [f'{BOLD}{model}{RESET}']

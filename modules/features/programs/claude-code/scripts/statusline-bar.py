@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # https://nyosegawa.com/posts/claude-code-statusline-rate-limits
 """Pattern 4: Fine-grained progress bar with true color gradient"""
 
@@ -12,6 +10,7 @@ BLOCKS = ' ▏▎▍▌▋▊▉█'
 DIM = '\033[2m'
 RESET = '\033[0m'
 
+
 def gradient(pct):
     if pct < 50:
         r = int(pct * 5.1)
@@ -19,6 +18,7 @@ def gradient(pct):
     else:
         g = int(200 - (pct - 50) * 4)
         return f'\033[38;2;255;{max(g, 0)};60m'
+
 
 def bar(pct, width=10):
     pct = min(max(pct, 0), 100)
@@ -31,9 +31,11 @@ def bar(pct, width=10):
         b += '░' * (width - full - 1)
     return b
 
+
 def fmt(label, pct):
     p = round(pct)
     return f'{label} {gradient(pct)}{bar(pct)} {p}%{RESET}'
+
 
 model = data.get('model', {}).get('display_name', 'Claude')
 parts = [model]

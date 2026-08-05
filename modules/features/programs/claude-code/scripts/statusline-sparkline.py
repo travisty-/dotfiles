@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # https://nyosegawa.com/posts/claude-code-statusline-rate-limits
 """Pattern 2: Sparkline gauge - Vertical block characters"""
 
@@ -12,6 +10,7 @@ SPARKS = ' ▁▂▃▄▅▆▇█'
 DIM = '\033[2m'
 RESET = '\033[0m'
 
+
 def gradient(pct):
     if pct < 50:
         r = int(pct * 5.1)
@@ -19,6 +18,7 @@ def gradient(pct):
     else:
         g = int(200 - (pct - 50) * 4)
         return f'\033[38;2;255;{max(g, 0)};60m'
+
 
 def spark_gauge(pct, width=8):
     pct = min(max(pct, 0), 100)
@@ -36,9 +36,11 @@ def spark_gauge(pct, width=8):
             gauge += SPARKS[int(frac * 8)]
     return gauge
 
+
 def fmt(label, pct):
     p = round(pct)
     return f'{DIM}{label}{RESET} {gradient(pct)}{spark_gauge(pct)}{RESET} {p}%'
+
 
 model = data.get('model', {}).get('display_name', 'Claude')
 parts = [model]
