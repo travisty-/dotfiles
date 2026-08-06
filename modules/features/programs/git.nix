@@ -8,6 +8,10 @@
   in {
     programs.git = {
       enable = true;
+      ignores = [
+        "**/.claude/settings.local.json"
+        "**/docs/superpowers/"
+      ];
       settings = {
         alias.desc = "\!git log --format=format:'- %s' --reverse origin/\"\${1:-master}\"..HEAD #";
         alias.unstage = "reset HEAD --";
