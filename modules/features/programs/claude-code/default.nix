@@ -55,7 +55,7 @@
             }
           ];
         };
-        model = "opus[1m]";
+        model = "claude-opus-4-8[1m]";
         effortLevel = "xhigh";
         skipAutoPermissionPrompt = true;
         voiceEnabled = true;
