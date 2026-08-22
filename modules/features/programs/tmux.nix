@@ -53,11 +53,17 @@
         # Enable true color in supported terminals.
         set -as terminal-features ",xterm-256color:RGB"
 
-        # Allow programs to pass escape sequeances to the outer terminal. (DCS)
+        # Allow programs to pass escape sequences to the outer terminal. (DCS)
+        # https://code.claude.com/docs/en/terminal-config#configure-tmux
         set -g allow-passthrough on
+        set -s extended-keys on
+        set -as terminal-features ",xterm*:extkeys"
 
         # Renumber windows to close gaps in the window list.
         set -g renumber-windows on
+
+        # Use the size of the largest attached client.
+        set -g window-size largest
 
         # Increase maximum length of left and right status lines.
         set -g status-left-length 100
