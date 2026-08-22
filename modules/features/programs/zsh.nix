@@ -1,5 +1,9 @@
 {
-  flake.modules.homeManager.zsh = {config, ...}: {
+  flake.modules.homeManager.zsh = {
+    config,
+    pkgs,
+    ...
+  }: {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -47,6 +51,10 @@
         bindkey ';5D' backward-word
       '';
     };
+
+    home.packages = [
+      pkgs.zsh-completions # Used by programs.zsh.enableCompletion
+    ];
 
     home.sessionPath = [
       "$HOME/.local/bin"
