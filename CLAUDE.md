@@ -28,7 +28,8 @@ just sops-edit              # edit encrypted secrets
 just sops-rekey             # re-encrypt secrets after recipient changes in .sops.yaml
 ```
 
-The git group (`amend`, `fixup`, `rebase <count>`, `push`) wraps an autosquash-centric history flow; `just push` force-pushes with `--force-with-lease --force-if-includes`.
+The git recipes (`amend`, `fixup`, `rebase <count>`, `push`) are in the global justfile (`modules/features/programs/just/Justfile`) and run from any repo, including this one, as `gust <recipe>`.
+They wrap an autosquash-centric history flow; `gust push` force-pushes with `--force-with-lease --force-if-includes`.
 
 ## Inspecting & verifying a change
 

@@ -2,16 +2,38 @@ flake := "@flake@"
 
 [private]
 default:
-    @just --justfile "{{ justfile() }}" --list
+    @just --justfile "{{ justfile() }}" --list --unsorted
 
+[group("nix")]
 flake *args:
     @just --justfile {{ flake }}/Justfile --working-directory {{ flake }} {{ args }}
 
+[group("nix"), no-cd]
 run pkg *args:
     nix run nixpkgs#{{ pkg }} -- {{ args }}
 
+[group("nix"), no-cd]
 shell +pkgs:
     nix shell {{ prepend("nixpkgs#", pkgs) }}
 
+[group("nix")]
 why pkg:
     nix why-depends /run/current-system nixpkgs#{{ pkg }}
+
+[group("git"), no-cd]
+amend:
+    git commit --amend --no-edit
+
+[group("git"), no-cd]
+fixup:
+    git log --oneline --color=always --max-count=50 \
+        | fzf --ansi --accept-nth=1 --prompt='fixup! ' --preview 'git show --color=always {1}' \
+        | xargs --no-run-if-empty git commit --fixup
+
+[group("git"), no-cd]
+push *args:
+    git push --force-with-lease --force-if-includes {{args}}
+
+[group("git"), no-cd]
+rebase count *args:
+    git rebase -i HEAD~{{count}} --autosquash --autostash --committer-date-is-author-date {{args}}

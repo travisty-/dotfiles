@@ -41,24 +41,6 @@ evaluate:
 install:
     nix develop --command true
 
-[group("git"), no-cd]
-amend:
-    git commit --amend --no-edit
-
-[group("git"), no-cd]
-fixup:
-    git log --oneline --color=always --max-count=50 \
-        | fzf --ansi --accept-nth=1 --prompt='fixup! ' --preview 'git show --color=always {1}' \
-        | xargs --no-run-if-empty git commit --fixup
-
-[group("git"), no-cd]
-push *args:
-    git push --force-with-lease --force-if-includes {{args}}
-
-[group("git"), no-cd]
-rebase count *args:
-    git rebase -i HEAD~{{count}} --autosquash --autostash --committer-date-is-author-date {{args}}
-
 [group("neovim")]
 clone:
     [ -d ~/.config/nvim ] || git clone git@github.com:travisty-/neovim ~/.config/nvim
