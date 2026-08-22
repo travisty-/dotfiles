@@ -3,7 +3,7 @@
 " You can find a list of available commands here: https://jb.gg/h38q75
 " More examples can be found here: https://jb.gg/share-ideavimrc
 
-source ~/.vimrc
+" source ~/.vimrc
 
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
