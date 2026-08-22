@@ -55,8 +55,9 @@
             }
           ];
         };
-        model = "claude-opus-4-8[1m]";
         effortLevel = "xhigh";
+        keybindingFlavor = "readline";
+        model = "best";
         skipAutoPermissionPrompt = true;
         voiceEnabled = true;
       };
