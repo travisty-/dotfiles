@@ -62,7 +62,6 @@
         keybindingFlavor = "readline";
         outputStyle = "Concise";
         model = "best";
-        skipAutoPermissionPrompt = true;
         voiceEnabled = true;
       };
     };
