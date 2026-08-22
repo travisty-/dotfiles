@@ -54,8 +54,13 @@
             }
           ];
         };
+        autoMode = {
+          hard_deny = ["$defaults"];
+          soft_deny = ["$defaults"];
+        };
         effortLevel = "xhigh";
         keybindingFlavor = "readline";
+        outputStyle = "Concise";
         model = "best";
         skipAutoPermissionPrompt = true;
         voiceEnabled = true;
