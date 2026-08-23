@@ -1,4 +1,8 @@
 {
+  flake.modules.homeManager.base = {
+    fonts.fontconfig.enable = true;
+  };
+
   flake.modules.nixos.base = {pkgs, ...}: {
     fonts.packages = with pkgs; [
       noto-fonts
