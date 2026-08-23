@@ -19,6 +19,7 @@
         disko
         firefox
         fstrim
+        keyd
         networking
         nix-helpers
         nvidia
