@@ -1,30 +1,19 @@
 {
   flake.modules.homeManager.lazygit = {pkgs, ...}: let
-    scripts = import ./_scripts.nix {inherit pkgs;};
+    app = pkgs.writeShellApplication {
+      name = "git";
+      runtimeInputs = [pkgs.git];
+      bashOptions = ["errexit" "pipefail"]; # nounset
+      text = builtins.readFile ./scripts/git;
+    };
   in {
     programs.lazygit = {
       enable = true;
-      settings = {
-        customCommands = [
-          {
-            key = "A";
-            context = "commits";
-            description = "Amend (custom)";
-            command = "${scripts}/bin/amend-commit {{.SelectedCommit.Hash}}";
-            output = "log";
-            loadingText = "Amending";
-            after = {
-              checkForConflicts = true;
-            };
-            prompts = [
-              {
-                type = "confirm";
-                title = "Amend commit (custom)";
-                body = "Are you sure you want to amend this commit with your staged files?";
-              }
-            ];
-          }
-        ];
+      package = pkgs.symlinkJoin {
+        name = "lazygit-wrapped";
+        paths = [pkgs.lazygit];
+        nativeBuildInputs = [pkgs.makeBinaryWrapper];
+        postBuild = "wrapProgram $out/bin/lazygit --prefix PATH : ${app}/bin";
       };
     };
   };

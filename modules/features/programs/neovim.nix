@@ -7,6 +7,7 @@
   }: let
     inherit (lib) attrValues concatLists;
     final = config.programs.neovim.finalPackage;
+    lazygit = config.programs.lazygit.package;
     treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
   in {
     imports = [inputs.self.modules.homeManager.nerd-fonts];

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Adds --committer-date-is-author-date to interactive `git rebase` commands.
+# Lazygit only ever runs interactive rebases, so this provides full coverage.
+
+if [[ "$1" == rebase && "$2" == --interactive ]]; then
+  set -- rebase --committer-date-is-author-date "${@:2}"
+fi
+
+exec git "$@"
