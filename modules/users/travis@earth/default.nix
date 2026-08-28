@@ -13,7 +13,6 @@
       ++ (with inputs.self.modules.homeManager; [
         base
         _1password
-        evince
         firefox
         gpg
         matrix
