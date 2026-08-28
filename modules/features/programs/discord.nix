@@ -11,5 +11,9 @@
     services.arrpc = {
       enable = true;
     };
+
+    xdg.mimeApps = {
+      defaultApplicationPackages = with pkgs; [vesktop];
+    };
   };
 }

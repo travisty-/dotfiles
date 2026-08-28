@@ -1,6 +1,9 @@
 {
   flake.modules.homeManager.base = {config, ...}: {
-    xdg.enable = true;
+    xdg = {
+      enable = true;
+      mimeApps.enable = true;
+    };
 
     # XDG environment variables for development tools.
     home.sessionVariables = {

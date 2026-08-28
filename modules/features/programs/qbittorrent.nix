@@ -20,5 +20,9 @@
     home.packages = with pkgs; [
       qbittorrent
     ];
+
+    xdg.mimeApps = {
+      defaultApplicationPackages = with pkgs; [qbittorrent];
+    };
   };
 }
