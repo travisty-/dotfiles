@@ -15,6 +15,7 @@
         _1password
         firefox
         gpg
+        loupe
         matrix
         meld
         papers
