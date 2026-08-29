@@ -1,5 +1,9 @@
 {
-  flake.modules.homeManager.tmux = {pkgs, ...}: {
+  flake.modules.homeManager.tmux = {pkgs, ...}: let
+    inherit (pkgs.lib) getExe;
+    inherit (pkgs.writers) writePython3Bin;
+    statusline = writePython3Bin "tmux-claude-statusline" {} ./scripts/tmux-claude-statusline.py;
+  in {
     programs.tmux = {
       enable = true;
       focusEvents = true;
@@ -20,6 +24,8 @@
           extraConfig = ''
             set -g @tmux-dotbar-bg "default"
             set -g @tmux-dotbar-bold-current-window true
+            set -g @tmux-dotbar-status-right "#(${getExe statusline})"
+            set -g @tmux-dotbar-right true
           '';
         }
         {
