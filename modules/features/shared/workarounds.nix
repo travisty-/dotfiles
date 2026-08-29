@@ -11,8 +11,8 @@
     assertions = [
       {
         # https://github.com/tmux/tmux/issues/5056
-        assertion = lib.versionOlder pkgs.tmux.version "3.7c";
-        message = "tmux is now ${pkgs.tmux.version} (>= 3.7c)";
+        assertion = lib.versionOlder pkgs.tmux.version "3.8";
+        message = "tmux is now ${pkgs.tmux.version} (>= 3.8)";
       }
     ];
   };
