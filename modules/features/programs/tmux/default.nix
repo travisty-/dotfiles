@@ -1,8 +1,6 @@
 {
   flake.modules.homeManager.tmux = {pkgs, ...}: let
-    inherit (pkgs.lib) getExe;
-    inherit (pkgs.writers) writePython3Bin;
-    statusline = writePython3Bin "tmux-claude-statusline" {} ./scripts/tmux-claude-statusline.py;
+    scripts = import ./_scripts.nix {inherit pkgs;};
   in {
     programs.tmux = {
       enable = true;
@@ -24,7 +22,7 @@
           extraConfig = ''
             set -g @tmux-dotbar-bg "default"
             set -g @tmux-dotbar-bold-current-window true
-            set -g @tmux-dotbar-status-right "#(${getExe statusline})"
+            set -g @tmux-dotbar-status-right "#(${scripts}/bin/tmux-claude-statusline.py)"
             set -g @tmux-dotbar-right true
           '';
         }
@@ -83,6 +81,10 @@
         # Open `choose-tree` with the larger preview pane.
         bind -N "Choose a session" s choose-tree -sNNZ
         bind -N "Choose a window" w choose-tree -wNNZ
+
+        # Open the Claude Code agents dashboard in a floating popup.
+        bind -N "Open the agents dashboard" A display-popup -E -w 75% -h 75% ${scripts}/bin/tmux-claude-dashboard.py
+        bind -n MouseDown1StatusRight display-popup -E -w 75% -h 75% ${scripts}/bin/tmux-claude-dashboard.py
 
         # https://github.com/tmux/tmux/issues/5056
         # bind -N "Choose a session" s 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nskh'
