@@ -13,6 +13,7 @@
       fzf
       gum
       jq
+      rclone
       ripgrep
       tabiew
       tmux
