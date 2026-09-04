@@ -1,0 +1,37 @@
+[global]
+exclude = [".git"]
+flavor = "standard"
+
+[MD003] # Heading style should be consistent
+style = "atx"
+
+[MD004] # Unordered list style should be consistent
+style = "dash"
+
+[MD007] # Keep list indentation consistent
+indent = 4
+
+[MD009] # Remove trailing spaces
+strict = true
+
+[MD013] # Reflow to one sentence per line
+enabled = true
+reflow = true
+reflow-mode = "sentence-per-line"
+line-length = 0
+
+[MD046] # Use consistent code block style
+style = "fenced"
+
+[MD049] # Keep italic text formatting consistent
+style = "underscore"
+
+[MD050] # Keep bold text formatting consistent
+style = "asterisk"
+
+[MD060] # Align columns in tables
+enabled = true
+style = "aligned"
+
+[MD080] # Heading anchors must be unique
+enabled = true
