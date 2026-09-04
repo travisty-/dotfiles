@@ -62,6 +62,9 @@
         keybindingFlavor = "readline";
         outputStyle = "Concise";
         model = "best";
+        permissions = {
+          defaultMode = "auto";
+        };
         voiceEnabled = true;
       };
     };
