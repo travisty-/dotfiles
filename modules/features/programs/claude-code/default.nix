@@ -11,6 +11,7 @@
       configDir = "${config.xdg.configHome}/claude";
       context = ./_CLAUDE.md;
       rulesDir = ./rules;
+      skills = ./skills;
       settings = {
         attribution = {
           commit = "";
