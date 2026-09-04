@@ -24,6 +24,7 @@
             set -g @tmux-dotbar-bold-current-window true
             set -g @tmux-dotbar-status-right "#(${scripts}/bin/tmux-claude-statusline.py)"
             set -g @tmux-dotbar-right true
+            set -g @tmux-dotbar-window-status-format " #{?#{m:claude@*,#{window_name}},#[fg=#da7756]󰚩 #{s/^claude@//:window_name},#W} "
           '';
         }
         {
@@ -85,6 +86,12 @@
         # Open the Claude Code agents dashboard in a floating popup.
         bind -N "Open the agents dashboard" A display-popup -E -w 75% -h 75% ${scripts}/bin/tmux-claude-dashboard.py
         bind -n MouseDown1StatusRight display-popup -E -w 75% -h 75% ${scripts}/bin/tmux-claude-dashboard.py
+
+        # Launch Claude Code in a new window named after the current one.
+        bind -N "Open the Claude Code menu" C-c display-menu -T " #[align=centre]Claude Code " -x C -y C \
+          "New session"      n "new-window -c '#{pane_current_path}' -n 'claude@#{s/^claude@//:window_name}' claude" \
+          "Resume session"   r "new-window -c '#{pane_current_path}' -n 'claude@#{s/^claude@//:window_name}' 'claude --resume'" \
+          "Continue session" c "new-window -c '#{pane_current_path}' -n 'claude@#{s/^claude@//:window_name}' 'claude --continue'"
 
         # https://github.com/tmux/tmux/issues/5056
         # bind -N "Choose a session" s 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nskh'
