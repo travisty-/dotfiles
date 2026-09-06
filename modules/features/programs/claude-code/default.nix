@@ -16,6 +16,7 @@
         attribution = {
           commit = "";
           pr = "";
+          sessionUrl = false;
         };
         statusLine = {
           command = "${scripts}/bin/statusline-dots.py";
