@@ -58,6 +58,10 @@
         # Enable true color in supported terminals.
         set -as terminal-features ",xterm-256color:RGB"
 
+        # Batch redraws so the terminal never paints a half-drawn frame. (DEC 2026)
+        # https://github.com/contour-terminal/vt-extensions/blob/master/synchronized-output.md
+        set -as terminal-features ",xterm-256color:sync"
+
         # Allow programs to pass escape sequences to the outer terminal. (DCS)
         # https://code.claude.com/docs/en/terminal-config#configure-tmux
         set -g allow-passthrough on
