@@ -22,9 +22,6 @@
           "ss04" # Disable __ ligatures
         ];
         font-size = 14;
-        keybind = [
-          "shift+enter=text:\\n"
-        ];
         term = "xterm-256color";
         theme = "iTerm2 Dark Background";
       };
