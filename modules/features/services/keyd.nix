@@ -12,6 +12,9 @@
             rightmeta = "layer(altgr)";
             space = "lettermod(navigation, space, 150, 200)";
           };
+          meta = {
+            space = "M-space";
+          };
           navigation = {
             h = "left";
             j = "down";
