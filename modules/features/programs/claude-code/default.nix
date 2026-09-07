@@ -30,9 +30,7 @@
         };
         env = {
           CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
-          CLAUDE_CODE_DISABLE_VIRTUAL_SCROLL = "1";
           CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
-          CLAUDE_CODE_NO_FLICKER = "1";
         };
         hooks = {
           MessageDisplay = [
@@ -67,6 +65,7 @@
         permissions = {
           defaultMode = "auto";
         };
+        tui = "fullscreen";
         voiceEnabled = true;
       };
     };
