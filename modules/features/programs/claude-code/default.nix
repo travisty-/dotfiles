@@ -8,6 +8,9 @@
   in {
     programs.claude-code = {
       enable = true;
+      package = pkgs.claude-code.overrideAttrs {
+        postInstall = "wrapProgram $out/bin/claude --prefix PATH : ${pkgs.nodejs}/bin";
+      };
       configDir = "${config.xdg.configHome}/claude";
       context = ./_CLAUDE.md;
       rulesDir = ./rules;
@@ -22,11 +25,18 @@
           command = "${scripts}/bin/statusline-dots.py";
           type = "command";
         };
+        extraKnownMarketplaces = {
+          ponytail.source = {
+            source = "github";
+            repo = "DietrichGebert/ponytail";
+          };
+        };
         enabledPlugins = {
           "code-review@claude-plugins-official" = true;
           "code-simplifier@claude-plugins-official" = true;
           "frontend-design@claude-plugins-official" = true;
           "superpowers@claude-plugins-official" = true;
+          "ponytail@ponytail" = true;
         };
         env = {
           CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
