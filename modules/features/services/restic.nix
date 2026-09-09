@@ -34,8 +34,7 @@
           ".config/claude/file-history"
           ".config/claude/plugins/cache"
           ".config/claude/shell-snapshots"
-          ".config/mozilla/firefox/*/storage/default/*/cache"
-          ".config/mozilla/firefox/*/storage/private"
+          ".config/mozilla/firefox/*/storage"
           ".docker"
           ".local/share/JetBrains"
           ".local/share/Steam"
@@ -53,7 +52,7 @@
           "go/pkg"
         ]
         ++ [
-          "**/forks/nixpkgs"
+          "**/forks"
           "*.bak"
           "*.db-shm"
           "*.db-wal"
