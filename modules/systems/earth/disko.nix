@@ -1,5 +1,7 @@
 {
-  flake.modules.nixos.earth = {
+  flake.modules.nixos.earth = let
+    mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
+  in {
     disko.devices.disk = {
       nvme0 = {
         type = "disk";
@@ -29,20 +31,20 @@
                   type = "btrfs";
                   subvolumes = {
                     "@" = {
+                      inherit mountOptions;
                       mountpoint = "/";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
                     };
                     "@home" = {
+                      inherit mountOptions;
                       mountpoint = "/home";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
                     };
                     "@nix" = {
+                      inherit mountOptions;
                       mountpoint = "/nix";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
                     };
                     "@log" = {
+                      inherit mountOptions;
                       mountpoint = "/var/log";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
                     };
                   };
                 };
@@ -69,11 +71,11 @@
                   subvolumes = {
                     "@data" = {
                       mountpoint = "/media/data";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
+                      mountOptions = mountOptions ++ ["x-gvfs-hide"];
                     };
                     "@games" = {
                       mountpoint = "/media/games";
-                      mountOptions = ["compress=zstd" "noatime" "x-gvfs-hide" "x-gvfs-trash"];
+                      mountOptions = mountOptions ++ ["x-gvfs-hide"];
                     };
                   };
                 };
