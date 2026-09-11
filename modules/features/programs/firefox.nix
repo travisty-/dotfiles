@@ -51,42 +51,14 @@
 
             nix-packages = {
               name = "Nix Packages";
-              urls = [
-                {
-                  template = "https://search.nixos.org/packages";
-                  params = [
-                    {
-                      name = "channel";
-                      value = "unstable";
-                    }
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://search.nixos.org/packages?channel=unstable&query={searchTerms}";}];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = ["@nix-packages" "@np"];
             };
 
             nix-options = {
               name = "Nix Options";
-              urls = [
-                {
-                  template = "https://search.nixos.org/options";
-                  params = [
-                    {
-                      name = "channel";
-                      value = "unstable";
-                    }
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://search.nixos.org/options?channel=unstable&query={searchTerms}";}];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = ["@nix-options" "@no"];
             };
@@ -114,92 +86,28 @@
 
             github-home-manager = {
               name = "Home Manager";
-              urls = [
-                {
-                  template = "https://github.com/search";
-                  params = [
-                    {
-                      name = "type";
-                      value = "code";
-                    }
-                    {
-                      name = "q";
-                      value = "repo:nix-community/home-manager {searchTerms}";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://github.com/search?type=code&q=repo:nix-community/home-manager%20{searchTerms}";}];
               icon = "https://github.com/favicon.ico";
               definedAliases = ["@home-manager" "@hm"];
             };
 
             github-nixpkgs = {
               name = "Nixpkgs";
-              urls = [
-                {
-                  template = "https://github.com/search";
-                  params = [
-                    {
-                      name = "type";
-                      value = "code";
-                    }
-                    {
-                      name = "q";
-                      value = "repo:NixOS/nixpkgs {searchTerms}";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://github.com/search?type=code&q=repo:NixOS/nixpkgs%20{searchTerms}";}];
               icon = "https://github.com/favicon.ico";
               definedAliases = ["@nixpkgs" "@ng"];
             };
 
             nyaa = {
               name = "Nyaa";
-              urls = [
-                {
-                  template = "https://nyaa.si";
-                  params = [
-                    {
-                      name = "f";
-                      value = "0";
-                    }
-                    {
-                      name = "c";
-                      value = "1_2";
-                    }
-                    {
-                      name = "q";
-                      value = "{searchTerms} 1080p -HEVC";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://nyaa.si?f=0&c=1_2&q={searchTerms}%201080p%20-HEVC";}];
               icon = "https://nyaa.si/static/favicon.png";
               definedAliases = ["@nyaa" "@ny"];
             };
 
             nyaa-subsplease = {
               name = "Subsplease";
-              urls = [
-                {
-                  template = "https://nyaa.si/user/subsplease";
-                  params = [
-                    {
-                      name = "f";
-                      value = "0";
-                    }
-                    {
-                      name = "c";
-                      value = "1_2";
-                    }
-                    {
-                      name = "q";
-                      value = "{searchTerms} 1080p -HEVC";
-                    }
-                  ];
-                }
-              ];
+              urls = [{template = "https://nyaa.si/user/subsplease?f=0&c=1_2&q={searchTerms}%201080p%20-HEVC";}];
               icon = "https://nyaa.si/static/favicon.png";
               definedAliases = ["@subsplease" "@sp"];
             };
