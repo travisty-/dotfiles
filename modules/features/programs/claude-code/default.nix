@@ -68,7 +68,7 @@
           hard_deny = ["$defaults"];
           soft_deny = ["$defaults"];
         };
-        effortLevel = "xhigh";
+        effortLevel = "high";
         keybindingFlavor = "readline";
         outputStyle = "Concise";
         model = "best";
