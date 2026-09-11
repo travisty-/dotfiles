@@ -23,6 +23,7 @@
             set -g @tmux-dotbar-bg "default"
             set -g @tmux-dotbar-bold-current-window true
             set -g @tmux-dotbar-status-right "#(${scripts}/bin/tmux-claude-statusline.py)"
+            set -g @tmux-dotbar-position top
             set -g @tmux-dotbar-right true
             set -g @tmux-dotbar-window-status-format " #{?#{m:claude@*,#{window_name}},#[fg=#da7756]󰚩 #{s/^claude@//:window_name},#W} "
           '';
