@@ -306,7 +306,6 @@ Two complementary features cover home-directory recovery:
 
 The NixOS restic module generates a `restic-b2` wrapper with the repository and credentials preset; run it with `sudo` for manual repository operations.
 `just restic-excluded` audits what the exclude rules skip, largest directories first.
-Provisioning the bucket and credentials is covered in [set-up-restic-backups.md](./docs/how-to/set-up-restic-backups.md).
 
 The two keystones for recovery are `RESTIC_PASSWORD` and the host SSH key that doubles as the SOPS age key (`/etc/ssh/ssh_host_ed25519_key`).
 Both must be escrowed off-machine; neither is in the flake.
@@ -386,7 +385,6 @@ The other inputs (`disko`, `git-hooks`, `home-manager`, `lanzaboote`, `sops-nix`
 
 ## Other documentation
 
-- `docs/how-to/`: Committed task-oriented guides for steps done outside the flake (e.g., [set-up-restic-backups.md](./docs/how-to/set-up-restic-backups.md)).
 - `docs/workspace/` (gitignored): Personal scratch area for research notes, the TODO list (`todo.md`), per-topic review docs, and the cross-project issue tracker (`issue-tracker.md`).
   Treat it as the source of truth for open questions and pending work; check `issue-tracker.md` before filing upstream issues.
   Front doors: `firefox/migration.md` (migration in progress) and `neovim/migration.md` (Lua config in [travisty-/neovim](https://github.com/travisty-/neovim), cloned to `~/.config/nvim` via `just clone`).

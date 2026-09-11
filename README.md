@@ -34,9 +34,6 @@ My personal dotfiles, managed with Nix.
 
 ```text
 .
-├── docs/
-│   ├── how-to/         # Task-oriented guides
-│   └── reference/      # Reference documentation
 ├── modules/            # Import root. Every .nix file is auto-imported
 │   ├── features/       # One file (or directory) per logical capability
 │   │   ├── desktops/   # Desktop environments, compositors, and shells
