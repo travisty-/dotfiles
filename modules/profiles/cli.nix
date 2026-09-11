@@ -21,7 +21,6 @@
       tree
       yazi
       yq
-      zellij
       zoxide
     ];
   };
