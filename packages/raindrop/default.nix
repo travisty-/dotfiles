@@ -124,7 +124,7 @@ in
       homepage = "https://raindrop.io";
       changelog = "https://github.com/raindropio/desktop/releases/tag/v${version}";
       license = lib.licenses.mit;
-      maintainers = [];
+      maintainers = with lib.maintainers; [travisty-];
       mainProgram = "raindrop";
       platforms = ["x86_64-linux"];
     };
