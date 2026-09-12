@@ -1,9 +1,5 @@
 {
-  flake.modules.nixos.base = {
-    config,
-    pkgs,
-    ...
-  }: let
+  flake.modules.nixos.base = {config, ...}: let
     inherit (config.meta) user;
   in {
     users.defaultUserShell = user.shell;
@@ -11,9 +7,6 @@
       isNormalUser = true;
       inherit (user) description;
       extraGroups = ["networkmanager" "wheel"];
-      packages = with pkgs; [
-        # thunderbird
-      ];
     };
   };
 }
