@@ -55,10 +55,6 @@
     home.packages = [
       pkgs.zsh-completions # Used by programs.zsh.enableCompletion
     ];
-
-    home.sessionPath = [
-      "$HOME/.local/bin"
-    ];
   };
 
   flake.modules.nixos.zsh = {pkgs, ...}: {
