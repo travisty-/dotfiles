@@ -366,13 +366,13 @@
       window-rules = [
         # Work around WezTerm's initial configure bug
         # by setting an empty default-column-width.
-        {
-          # This regular expression is intentionally made as specific as possible,
-          # since this is the default config, and we want no false positives.
-          # You can get away with just app-id="wezterm" if you want.
-          matches = [{app-id = ''^org\.wezfurlong\.wezterm$'';}];
-          default-column-width = {};
-        }
+        # {
+        #   # This regular expression is intentionally made as specific as possible,
+        #   # since this is the default config, and we want no false positives.
+        #   # You can get away with just app-id="wezterm" if you want.
+        #   matches = [{app-id = ''^org\.wezfurlong\.wezterm$'';}];
+        #   default-column-width = {};
+        # }
 
         # Open the Firefox picture-in-picture player as floating by default.
         {
@@ -526,11 +526,11 @@
         # Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
         # Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
         # For example, this is a standard bind to toggle the screen reader (orca).
-        "Super+Alt+S" = {
-          action = spawn-sh "pkill orca || exec orca";
-          allow-when-locked = true;
-          hotkey-overlay.hidden = true;
-        };
+        # "Super+Alt+S" = {
+        #   action = spawn-sh "pkill orca || exec orca";
+        #   allow-when-locked = true;
+        #   hotkey-overlay.hidden = true;
+        # };
 
         "XF86AudioRaiseVolume" = {
           action.spawn = noctalia "volume increase";
