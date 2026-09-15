@@ -251,7 +251,7 @@ The host directory (`modules/systems/earth/`) holds `default.nix` (feature impor
 
 The flake-level plumbing is in `modules/features/flake/`:
 
-- `flake-parts.nix`: Enables the `flake.modules` option
+- `flake-parts.nix`: Enables the `flake.modules` option and imports Home Manager's flake-parts module, which declares the `homeConfigurations` output (flake-parts only declares `nixosConfigurations`)
 - `builders.nix`: `flake.lib.mkNixos` and `flake.lib.mkHome`; both pass `inputs` through `specialArgs`/`extraSpecialArgs`, and `mkNixos` additionally sets `networking.hostName` and `nixpkgs.hostPlatform` (as `mkDefault`) from its arguments
 - `formatter.nix`: The treefmt-nix multiplexer behind `nix fmt`: alejandra (Nix), fish_indent (fish), rumdl-format (Markdown)
 - `git-hooks.nix`: perSystem pre-commit hooks wired into `nix flake check`, plus the default devShell whose `shellHook` installs the git hook (see [Pre-commit hooks](#pre-commit-hooks))
