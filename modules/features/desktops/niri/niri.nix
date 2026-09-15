@@ -12,7 +12,7 @@
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
-    secondary = cfg.outputs.secondary.name;
+    secondary = cfg.outputs.secondary.name or primary;
   in {
     imports = [inputs.niri.homeModules.config];
 
