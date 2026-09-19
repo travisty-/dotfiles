@@ -29,7 +29,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    niri.url = "github:sodiboo/niri-flake";
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      # https://github.com/Supreeeme/xwayland-satellite/issues/468
+      inputs.xwayland-satellite-unstable = {
+        url = "github:Supreeeme/xwayland-satellite/add2795134593faafce60e404a0a75df68e9ee0c";
+        flake = false;
+      };
+    };
 
     noctalia.url = "github:noctalia-dev/noctalia-shell/v4.7.7";
 
