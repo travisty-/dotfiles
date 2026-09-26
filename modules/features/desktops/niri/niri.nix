@@ -402,7 +402,7 @@
         # }
 
         {
-          matches = [{app-id = "^1[Pp]assword$";}];
+          matches = [{app-id = ''^com\.onepassword\.OnePassword$'';}];
           block-out-from = "screen-capture";
           open-floating = true;
         }
@@ -499,7 +499,7 @@
           hotkey-overlay.title = "Open the File Manager";
         };
         "Mod+Backslash" = {
-          action = spawn "${scripts}/bin/toggle-window" "1password";
+          action = spawn "${scripts}/bin/toggle-window" "com.onepassword.OnePassword" "1password";
           hotkey-overlay.title = "Open the Password Manager";
         };
         "Mod+Space" = {
