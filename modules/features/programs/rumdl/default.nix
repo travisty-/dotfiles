@@ -5,7 +5,7 @@
     ];
 
     xdg.configFile."rumdl/rumdl.toml" = {
-      source = ./config/rumdl.toml;
+      source = ./rumdl.toml;
     };
   };
 }

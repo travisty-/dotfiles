@@ -1,4 +1,4 @@
-extends = "modules/features/programs/rumdl/config/rumdl.toml"
+extends = "modules/features/programs/rumdl/rumdl.toml"
 
 [MD063] # Heading capitalization should be consistent
 enabled = true
