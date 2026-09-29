@@ -6,8 +6,6 @@
     ...
   }: let
     inherit (lib) any attrValues concatLists mkEnableOption mkIf optional;
-    inherit (config.lib.file) mkOutOfStoreSymlink;
-    inherit (config.meta) flake;
     cfg = config.internal.programs.jetbrains;
   in {
     options.internal.programs.jetbrains = {
@@ -37,7 +35,7 @@
         ];
 
       home.file.".ideavimrc" = mkIf (any (x: x.enable) (attrValues cfg)) {
-        source = mkOutOfStoreSymlink "${flake}/modules/features/programs/jetbrains/.ideavimrc";
+        source = ./.ideavimrc;
       };
     };
   };
