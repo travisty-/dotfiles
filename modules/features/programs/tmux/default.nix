@@ -111,12 +111,6 @@
         bind -n C-k if -F '#{@pane-is-vim}' { send-keys C-k } { if -F '#{pane_at_top}'    "" 'select-pane -U' }
         bind -n C-l if -F '#{@pane-is-vim}' { send-keys C-l } { if -F '#{pane_at_right}'  "" 'select-pane -R' }
 
-        # Smart pane resizing with awareness of Neovim splits.
-        bind -n C-Up    if -F '#{@pane-is-vim}' { send-keys C-Up }    { resize-pane -U 5 }
-        bind -n C-Down  if -F '#{@pane-is-vim}' { send-keys C-Down }  { resize-pane -D 5 }
-        bind -n C-Left  if -F '#{@pane-is-vim}' { send-keys C-Left }  { resize-pane -L 5 }
-        bind -n C-Right if -F '#{@pane-is-vim}' { send-keys C-Right } { resize-pane -R 5 }
-
         # Smart copy mode with awareness of Neovim splits.
         bind -T copy-mode-vi C-h select-pane -L
         bind -T copy-mode-vi C-j select-pane -D
