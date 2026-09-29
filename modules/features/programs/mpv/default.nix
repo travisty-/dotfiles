@@ -8,7 +8,7 @@
     };
 
     xdg.configFile."mpv" = {
-      source = mkOutOfStoreSymlink "${flake}/modules/features/programs/mpv";
+      source = mkOutOfStoreSymlink "${flake}/modules/features/programs/mpv/config";
       recursive = true;
     };
   };
