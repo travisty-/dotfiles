@@ -8,7 +8,6 @@
     ...
   }: let
     noctalia = cmd: ["noctalia-shell" "ipc" "call"] ++ lib.splitString " " cmd;
-    niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
@@ -16,7 +15,7 @@
   in {
     imports = [inputs.niri.homeModules.config];
 
-    programs.niri.package = niriPkgs.niri-unstable;
+    programs.niri.package = pkgs.niri;
 
     programs.niri.settings = {
       # Input device configuration.
@@ -303,11 +302,10 @@
         };
       };
 
-      # Required when using niri-unstable for version compatibility.
       # Niri auto-spawns the satellite when an X11 client connects.
       xwayland-satellite = {
         enable = true;
-        path = lib.getExe niriPkgs.xwayland-satellite-unstable;
+        path = lib.getExe pkgs.xwayland-satellite;
       };
 
       # Niri emits XCURSOR_SIZE into the environment of every spawned process,

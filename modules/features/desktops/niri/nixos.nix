@@ -1,7 +1,5 @@
 {inputs, ...}: {
-  flake.modules.nixos.niri = {pkgs, ...}: let
-    niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
+  flake.modules.nixos.niri = {pkgs, ...}: {
     imports = [inputs.niri.nixosModules.niri];
 
     nix.settings = {
@@ -14,7 +12,7 @@
 
     programs.niri = {
       enable = true;
-      package = niriPkgs.niri-unstable;
+      package = pkgs.niri;
     };
 
     # An application for managing disks and partitions.
