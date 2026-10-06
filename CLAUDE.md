@@ -381,7 +381,7 @@ Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-mana
 **Cachix-backed inputs deliberately skip `inputs.nixpkgs.follows = "nixpkgs"`** (`niri`, `vicinae`, `noctalia`).
 Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`), forcing local source compiles on every bump.
 The closure-size cost of an extra nixpkgs revision is the deliberate tradeoff.
-The other inputs (`disko`, `git-hooks`, `home-manager`, `lanzaboote`, `sops-nix`, `treefmt-nix`) follow safely because they ship Nix modules / build infrastructure rather than precompiled binaries; the hash divergence has no real cost.
+The other inputs (`bedrock-on-linux`, `disko`, `git-hooks`, `home-manager`, `lanzaboote`, `sops-nix`, `treefmt-nix`) follow safely because they ship Nix modules, build infrastructure, or derivations built entirely from nixpkgs rather than precompiled binaries; the hash divergence has no real cost.
 
 ## Other documentation
 

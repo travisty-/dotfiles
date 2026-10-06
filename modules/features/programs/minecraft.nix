@@ -1,7 +1,7 @@
-{
+{inputs, ...}: {
   flake.modules.homeManager.minecraft = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      prismlauncher
+    home.packages = [
+      inputs.bedrock-on-linux.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 }
