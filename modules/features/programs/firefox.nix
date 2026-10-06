@@ -146,6 +146,7 @@
           "full-screen-api.transition-duration.enter" = "0 0";
           "full-screen-api.transition-duration.leave" = "0 0";
           "full-screen-api.warning.timeout" = 0;
+          "sidebar.revamp" = false;
         };
 
         userChrome = ''
