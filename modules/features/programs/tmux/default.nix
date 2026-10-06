@@ -5,7 +5,6 @@
     programs.tmux = {
       enable = true;
       focusEvents = true;
-      sensibleOnTop = true;
       mouse = true;
 
       baseIndex = 1;
@@ -17,6 +16,7 @@
       terminal = "tmux-256color";
 
       plugins = with pkgs.tmuxPlugins; [
+        sensible
         {
           plugin = dotbar;
           extraConfig = ''
@@ -73,6 +73,9 @@
 
         # Use the size of the largest attached client.
         set -g window-size largest
+
+        # Use vi key bindings at the command prompt.
+        set -g status-keys vi
 
         # Increase maximum length of left and right status lines.
         set -g status-left-length 100
