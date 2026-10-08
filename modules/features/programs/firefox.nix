@@ -1,5 +1,11 @@
 {
-  flake.modules.homeManager.firefox = {pkgs, ...}: {
+  flake.modules.homeManager.firefox = {
+    lib,
+    pkgs,
+    ...
+  }: let
+    inherit (lib) attrValues flip genAttrs;
+  in {
     programs.firefox = {
       enable = true;
 
@@ -20,6 +26,20 @@
           Cryptomining = true;
           Fingerprinting = true;
         };
+        ExtensionSettings =
+          {
+            adaptive-tab-bar-colour = "ATBC@EasonWong";
+            dark-reader = "addon@darkreader.org";
+            kagi-search = "search@kagi.com";
+            load-reddit-images-directly = "{4c421bb7-c1de-4dc6-80c7-ce8625e34d24}";
+            multi-account-containers = "@testpilot-containers";
+            onepassword = "{d634138d-c276-4fc8-924b-40a0ea21d284}";
+            raindrop = "jid0-adyhmvsP91nUO8pRv0Mn2VKeB84@jetpack";
+            ublock-origin = "uBlock0@raymondhill.net";
+            violentmonkey = "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}";
+          }
+          |> attrValues
+          |> flip genAttrs (_: {installation_mode = "normal_installed";});
       };
 
       profiles.default = {
