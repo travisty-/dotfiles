@@ -40,6 +40,15 @@
           }
           |> attrValues
           |> flip genAttrs (_: {installation_mode = "normal_installed";});
+        FirefoxHome = {
+          Highlights = false;
+          SponsoredStories = false;
+          SponsoredTopSites = false;
+          Stories = false;
+          TopSites = false;
+          Weather = false;
+          Locked = true;
+        };
       };
 
       profiles.default = {
@@ -146,10 +155,6 @@
           "browser.ai.control.default" = "blocked";
           "browser.ml.enable" = false;
           "browser.ml.chat.enabled" = false;
-          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = false;
-          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = false;
-          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = false;
           "browser.privateWindowSeparation.enabled" = false;
           "browser.search.suggest.enabled" = false;
           "browser.tabs.loadBookmarksInBackground" = true;
