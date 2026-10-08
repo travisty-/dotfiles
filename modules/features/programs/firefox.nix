@@ -168,10 +168,25 @@
           "full-screen-api.transition-duration.leave" = "0 0";
           "full-screen-api.warning.timeout" = 0;
           "sidebar.revamp" = false;
+          "widget.gtk.native-context-menus" = false;
         };
 
         userChrome = ''
           @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+          /* https://github.com/atbc-org/Adaptive-Tab-Bar-Colour#customising-colour-transitions */
+          body, findbar, #navigator-toolbox, #TabsToolbar, #nav-bar, #PersonalToolbar, #sidebar-box, .tab-background, .urlbar-background {
+            transition:
+              background-color 0.5s cubic-bezier(0, 0, 0, 1) !important,
+              border-color 0.5s cubic-bezier(0, 0, 0, 1) !important,
+              outline 0.5s cubic-bezier(0, 0, 0, 1) !important;
+          }
+
+          /* https://github.com/atbc-org/Adaptive-Tab-Bar-Colour#adaptive-theme-in-context-menus */
+          :is(menupopup, panel):where(:not([type="arrow"])) {
+            --panel-background-color: unset !important;
+            --panel-border-color: unset !important;
+          }
         '';
       };
     };
