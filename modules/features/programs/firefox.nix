@@ -136,9 +136,12 @@
           "browser.urlbar.scotchBonnet.enableOverride" = false;
           "browser.urlbar.showSearchSuggestionsFirst" = false;
           "browser.urlbar.suggest.engines" = false;
-          "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+          "browser.urlbar.suggest.history" = false;
+          "browser.urlbar.suggest.quicksuggest.all" = false;
           "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+          "browser.urlbar.suggest.searches" = false;
           "browser.urlbar.suggest.topsites" = false;
+          "browser.urlbar.suggest.trending" = false;
           "extensions.autoDisableScopes" = 0;
           "extensions.pocket.enabled" = false;
           "full-screen-api.transition-duration.enter" = "0 0";
