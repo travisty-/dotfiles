@@ -179,7 +179,12 @@
           "full-screen-api.transition-duration.enter" = "0 0";
           "full-screen-api.transition-duration.leave" = "0 0";
           "full-screen-api.warning.timeout" = 0;
+          "network.dns.disablePrefetch" = true;
+          "network.http.speculative-parallel-limit" = 0;
+          "network.prefetch-next" = false;
           "sidebar.revamp" = false;
+          "signon.firefoxRelay.feature" = "disabled";
+          "signon.generation.enabled" = false;
           "widget.gtk.native-context-menus" = false;
         };
 
