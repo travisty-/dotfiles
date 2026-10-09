@@ -28,9 +28,7 @@
           Locked = true;
         };
         EnableTrackingProtection = {
-          Cryptomining = true;
-          Fingerprinting = true;
-          Value = true;
+          Category = "strict";
           Locked = true;
         };
         ExtensionSettings =
@@ -182,6 +180,7 @@
           "network.dns.disablePrefetch" = true;
           "network.http.speculative-parallel-limit" = 0;
           "network.prefetch-next" = false;
+          "privacy.globalprivacycontrol.enabled" = true;
           "sidebar.revamp" = false;
           "signon.firefoxRelay.feature" = "disabled";
           "signon.generation.enabled" = false;
