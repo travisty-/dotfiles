@@ -18,8 +18,15 @@
         DisablePocket = true;
         DisableTelemetry = true;
         DontCheckDefaultBrowser = true;
+        HttpsOnlyMode = "force_enabled";
         NoDefaultBookmarks = true;
         OfferToSaveLogins = false;
+        DNSOverHTTPS = {
+          Enabled = true;
+          Fallback = false;
+          ProviderURL = "https://security.cloudflare-dns.com/dns-query";
+          Locked = true;
+        };
         EnableTrackingProtection = {
           Cryptomining = true;
           Fingerprinting = true;
