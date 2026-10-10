@@ -3,7 +3,6 @@
     imports = with inputs.self.modules.homeManager; [
       discord
       minecraft
-      osu
       pcsx2
     ];
   };
