@@ -29,6 +29,12 @@ in {
         default = null;
       };
 
+      sshKeyCommand = mkOption {
+        type = types.str;
+        example = "op read op://<vault>/<reference>/private_key?ssh-format=openssh";
+        description = "A command that returns the user's SSH private key; SOPS uses it to decrypt secrets.";
+      };
+
       username = mkOption {
         type = types.str;
         example = "username";

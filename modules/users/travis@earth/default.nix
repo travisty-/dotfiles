@@ -28,6 +28,7 @@
       name = "Travis Kinney";
       email = "travis@traviskinney.co";
       signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjX6MY8Lf61+1xzKMNqJKB2XtsF7/Q+PIBZuL6piWpQ";
+      sshKeyCommand = "op read op://Personal/cueiiq5etbaj5htw4ao4rcagfm/private_key?ssh-format=openssh";
       username = "travis";
     };
 

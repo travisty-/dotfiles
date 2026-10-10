@@ -274,11 +274,16 @@ The flake-level plumbing is in `modules/features/flake/`:
 
 Managed with sops-nix.
 Cross-cutting setup is in `modules/features/shared/secrets.nix` for both classes.
-An `mkSopsConfig` helper there factors out the shared boilerplate (`defaultSopsFile`, `validateSopsFiles`, `age.keyFile = ""`).
-It parametrizes the SSH key path per class: the host key `/etc/ssh/ssh_host_ed25519_key` for NixOS, the user key `~/.ssh/id_ed25519` for Home Manager.
-The empty `age.keyFile` bypasses ssh-to-age key conversion so no intermediate `age-keys.txt` is generated; temporary workaround until sops-nix supports SSH keys natively (sops-nix#695, sops-nix#824).
+A `shared` module there carries the settings common to both classes (`defaultSopsFile`, `age.keyFile = ""`) and is imported next to the upstream sops-nix module.
+SOPS reads the SSH key itself through its native environment variables: NixOS sets `SOPS_AGE_SSH_PRIVATE_KEY_FILE` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `SOPS_AGE_SSH_PRIVATE_KEY_CMD` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
+The same command is exported as a session variable for the `sops` CLI.
+Key import by sops-nix itself is switched off (`age.keyFile = ""` on both classes, plus empty `age.sshKeyPaths` and `gnupg.sshKeyPaths` on NixOS, where they default to the OpenSSH host keys): its ssh-to-age identities cannot open the `ssh-ed25519` stanzas in the secrets file, so the import would only leave an unusable `age-keys.txt` and gpg keyring under `/run/secrets.d`.
+The SSH agent can't stand in for `op read`: decrypting to an `ssh-ed25519` recipient needs the private key, and the agent protocol only signs.
+The Home Manager unit's PATH is forced to `/run/wrappers/bin`: sops-nix otherwise sets it to its age plugins (empty here), and `op` must be the setgid wrapper for the desktop app integration.
+Every run of that unit needs a 1Password authorization prompt, and `op` fails instantly while the app is not running (the case at login, before niri has spawned it) or has been locked after an earlier unlock, so the unit retries every minute; against the freshly launched app the prompt goes through and the password unlocks the vault as well.
+Native SSH key support in sops-nix would retire the `age.keyFile = ""` workaround (sops-nix#695, sops-nix#824).
 `features/shared/config.nix` holds class-specific secrets/templates (e.g., `GITHUB_ACCESS_TOKEN` and the generated `nix.conf` that embeds it as a GitHub access token).
-Encrypted secrets are stored in `secrets/secrets.enc.yaml`, decrypted at runtime via SOPS native SSH support (`SOPS_AGE_SSH_PRIVATE_KEY_FILE`).
+Encrypted secrets are stored in `secrets/secrets.enc.yaml`, decrypted at runtime via SOPS native SSH support.
 The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients.
 Modules reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
 Edit with `just sops-edit`; after changing recipients in `.sops.yaml`, run `just sops-rekey`.
