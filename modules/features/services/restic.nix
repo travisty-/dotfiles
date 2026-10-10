@@ -77,7 +77,10 @@
           "result-*"
           "target"
         ];
-      extraBackupArgs = ["--exclude-caches"];
+      extraBackupArgs = [
+        "--exclude-caches"
+        "--exclude-larger-than=512M"
+      ];
       initialize = true;
       paths = [home];
       pruneOpts = [
