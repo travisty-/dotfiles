@@ -7,7 +7,7 @@
     pkgs,
     ...
   }: let
-    noctalia = cmd: ["noctalia-shell" "ipc" "call"] ++ lib.splitString " " cmd;
+    noctalia = cmd: ["noctalia" "msg"] ++ lib.splitString " " cmd;
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
@@ -318,7 +318,6 @@
       # See the binds section below for more spawn examples.
 
       spawn-at-startup = [
-        {argv = ["noctalia-shell"];}
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
         {argv = ["ghostty" "--class=com.mitchellh.ghostty" "-e" "tmux" "new-session" "-A" "-s" "dotfiles"];}
@@ -410,6 +409,14 @@
           open-floating = true;
         }
 
+        # https://docs.noctalia.dev/noctalia/compositor-settings/niri/#compositor-settings
+        {
+          matches = [{app-id = ''^dev\.noctalia\.Noctalia$'';}];
+          open-floating = true;
+          default-column-width = {fixed = 1080;};
+          default-window-height = {fixed = 920;};
+        }
+
         {
           matches = [
             {
@@ -459,11 +466,11 @@
       ];
 
       # Allows Noctalia to render a blurred and dimmed copy of your wallpaper
-      # that only appears in the backdrop of Niri's overview. Also requires the
-      # "Enable overview wallpaper" setting to be enabled.
+      # that only appears in the backdrop of Niri's overview. Also requires
+      # `backdrop.enabled` in Noctalia's settings.
       layer-rules = [
         {
-          matches = [{namespace = "^noctalia-overview-.*$";}];
+          matches = [{namespace = "^noctalia-backdrop";}];
           place-within-backdrop = true;
         }
       ];
@@ -517,7 +524,7 @@
           hotkey-overlay.title = "Open an Incognito Window";
         };
         "Super+Alt+L" = {
-          action.spawn = noctalia "lockScreen lock";
+          action.spawn = noctalia "session lock";
           hotkey-overlay.title = "Lock the Screen";
         };
 
@@ -531,24 +538,24 @@
         # };
 
         "XF86AudioRaiseVolume" = {
-          action.spawn = noctalia "volume increase";
+          action.spawn = noctalia "volume-up";
           allow-when-locked = true;
         };
         "XF86AudioLowerVolume" = {
-          action.spawn = noctalia "volume decrease";
+          action.spawn = noctalia "volume-down";
           allow-when-locked = true;
         };
         "XF86AudioMute" = {
-          action.spawn = noctalia "volume muteOutput";
+          action.spawn = noctalia "volume-mute";
           allow-when-locked = true;
         };
         "XF86AudioMicMute" = {
-          action.spawn = noctalia "volume muteInput";
+          action.spawn = noctalia "mic-mute";
           allow-when-locked = true;
         };
 
         "XF86AudioPlay" = {
-          action.spawn = noctalia "media playPause";
+          action.spawn = noctalia "media toggle";
           allow-when-locked = true;
         };
         "XF86AudioStop" = {
@@ -565,11 +572,11 @@
         };
 
         "XF86MonBrightnessUp" = {
-          action.spawn = noctalia "brightness increase";
+          action.spawn = noctalia "brightness-up";
           allow-when-locked = true;
         };
         "XF86MonBrightnessDown" = {
-          action.spawn = noctalia "brightness decrease";
+          action.spawn = noctalia "brightness-down";
           allow-when-locked = true;
         };
 
@@ -834,7 +841,7 @@
 
     # Add raw KDL extensions for features that niri-flake doesn't support yet;
     # revalidated via `niri validate` so errors still surface at build time.
-    # https://docs.noctalia.dev/v4/getting-started/compositor-settings/niri/#blur
+    # https://docs.noctalia.dev/noctalia/compositor-settings/niri/#blur
     xdg.configFile.niri-config.source = let
       inherit (inputs.niri.lib.internal) validated-config-for;
       inherit (config.programs.niri) finalConfig package;
@@ -851,7 +858,7 @@
           }
 
           layer-rule {
-            match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+            match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
             background-effect {
               xray false
             }

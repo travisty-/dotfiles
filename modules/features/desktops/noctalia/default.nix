@@ -2,25 +2,25 @@
   flake.modules.homeManager.noctalia = {pkgs, ...}: {
     imports = [inputs.noctalia.homeModules.default];
 
-    programs.noctalia-shell = {
+    programs.noctalia = {
       enable = true;
-      systemd.enable = false;
-      package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      systemd.enable = true;
     };
 
     home.packages = [pkgs.libnotify];
   };
 
   flake.modules.nixos.noctalia = {
+    imports = [inputs.noctalia.nixosModules.default];
+
     nix.settings = {
       extra-substituters = ["https://noctalia.cachix.org"];
       extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
     };
 
-    # https://docs.noctalia.dev/v4/getting-started/nixos
-    hardware.bluetooth.enable = true;
-    networking.networkmanager.enable = true;
-    services.power-profiles-daemon.enable = true;
-    services.upower.enable = true;
+    programs.noctalia = {
+      enable = true;
+      recommendedServices.enable = true;
+    };
   };
 }

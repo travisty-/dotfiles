@@ -4,15 +4,15 @@ My personal dotfiles, managed with Nix.
 
 ## Components
 
-| Role          | Program               |
-| ------------- | --------------------- |
-| Compositor    | Niri                  |
-| Desktop shell | Noctalia (Quickshell) |
-| Launcher      | Vicinae               |
-| Terminal      | Ghostty               |
-| Editor        | Neovim[^1], VS Code   |
-| File manager  | Yazi, Nautilus        |
-| Browser       | Firefox               |
+| Role          | Program             |
+| ------------- | ------------------- |
+| Compositor    | Niri                |
+| Desktop shell | Noctalia            |
+| Launcher      | Vicinae             |
+| Terminal      | Ghostty             |
+| Editor        | Neovim[^1], VS Code |
+| File manager  | Yazi, Nautilus      |
+| Browser       | Firefox             |
 
 ## Infrastructure
 
