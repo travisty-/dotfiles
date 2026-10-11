@@ -53,6 +53,23 @@
         }
         fingers
         yank
+        {
+          # https://github.com/smart-splits-nvim/backend-tmux
+          plugin = mkTmuxPlugin {
+            pluginName = "smart-splits";
+            version = "0-unstable-2026-10-02";
+            rtpFilePath = "smart-splits.tmux";
+            src = pkgs.fetchFromGitHub {
+              owner = "smart-splits-nvim";
+              repo = "backend-tmux";
+              rev = "9e9e6aa9b3eb7a8d3896a993611622ac97abff52";
+              hash = "sha256-RcJdM6wFHZOEOK+cXVIT10anktqGgIilPmojFpdY+4g=";
+            };
+          };
+          extraConfig = ''
+            set -g @smart-splits_at_edge 'stop'
+          '';
+        }
       ];
       extraConfig = ''
         # Enable true color in supported terminals.
@@ -106,19 +123,6 @@
 
         # Include key bindings without notes in list.
         bind -N "List key bindings" ? list-keys -Na
-
-        # Keybindings for smart-splits.nvim: https://github.com/NixOS/nixpkgs/pull/505204
-        # Smart directional navigation with awareness of Neovim splits (wrapping disabled).
-        bind -n C-h if -F '#{@pane-is-vim}' { send-keys C-h } { if -F '#{pane_at_left}'   "" 'select-pane -L' }
-        bind -n C-j if -F '#{@pane-is-vim}' { send-keys C-j } { if -F '#{pane_at_bottom}' "" 'select-pane -D' }
-        bind -n C-k if -F '#{@pane-is-vim}' { send-keys C-k } { if -F '#{pane_at_top}'    "" 'select-pane -U' }
-        bind -n C-l if -F '#{@pane-is-vim}' { send-keys C-l } { if -F '#{pane_at_right}'  "" 'select-pane -R' }
-
-        # Smart copy mode with awareness of Neovim splits.
-        bind -T copy-mode-vi C-h select-pane -L
-        bind -T copy-mode-vi C-j select-pane -D
-        bind -T copy-mode-vi C-k select-pane -U
-        bind -T copy-mode-vi C-l select-pane -R
 
         # Restore the default readline key binding for clearing the screen (`<C-l>`).
         # `<C-l>` is also used for navigation in nvim/tmux, so we relay it via `<F48>`.
