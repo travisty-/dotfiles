@@ -177,11 +177,10 @@ It wraps every regular file under `scripts/` with `pkgs.writeShellScriptBin` and
 It hardcodes `./scripts` precisely because it's colocated: a path default in a shared `flake.lib` helper would resolve relative to the helper's own file, not the caller's.
 Drop a new file in `scripts/`, reference its bin path; no further Nix wiring needed.
 
-**Colocated assets** ship next to their feature module: `programs/mpv/` holds the module plus its config files, and `desktops/noctalia/colorschemes.nix` sources the sibling `colorschemes/` directory wholesale via `xdg.configFile` with `recursive = true`.
+**Colocated assets** ship next to their feature module: `programs/mpv/` holds the module plus its config files, and `desktops/noctalia/palettes/monochrome.json` is the palette `settings.nix` hands to `programs.noctalia.customPalettes`.
 
-**Hybrid defaults via `importJSON` + `recursiveUpdate`** (`desktops/noctalia/settings.nix`): `importJSON` the upstream `Assets/settings-default.json` at eval time, then `recursiveUpdate defaults {...}` so the on-disk file matches the in-memory shape while the declaration carries only real deltas.
-A `mkWidget` helper pulls per-widget defaults from `widgetDefaults.bar.${widget.id}`.
-The point is reproducible diffs: `just diff-settings` shows only what actually changed via the GUI vs. what Nix declares.
+**Noctalia settings are sparse** (`desktops/noctalia/settings.nix`): the declaration carries only deltas from upstream defaults and lands in `~/.config/noctalia/config.toml`, which the Home Manager module validates at build time.
+GUI changes are written to a separate overrides file, `~/.local/state/noctalia/settings.toml`; `noctalia config export merged` prints the merged result.
 
 **Modules with custom options** (`gtk.nix`, `jetbrains/`, `niri/options.nix`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`).
 Values are set in user/host definitions.
@@ -381,7 +380,7 @@ Source bumps are a separate, deliberate step; neither `nix flake update` nor `nh
 
 ### Flake inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake), `noctalia` (Quickshell-based desktop shell).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake), `noctalia` (desktop shell).
 
 **Cachix-backed inputs deliberately skip `inputs.nixpkgs.follows = "nixpkgs"`** (`niri`, `vicinae`, `noctalia`).
 Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`), forcing local source compiles on every bump.

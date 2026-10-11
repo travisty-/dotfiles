@@ -43,7 +43,7 @@
       };
     };
 
-    noctalia.url = "github:noctalia-dev/noctalia-shell/v4.7.7";
+    noctalia.url = "github:noctalia-dev/noctalia";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
