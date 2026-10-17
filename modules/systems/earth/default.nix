@@ -28,7 +28,6 @@
         power-profiles
         printing
         restic
-        ryzen
         secure-boot
         solaar
         tailscale
