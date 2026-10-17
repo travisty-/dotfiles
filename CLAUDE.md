@@ -119,7 +119,7 @@ modules/
   features/
     desktops/       # Compositor (niri) and desktop shell (noctalia), cross-cutting
     flake/          # Flake infrastructure (flake-parts, builders, formatter, git-hooks, profiles, systems)
-    hardware/       # Hardware drivers and tuning (bluetooth, nvidia, ryzen, xpadneo, ...)
+    hardware/       # Hardware drivers and tuning (bluetooth, nvidia, xpadneo, ...)
     packages/       # Wiring modules for custom packages (see packages/ at repo root)
     programs/       # Desktop applications and CLI tools, some cross-cutting
     services/       # Background services (pipewire, openssh, tailscale, btrbk, restic, ...)
