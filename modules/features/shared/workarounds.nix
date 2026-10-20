@@ -5,14 +5,29 @@
     pkgs,
     lib,
     ...
-  }: {
-    nixpkgs.overlays = [];
+  }: let
+    inherit (inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}) tmux;
+  in {
+    nixpkgs.overlays = [
+      # https://github.com/NixOS/nixpkgs/pull/573028
+      (_: prev: {
+        tmux = prev.tmux.overrideAttrs {
+          version = "3.8";
+          src = prev.fetchFromGitHub {
+            owner = "tmux";
+            repo = "tmux";
+            tag = "3.8";
+            hash = "sha256-pv2wlr3coo+E0pfpb58giJJQn9PGgMFqtVA6nk+9JdE=";
+          };
+        };
+      })
+    ];
 
     assertions = [
       {
         # https://github.com/tmux/tmux/issues/5056
-        assertion = lib.versionOlder pkgs.tmux.version "3.8";
-        message = "tmux is now ${pkgs.tmux.version} (>= 3.8)";
+        assertion = lib.versionOlder tmux.version "3.8";
+        message = "tmux is now ${tmux.version} (>= 3.8)";
       }
     ];
   };
