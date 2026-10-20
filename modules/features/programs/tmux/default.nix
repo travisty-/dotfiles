@@ -28,7 +28,17 @@
           '';
         }
         {
-          plugin = resurrect;
+          plugin = mkTmuxPlugin {
+            pluginName = "resurrect";
+            version = "4.0.0-unstable-2026-10-21";
+            src = pkgs.fetchFromGitHub {
+              owner = "travisty-";
+              repo = "tmux-resurrect";
+              rev = "40b3870411e98b2e2d3f780c70488da40913d116";
+              hash = "sha256-s/HaZXACL+EaAHt1Dqc7I420yEk0jx1fxLSMIMZqYrA=";
+              fetchSubmodules = true;
+            };
+          };
           extraConfig = ''
             set -g @resurrect-capture-pane-contents 'on'
             set -g @resurrect-pane-contents-area 'visible'
