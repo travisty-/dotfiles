@@ -64,14 +64,20 @@
             }
           ];
         };
+        advisorModel = "fable";
         autoMode = {
           hard_deny = ["$defaults"];
           soft_deny = ["$defaults"];
         };
-        effortLevel = "high";
+        effortLevel = "xhigh";
         keybindingFlavor = "readline";
         outputStyle = "Concise";
-        model = "best";
+        model = "opus";
+        modelSettings = {
+          "claude-opus-5-5" = {
+            effortLevel = "xhigh";
+          };
+        };
         permissions = {
           defaultMode = "auto";
         };
