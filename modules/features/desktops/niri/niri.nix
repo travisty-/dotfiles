@@ -320,7 +320,7 @@
       spawn-at-startup = [
         {argv = ["1password" "--silent"];}
         {argv = ["wl-clip-persist" "--clipboard" "both"];}
-        {argv = ["ghostty" "--class=com.mitchellh.ghostty" "-e" "tmux" "new-session" "-A" "-s" "dotfiles"];}
+        {argv = ["ghostty" "--class=com.mitchellh.ghostty" "-e" "tmux" "new-session" "-A" "-s" "dotfiles/nixos"];}
 
         # To run a shell command (with variables, pipes, etc.), use the sh form:
         # { sh = "qs -c ~/source/qs/MyAwesomeShell"; }
