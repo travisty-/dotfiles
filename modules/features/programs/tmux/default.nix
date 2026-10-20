@@ -75,6 +75,19 @@
         # Enable true color in supported terminals.
         set -as terminal-features ",xterm-256color:RGB"
 
+        # Use terminal ANSI colors.
+        set -g theme terminal
+
+        # Set the status line style for the currently active window.
+        set -g window-status-current-style default
+
+        # Use the terminal's default colors for menus, popups, and panes.
+        set -g menu-style default
+        set -g menu-border-style default
+        set -g popup-style default
+        set -g popup-border-style default
+        set -g pane-border-style default
+
         # Batch redraws so the terminal never paints a half-drawn frame. (DEC 2026)
         # https://github.com/contour-terminal/vt-extensions/blob/master/synchronized-output.md
         set -as terminal-features ",xterm-256color:sync"
@@ -103,9 +116,13 @@
         bind -N "Split window vertically" '"' split-window -v -c "#{pane_current_path}"
         bind -N "Split window horizontally" % split-window -h -c "#{pane_current_path}"
 
-        # Open `choose-tree` with the larger preview pane.
-        bind -N "Choose a session" s choose-tree -sNNZ -O name
-        bind -N "Choose a window" w choose-tree -wNNZ
+        # Open `choose-tree` in a centered modal pane.
+        bind -N "Choose a session" s 'new-pane -CEO -x50% -y45%; move-pane -P centre; choose-tree -Nhks -O name'
+        bind -N "Choose a window" w 'new-pane -CEO -x50% -y45%; move-pane -P centre; choose-tree -Nhkw -O name'
+
+        # Open `switch-mode` in a centered modal pane.
+        bind -N "Switch to a window" Tab 'new-pane -CEO -x50% -y45%; move-pane -P centre; switch-mode -kw'
+        bind -N "Switch to a session" BTab 'new-pane -CEO -x50% -y45%; move-pane -P centre; switch-mode -ks'
 
         # Open the Claude Code agents dashboard in a floating popup.
         bind -N "Open the agents dashboard" A display-popup -E -w 75% -h 75% ${scripts}/bin/tmux-claude-dashboard.py
@@ -116,10 +133,6 @@
           "New session"      n "new-window -c '#{pane_current_path}' 'exec claude'" \
           "Resume session"   r "new-window -c '#{pane_current_path}' 'exec claude --resume'" \
           "Continue session" c "new-window -c '#{pane_current_path}' 'exec claude --continue'"
-
-        # https://github.com/tmux/tmux/issues/5056
-        # bind -N "Choose a session" s 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nskh'
-        # bind -N "Choose a window" w 'new-pane -kE -X25% -Y27% -x50% -y45%; choose-tree -Nwkh'
 
         # Include key bindings without notes in list.
         bind -N "List key bindings" ? list-keys -Na
