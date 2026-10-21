@@ -16,15 +16,11 @@ in {
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [config.flake.modules.homeManager.${name}];
-        extraSpecialArgs = {
-          inherit inputs;
-        };
       };
     };
 
     mkNixos = name: system: {
       ${name} = lib.nixosSystem {
-        inherit system;
         modules = [
           config.flake.modules.nixos.${name}
           {
@@ -32,9 +28,6 @@ in {
             nixpkgs.hostPlatform = mkDefault system;
           }
         ];
-        specialArgs = {
-          inherit inputs;
-        };
       };
     };
   };
