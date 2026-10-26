@@ -1,9 +1,11 @@
 {
-  flake.modules.nixos.spotify = {pkgs, ...}: {
-    environment.systemPackages = with pkgs; [
+  flake.modules.homeManager.spotify = {pkgs, ...}: {
+    home.packages = with pkgs; [
       spotify
     ];
+  };
 
+  flake.modules.nixos.spotify = {
     # Allow syncing local tracks with mobile devices in the same network.
     networking.firewall.allowedTCPPorts = [57621];
 
