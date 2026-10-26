@@ -38,6 +38,20 @@
       username = "travis";
       shell = pkgs.fish;
     };
+
+    services.pipewire.wireplumber.extraConfig.devices."monitor.alsa.rules" = [
+      {
+        matches = [
+          {"device.product.name" = "GA102 High Definition Audio Controller";}
+          {"device.product.name" = "Starship/Matisse HD Audio Controller";}
+        ];
+        actions.update-props."device.disabled" = true;
+      }
+      {
+        matches = [{"node.name" = "alsa_output.usb-Audioengine_Audioengine_2_-00.analog-stereo";}];
+        actions.update-props."node.description" = "Audioengine A2+";
+      }
+    ];
   };
 
   flake.nixosConfigurations = inputs.self.lib.mkNixos "earth" "x86_64-linux";
