@@ -17,6 +17,7 @@
         disable-rgb
         i2c
         disko
+        element-iii
         firefox
         fstrim
         keyd
