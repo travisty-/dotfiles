@@ -12,9 +12,6 @@
       pkgs.sbctl # For debugging and troubleshooting Secure Boot.
     ];
 
-    # Required for TPM to automatically unlock encrypted disks.
-    boot.initrd.systemd.enable = true;
-
     # Lanzaboote currently replaces the systemd-boot module.
     # This setting is usually set to true in configuration.nix
     # generated at installation time. So we force it to false for now.
