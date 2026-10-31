@@ -9,7 +9,7 @@
     programs.claude-code = {
       enable = true;
       package = pkgs.claude-code.overrideAttrs {
-        postInstall = "wrapProgram $out/bin/claude --prefix PATH : ${pkgs.nodejs}/bin";
+        postInstall = "wrapProgram $out/bin/.claude-wrapped --argv0 claude --prefix PATH : ${pkgs.nodejs}/bin";
       };
       configDir = "${config.xdg.configHome}/claude";
       context = ./_CLAUDE.md;
