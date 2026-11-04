@@ -34,6 +34,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     niri = {
       url = "github:sodiboo/niri-flake";
       # https://github.com/Supreeeme/xwayland-satellite/issues/468

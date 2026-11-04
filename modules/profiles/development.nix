@@ -2,6 +2,7 @@
   flake.profiles.homeManager.development = {
     imports = with inputs.self.modules.homeManager; [
       claude-code
+      claude-desktop
       deadnix
       devenv
       editorconfig
@@ -22,6 +23,7 @@
 
   flake.profiles.nixos.development = {
     imports = with inputs.self.modules.nixos; [
+      claude-desktop
       docker
       virt-manager
     ];
