@@ -7,6 +7,7 @@
       chafa
       chezmoi
       direnv
+      dust
       eza
       fastfetch
       fd
