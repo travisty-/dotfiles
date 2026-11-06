@@ -2,6 +2,7 @@
   flake.profiles.homeManager.cli = {
     imports = with inputs.self.modules.homeManager; [
       bind
+      bottom
       btop
       chafa
       chezmoi
