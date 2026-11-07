@@ -3,7 +3,7 @@ keys:
   - &earth ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINx3gbuTWB/KLNWKJ/zccT+fI+QkrNpXvd3LzEqo0GDV
 
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: ^secrets/secrets\.enc\.yaml$
     key_groups:
       - age:
         - *travis

@@ -272,8 +272,15 @@ The flake-level plumbing is in `modules/features/flake/`:
 ### Secrets
 
 Managed with sops-nix.
-Every host key is a recipient, so secrets shared across hosts are declared on the NixOS side, which decrypts them unattended at activation.
-The Home Manager side is reserved for user-specific secrets and declares none yet, so its sops-nix unit only exists once one is added.
+Secrets are split into files by who may decrypt them:
+
+- `secrets/secrets.enc.yaml`: secrets shared by every host and user, encrypted to all of their keys.
+- `secrets/<host>.enc.yaml`: one host's secrets, encrypted to that host and `travis`.
+
+Only the shared file exists so far.
+`.sops.yaml` has one creation rule, matching only the shared file, so sops refuses to encrypt a new host file until it gets its own rule.
+The NixOS side decrypts both with the host key, unattended at activation.
+Home Manager imports sops-nix too but declares no secrets, so its sops-nix unit only exists once one is added.
 Cross-cutting setup is in `modules/features/shared/secrets.nix`, where each class imports the upstream sops-nix module and sets `defaultSopsFile` to the shared file.
 sops-nix uses SOPS's native SSH key support: NixOS sets `sops.age.sshKeyFile` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `sops.age.sshKeyCmd` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
 The same command is exported as `SOPS_AGE_SSH_PRIVATE_KEY_CMD` for the `sops` CLI.
