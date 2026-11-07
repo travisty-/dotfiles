@@ -274,15 +274,14 @@ The flake-level plumbing is in `modules/features/flake/`:
 Managed with sops-nix.
 Every host key is a recipient, so secrets shared across hosts are declared on the NixOS side, which decrypts them unattended at activation.
 The Home Manager side is reserved for user-specific secrets and declares none yet, so its sops-nix unit only exists once one is added.
-Cross-cutting setup is in `modules/features/shared/secrets.nix` for both classes.
-A `shared` module there carries the settings common to both classes (`defaultSopsFile`, `age.keyFile = ""`) and is imported next to the upstream sops-nix module.
-SOPS reads the SSH key itself through its native environment variables: NixOS sets `SOPS_AGE_SSH_PRIVATE_KEY_FILE` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `SOPS_AGE_SSH_PRIVATE_KEY_CMD` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
-The same command is exported as a session variable for the `sops` CLI.
-Key import by sops-nix itself is switched off (`age.keyFile = ""` on both classes, plus empty `age.sshKeyPaths` and `gnupg.sshKeyPaths` on NixOS, where they default to the OpenSSH host keys): its ssh-to-age identities cannot open the `ssh-ed25519` stanzas in the secrets file, so the import would only leave an unusable `age-keys.txt` and gpg keyring under `/run/secrets.d`.
+Cross-cutting setup is in `modules/features/shared/secrets.nix`, where each class imports the upstream sops-nix module and sets `defaultSopsFile` to the shared file.
+sops-nix uses SOPS's native SSH key support: NixOS sets `sops.age.sshKeyFile` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `sops.age.sshKeyCmd` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
+The same command is exported as `SOPS_AGE_SSH_PRIVATE_KEY_CMD` for the `sops` CLI.
+Either option skips sops-nix's ssh-to-age import, whose converted identities cannot open the `ssh-ed25519` stanzas in the secrets files.
+NixOS also empties `gnupg.sshKeyPaths`, which defaults to the OpenSSH RSA host keys and would otherwise leave a throwaway gpg keyring under `/run/secrets.d`.
 The SSH agent can't stand in for `op read`: decrypting to an `ssh-ed25519` recipient needs the private key, and the agent protocol only signs.
 The Home Manager unit's PATH is forced to `/run/wrappers/bin`: sops-nix otherwise sets it to its age plugins (empty here), and `op` must be the setgid wrapper for the desktop app integration.
 Every run of that unit needs a 1Password authorization prompt, and `op` fails instantly while the app is not running (the case at login, before niri has spawned it) or has been locked after an earlier unlock, so the unit retries every minute; against the freshly launched app the prompt goes through and the password unlocks the vault as well.
-Native SSH key support in sops-nix would retire the `age.keyFile = ""` workaround (sops-nix#695, sops-nix#824).
 `features/shared/config.nix` renders `GITHUB_ACCESS_TOKEN` into an `access-tokens` template that `/etc/nix/nix.conf` pulls in with `!include`.
 Flake inputs are fetched by the calling user's nix rather than the daemon, so the template is readable by `wheel`; nix silently skips it for anyone else.
 Unlike `include`, `!include` tolerates a missing file (the build-time config check, or a boot where decryption failed), where `include` would make every nix command fail; an unreadable file is skipped by both.

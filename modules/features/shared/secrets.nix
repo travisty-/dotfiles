@@ -1,12 +1,4 @@
-{inputs, ...}: let
-  # An empty key file bypasses ssh-to-age key conversion in sops-install-secrets.
-  # SOPS reads the ssh key directly via SOPS_AGE_SSH_PRIVATE_KEY_* vars instead.
-  # (sops-nix#695, sops-nix#824)
-  shared.sops = {
-    age.keyFile = "";
-    defaultSopsFile = ../../../secrets/secrets.enc.yaml;
-  };
-in {
+{inputs, ...}: {
   flake.modules.homeManager.base = {
     config,
     lib,
@@ -14,12 +6,13 @@ in {
   }: let
     inherit (config.meta.user) sshKeyCommand;
   in {
-    imports = [inputs.sops-nix.homeManagerModules.sops shared];
+    imports = [inputs.sops-nix.homeManagerModules.sops];
     home.sessionVariables.SOPS_AGE_SSH_PRIVATE_KEY_CMD = sshKeyCommand;
 
-    sops.environment = {
-      PATH = lib.mkForce "/run/wrappers/bin"; # op read
-      SOPS_AGE_SSH_PRIVATE_KEY_CMD = sshKeyCommand;
+    sops = {
+      age.sshKeyCmd = sshKeyCommand;
+      defaultSopsFile = ../../../secrets/secrets.enc.yaml;
+      environment.PATH = lib.mkForce "/run/wrappers/bin"; # op read
     };
 
     # Upstream defines the unit only while sops.secrets is non-empty.
@@ -32,12 +25,12 @@ in {
   };
 
   flake.modules.nixos.base = {
-    imports = [inputs.sops-nix.nixosModules.sops shared];
+    imports = [inputs.sops-nix.nixosModules.sops];
 
     sops = {
-      age.sshKeyPaths = [];
+      age.sshKeyFile = "/etc/ssh/ssh_host_ed25519_key";
+      defaultSopsFile = ../../../secrets/secrets.enc.yaml;
       gnupg.sshKeyPaths = [];
-      environment.SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/etc/ssh/ssh_host_ed25519_key";
     };
   };
 }
