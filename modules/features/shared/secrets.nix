@@ -22,9 +22,12 @@ in {
       SOPS_AGE_SSH_PRIVATE_KEY_CMD = sshKeyCommand;
     };
 
-    systemd.user.services.sops-nix.Service = {
-      Restart = "on-failure";
-      RestartSec = "1min";
+    # Upstream defines the unit only while sops.secrets is non-empty.
+    systemd.user.services.sops-nix = lib.mkIf (config.sops.secrets != {}) {
+      Service = {
+        Restart = "on-failure";
+        RestartSec = "1min";
+      };
     };
   };
 

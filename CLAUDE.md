@@ -272,6 +272,8 @@ The flake-level plumbing is in `modules/features/flake/`:
 ### Secrets
 
 Managed with sops-nix.
+Every host key is a recipient, so secrets shared across hosts are declared on the NixOS side, which decrypts them unattended at activation.
+The Home Manager side is reserved for user-specific secrets and declares none yet, so its sops-nix unit only exists once one is added.
 Cross-cutting setup is in `modules/features/shared/secrets.nix` for both classes.
 A `shared` module there carries the settings common to both classes (`defaultSopsFile`, `age.keyFile = ""`) and is imported next to the upstream sops-nix module.
 SOPS reads the SSH key itself through its native environment variables: NixOS sets `SOPS_AGE_SSH_PRIVATE_KEY_FILE` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `SOPS_AGE_SSH_PRIVATE_KEY_CMD` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
@@ -281,7 +283,9 @@ The SSH agent can't stand in for `op read`: decrypting to an `ssh-ed25519` recip
 The Home Manager unit's PATH is forced to `/run/wrappers/bin`: sops-nix otherwise sets it to its age plugins (empty here), and `op` must be the setgid wrapper for the desktop app integration.
 Every run of that unit needs a 1Password authorization prompt, and `op` fails instantly while the app is not running (the case at login, before niri has spawned it) or has been locked after an earlier unlock, so the unit retries every minute; against the freshly launched app the prompt goes through and the password unlocks the vault as well.
 Native SSH key support in sops-nix would retire the `age.keyFile = ""` workaround (sops-nix#695, sops-nix#824).
-`features/shared/config.nix` holds class-specific secrets/templates (e.g., `GITHUB_ACCESS_TOKEN` and the generated `nix.conf` that embeds it as a GitHub access token).
+`features/shared/config.nix` renders `GITHUB_ACCESS_TOKEN` into an `access-tokens` template that `/etc/nix/nix.conf` pulls in with `!include`.
+Flake inputs are fetched by the calling user's nix rather than the daemon, so the template is readable by `wheel`; nix silently skips it for anyone else.
+Unlike `include`, `!include` tolerates a missing file (the build-time config check, or a boot where decryption failed), where `include` would make every nix command fail; an unreadable file is skipped by both.
 Encrypted secrets are stored in `secrets/secrets.enc.yaml`, decrypted at runtime via SOPS native SSH support.
 The `.sops.yaml` uses raw `ssh-ed25519` public keys as recipients.
 Modules reference secrets via `config.sops.secrets.<name>` or template them with `sops.templates`.
