@@ -280,6 +280,8 @@ Secrets are split into files by who may decrypt them:
 Only the shared file exists so far.
 `.sops.yaml` has one creation rule, matching only the shared file, so sops refuses to encrypt a new host file until it gets its own rule.
 The NixOS side decrypts both with the host key, unattended at activation.
+`features/shared/user.nix` declares `USER_PASSWORD_HASH` (in the shared file) as the password of the main user and root in the NixOS base, and turns `users.mutableUsers` off so the hash is authoritative on every host.
+`passwd` and `chsh` are gone as a result; a password change is a new hash in the secrets file.
 Home Manager imports sops-nix too but declares no secrets, so its sops-nix unit only exists once one is added.
 Cross-cutting setup is in `modules/features/shared/secrets.nix`, where each class imports the upstream sops-nix module and sets `defaultSopsFile` to the shared file.
 sops-nix uses SOPS's native SSH key support: NixOS sets `sops.age.sshKeyFile` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `sops.age.sshKeyCmd` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
