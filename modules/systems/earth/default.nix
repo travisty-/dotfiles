@@ -15,11 +15,11 @@
         btrbk
         coolercontrol
         disable-rgb
-        i2c
         disko
         element-iii
         firefox
         fstrim
+        i2c
         keyd
         networking
         nix-helpers
