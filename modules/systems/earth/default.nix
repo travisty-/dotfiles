@@ -30,6 +30,7 @@
         printing
         restic
         secure-boot
+        smartd
         solaar
         tailscale
       ]);
