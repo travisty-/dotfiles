@@ -4,9 +4,11 @@
   flake.modules.homeManager.niri = {
     config,
     lib,
+    options,
     pkgs,
     ...
   }: let
+    inherit (inputs.niri.lib.kdl) leaf plain;
     noctalia = cmd: ["noctalia" "msg"] ++ lib.splitString " " cmd;
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
@@ -838,6 +840,18 @@
         "Mod+Shift+P".action = power-off-monitors;
       };
     };
+
+    # Adds per-output layout overrides, which niri-flake's typed outputs don't support yet.
+    programs.niri.config = let
+      layout = plain "layout" [(plain "default-column-width" [(leaf "proportion" (1.0 / 3.0))])];
+    in
+      options.programs.niri.config.default
+      |> map (
+        node:
+          if node.name == "output" && node.arguments == [primary]
+          then node // {children = node.children ++ [layout];}
+          else node
+      );
 
     # Add raw KDL extensions for features that niri-flake doesn't support yet;
     # revalidated via `niri validate` so errors still surface at build time.
