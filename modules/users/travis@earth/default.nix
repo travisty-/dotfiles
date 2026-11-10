@@ -48,6 +48,7 @@
           };
           focus-at-startup = true;
           variable-refresh-rate = "on-demand"; # true
+          layout.default-column-width.proportion = 1.0 / 3.0;
         };
         secondary = {
           name = "DP-2";

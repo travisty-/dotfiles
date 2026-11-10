@@ -1,10 +1,12 @@
 {inputs, ...}: {
-  flake.modules.nixos.niri = {pkgs, ...}: {
+  flake.modules.nixos.niri = {pkgs, ...}: let
+    niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
+  in {
     imports = [inputs.niri.nixosModules.niri];
 
     nix.settings = {
-      extra-substituters = ["https://niri.cachix.org"];
-      extra-trusted-public-keys = ["niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="];
+      extra-substituters = ["https://niri-epireyn.cachix.org"];
+      extra-trusted-public-keys = ["niri-epireyn.cachix.org-1:tlVyFN7CtsDT+ZcLPS+ekFWeT1X6X4OqvWqbBMyIzFA="];
     };
 
     # Uses substituters instead of extras.
@@ -12,7 +14,7 @@
 
     programs.niri = {
       enable = true;
-      package = pkgs.niri;
+      package = niriPkgs.niri-unstable;
     };
 
     # An application for managing disks and partitions.

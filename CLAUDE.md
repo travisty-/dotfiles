@@ -392,10 +392,10 @@ Source bumps are a separate, deliberate step; neither `nix flake update` nor `nh
 
 ### Flake inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (sodiboo/niri-flake), `noctalia` (desktop shell), `llm-agents` (numtide/llm-agents.nix, for Claude Desktop).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (epireyn/niri-flake), `noctalia` (desktop shell), `llm-agents` (numtide/llm-agents.nix, for Claude Desktop).
 
 **Binary-cache-backed inputs deliberately skip `inputs.nixpkgs.follows = "nixpkgs"`** (`niri`, `vicinae`, `noctalia`, `llm-agents`).
-Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`, `cache.numtide.com`), forcing local source compiles on every bump.
+Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri-epireyn.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`, `cache.numtide.com`), forcing local source compiles on every bump.
 The closure-size cost of an extra nixpkgs revision is the deliberate tradeoff.
 `llm-agents` has a second reason: its flake evaluates all of its packages to filter them by platform, so a single package that needs a newer nixpkgs than ours would break `claude-desktop` as well.
 The other inputs (`bedrock-on-linux`, `disko`, `git-hooks`, `home-manager`, `lanzaboote`, `sops-nix`, `treefmt-nix`) follow safely because they ship Nix modules, build infrastructure, or derivations built entirely from nixpkgs rather than precompiled binaries; the hash divergence has no real cost.

@@ -4,12 +4,11 @@
   flake.modules.homeManager.niri = {
     config,
     lib,
-    options,
     pkgs,
     ...
   }: let
-    inherit (inputs.niri.lib.kdl) leaf plain;
     noctalia = cmd: ["noctalia" "msg"] ++ lib.splitString " " cmd;
+    niriPkgs = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system};
     scripts = import ./_scripts.nix {inherit pkgs;};
     cfg = config.internal.desktops.niri;
     primary = cfg.outputs.primary.name;
@@ -17,7 +16,7 @@
   in {
     imports = [inputs.niri.homeModules.config];
 
-    programs.niri.package = pkgs.niri;
+    programs.niri.package = niriPkgs.niri-unstable;
 
     programs.niri.settings = {
       # Input device configuration.
@@ -93,7 +92,12 @@
       };
 
       # Disable the hot corner that opens the overview on mouse over.
-      gestures.hot-corners.enable = false;
+      gestures.hot-corners = {
+        top-left = false;
+        top-right = false;
+        bottom-left = false;
+        bottom-right = false;
+      };
 
       # You can configure outputs by their name, which you can find
       # by running `niri msg outputs` while inside a niri instance.
@@ -304,10 +308,11 @@
         };
       };
 
+      # Required when using niri-unstable for version compatibility.
       # Niri auto-spawns the satellite when an X11 client connects.
       xwayland-satellite = {
         enable = true;
-        path = lib.getExe pkgs.xwayland-satellite;
+        path = lib.getExe niriPkgs.xwayland-satellite-unstable;
       };
 
       # Niri emits XCURSOR_SIZE into the environment of every spawned process,
@@ -465,15 +470,31 @@
           };
           clip-to-geometry = true;
         }
+
+        # Blur all apps without xray so it looks more realistic.
+        # https://docs.noctalia.dev/noctalia/compositor-settings/niri/#blur
+        {
+          background-effect = {
+            blur = true;
+            xray = false;
+          };
+        }
       ];
 
-      # Allows Noctalia to render a blurred and dimmed copy of your wallpaper
-      # that only appears in the backdrop of Niri's overview. Also requires
-      # `backdrop.enabled` in Noctalia's settings.
       layer-rules = [
+        # Allows Noctalia to render a blurred and dimmed copy of your wallpaper
+        # that only appears in the backdrop of Niri's overview. Also requires
+        # `backdrop.enabled` in Noctalia's settings.
         {
           matches = [{namespace = "^noctalia-backdrop";}];
           place-within-backdrop = true;
+        }
+
+        # Disable xray on all surfaces so it looks more realistic. Noctalia publishes
+        # blur regions automatically when ext-background-effects is available.
+        {
+          matches = [{namespace = ''^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd)$'';}];
+          background-effect.xray = false;
         }
       ];
 
@@ -840,44 +861,5 @@
         "Mod+Shift+P".action = power-off-monitors;
       };
     };
-
-    # Adds per-output layout overrides, which niri-flake's typed outputs don't support yet.
-    programs.niri.config = let
-      layout = plain "layout" [(plain "default-column-width" [(leaf "proportion" (1.0 / 3.0))])];
-    in
-      options.programs.niri.config.default
-      |> map (
-        node:
-          if node.name == "output" && node.arguments == [primary]
-          then node // {children = node.children ++ [layout];}
-          else node
-      );
-
-    # Add raw KDL extensions for features that niri-flake doesn't support yet;
-    # revalidated via `niri validate` so errors still surface at build time.
-    # https://docs.noctalia.dev/noctalia/compositor-settings/niri/#blur
-    xdg.configFile.niri-config.source = let
-      inherit (inputs.niri.lib.internal) validated-config-for;
-      inherit (config.programs.niri) finalConfig package;
-    in
-      lib.mkForce (
-        validated-config-for pkgs package ''
-          ${finalConfig}
-
-          window-rule {
-            background-effect {
-              blur true
-              xray false
-            }
-          }
-
-          layer-rule {
-            match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
-            background-effect {
-              xray false
-            }
-          }
-        ''
-      );
   };
 }
