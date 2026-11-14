@@ -22,5 +22,11 @@
 
     # Relocate the PulseAudio cookie (~/.pulse-cookie) into $XDG_CONFIG_HOME.
     environment.sessionVariables.PULSE_COOKIE = "$HOME/.config/pulse/cookie";
+
+    internal.persistence = {
+      home.directories = [
+        ".local/state/wireplumber"
+      ];
+    };
   };
 }

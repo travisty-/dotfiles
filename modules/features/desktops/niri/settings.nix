@@ -24,5 +24,12 @@
         exec niri-session -l
       end
     '';
+
+    internal.persistence = {
+      home.directories = [
+        ".config/dconf"
+        ".local/share/keyrings"
+      ];
+    };
   };
 }

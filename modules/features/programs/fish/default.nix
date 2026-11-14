@@ -29,6 +29,13 @@
     xdg.configFile."fish/conf.d/00-async-prompt.fish" = {
       source = ./conf.d/00-async-prompt.fish;
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/fish"
+        ".local/share/fish"
+      ];
+    };
   };
 
   flake.modules.nixos.fish = {pkgs, ...}: {

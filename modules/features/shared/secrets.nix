@@ -25,10 +25,15 @@
   };
 
   flake.modules.nixos.base = {
+    config,
+    lib,
+    ...
+  }: {
     imports = [inputs.sops-nix.nixosModules.sops];
 
     sops = {
-      age.sshKeyFile = "/etc/ssh/ssh_host_ed25519_key";
+      # System activation runs in initrd before the host keys are linked, so the key is read from its persistent path.
+      age.sshKeyFile = lib.optionalString (config.preservation.enable or false) "/persist" + "/etc/ssh/ssh_host_ed25519_key";
       defaultSopsFile = ../../../secrets/secrets.enc.yaml;
       gnupg.sshKeyPaths = [];
     };

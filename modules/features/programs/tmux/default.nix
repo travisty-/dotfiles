@@ -152,5 +152,11 @@
         bind -N "Clear screen" C-l if -F '#{@pane-is-vim}' { send-keys C-S-F12 } { send-keys C-l }
       '';
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".local/share/tmux"
+      ];
+    };
   };
 }

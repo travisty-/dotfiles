@@ -8,14 +8,6 @@
     inherit (config.meta) user;
     inherit (lib) getExe' mkIf;
   in {
-    programs.ssh = {
-      enable = true;
-      enableDefaultConfig = false;
-      settings."*" = {
-        IdentityAgent = "~/.1password/agent.sock";
-      };
-    };
-
     programs.git = mkIf (config.programs.git.enable && user.signingKey != null) {
       settings = {
         commit.gpgsign = true;
@@ -27,6 +19,18 @@
         gpg.ssh.program = getExe' pkgs._1password-gui "op-ssh-sign";
         user.signingKey = user.signingKey;
       };
+    };
+
+    programs.ssh.settings."*".IdentityAgent = "~/.1password/agent.sock";
+
+    internal.persistence = {
+      home.directories = [
+        ".config/1Password"
+        {
+          directory = ".config/op";
+          mode = "0700";
+        }
+      ];
     };
   };
 

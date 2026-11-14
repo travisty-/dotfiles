@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.btrbk = {
+  flake.modules.nixos.btrbk = {config, ...}: {
     services.btrbk = {
       instances.btrbk = {
         onCalendar = "hourly";
@@ -8,7 +8,10 @@
           snapshot_preserve = "2w";
           volume."/" = {
             snapshot_dir = "/.snapshots";
-            subvolume = "home";
+            subvolume =
+              if config.preservation.enable or false
+              then "persist"
+              else "home";
           };
         };
       };

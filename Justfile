@@ -59,6 +59,6 @@ sops-rekey:
 restic-excluded depth="4":
     snapshot="$(sudo restic-b2 ls latest)" || exit
     find . -mindepth 1 -maxdepth {{depth}} -type d -printf '%P\n' \
-        | grep --fixed-strings --line-regexp --invert-match --file=<(sed "s#^$HOME/##" <<< "$snapshot") \
+        | grep --fixed-strings --line-regexp --invert-match --file=<(sed -E "s#^(/persist)?$HOME/##" <<< "$snapshot") \
         | xargs --no-run-if-empty --delimiter='\n' du --summarize --human-readable 2>/dev/null \
         | sort --reverse --human-numeric-sort

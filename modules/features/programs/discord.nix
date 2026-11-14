@@ -15,5 +15,12 @@
     xdg.mimeApps = {
       defaultApplicationPackages = with pkgs; [vesktop];
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/discord"
+        ".config/vesktop"
+      ];
+    };
   };
 }

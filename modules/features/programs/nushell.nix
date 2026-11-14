@@ -7,5 +7,12 @@
         query
       ];
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/nushell"
+        ".local/share/nushell"
+      ];
+    };
   };
 }

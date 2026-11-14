@@ -3,5 +3,11 @@
     programs.bottom = {
       enable = true;
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/bottom"
+      ];
+    };
   };
 }

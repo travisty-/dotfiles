@@ -2,6 +2,7 @@
   flake.modules.nixos.earth = let
     mountOptions = ["compress=zstd" "noatime" "x-gvfs-trash"];
   in {
+    fileSystems."/home".neededForBoot = true;
     disko.devices.disk = {
       nvme0 = {
         type = "disk";
@@ -45,6 +46,14 @@
                     "@log" = {
                       inherit mountOptions;
                       mountpoint = "/var/log";
+                    };
+                    "@persist" = {
+                      inherit mountOptions;
+                      mountpoint = "/persist";
+                    };
+                    "@snapshots" = {
+                      inherit mountOptions;
+                      mountpoint = "/.snapshots";
                     };
                   };
                 };

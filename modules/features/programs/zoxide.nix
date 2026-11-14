@@ -30,5 +30,11 @@
 
       compdef _cd_zoxide cd
     '';
+
+    internal.persistence = {
+      home.directories = [
+        ".local/share/zoxide"
+      ];
+    };
   };
 }

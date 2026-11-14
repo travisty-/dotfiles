@@ -27,6 +27,7 @@
         openrgb
         openssh
         power-profiles
+        preservation
         printing
         restic
         secure-boot

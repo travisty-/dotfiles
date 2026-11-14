@@ -40,6 +40,8 @@
 
     noctalia.url = "github:noctalia-dev/noctalia";
 
+    preservation.url = "github:nix-community/preservation";
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

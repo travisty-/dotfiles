@@ -89,5 +89,11 @@
     xdg.mimeApps.defaultApplications = {
       "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/claude"
+      ];
+    };
   };
 }

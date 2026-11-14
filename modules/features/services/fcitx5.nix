@@ -4,6 +4,13 @@
       "Hotkey/TriggerKeys"."0" = "Control+Alt+Shift+space";
       "Behavior/DisabledAddons"."0" = "clipboard";
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/fcitx5"
+        ".config/mozc"
+      ];
+    };
   };
 
   flake.modules.nixos.fcitx5 = {pkgs, ...}: {

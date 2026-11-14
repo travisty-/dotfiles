@@ -24,5 +24,12 @@
     xdg.mimeApps = {
       defaultApplicationPackages = with pkgs; [qbittorrent];
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/qBittorrent"
+        ".local/share/qBittorrent"
+      ];
+    };
   };
 }

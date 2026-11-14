@@ -20,7 +20,7 @@
     boot.lanzaboote = {
       enable = true;
       autoEnrollKeys.enable = true;
-      autoGenerateKeys.enable = true;
+      autoGenerateKeys.enable = false; # Would replace lost keys with unenrolled ones and allow unsigned images.
       pkiBundle = "/var/lib/sbctl";
 
       # A systemd-pcrlock policy can hold at most 8 PCR alternatives.
@@ -51,6 +51,11 @@
           "500-separator.pcrlock.d/300-0x00000000.pcrlock"
         ];
       };
+    };
+
+    internal.persistence = {
+      root.directories = ["/var/lib/sbctl"];
+      root.files = ["/etc/kernel/entry-token"];
     };
   };
 }

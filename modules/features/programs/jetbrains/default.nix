@@ -19,6 +19,7 @@
 
     # https://github.com/NixOS/nixpkgs/issues/240444
     config = let
+      anyEnabled = any (x: x.enable) (attrValues cfg);
       withOpts = pkg:
         pkg.override {
           vmopts = "-Dawt.toolkit.name=WLToolkit";
@@ -34,8 +35,17 @@
           (optional cfg.rustrover.enable (withOpts jetbrains.rust-rover))
         ];
 
-      home.file.".ideavimrc" = mkIf (any (x: x.enable) (attrValues cfg)) {
+      home.file.".ideavimrc" = mkIf anyEnabled {
         source = ./.ideavimrc;
+      };
+
+      internal.persistence = {
+        home.directories = mkIf anyEnabled [
+          ".cache/JetBrains"
+          ".config/JetBrains"
+          ".local/share/JetBrains"
+          ".java/.userPrefs"
+        ];
       };
     };
   };

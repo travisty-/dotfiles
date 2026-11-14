@@ -24,6 +24,7 @@ My personal dotfiles, managed with Nix.
 - Scheduled backups via [`restic`](https://github.com/restic/restic)
 - Secret management via [`sops-nix`](https://github.com/Mic92/sops-nix)
 - Secure boot via [`lanzaboote`](https://github.com/nix-community/lanzaboote)
+- State management via [`preservation`](https://github.com/nix-community/preservation)
 
 [1]: https://github.com/hercules-ci/flake-parts
 [2]: https://github.com/vic/import-tree

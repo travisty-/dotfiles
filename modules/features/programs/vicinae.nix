@@ -33,6 +33,15 @@
         launcher_window.layer_shell.layer = "overlay";
       };
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".cache/vicinae"
+        ".config/vicinae"
+        ".local/share/vicinae"
+        ".local/state/vicinae"
+      ];
+    };
   };
 
   flake.modules.nixos.vicinae = {

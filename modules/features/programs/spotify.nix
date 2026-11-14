@@ -3,6 +3,13 @@
     home.packages = with pkgs; [
       spotify
     ];
+
+    internal.persistence = {
+      home.directories = [
+        ".cache/spotify"
+        ".config/spotify"
+      ];
+    };
   };
 
   flake.modules.nixos.spotify = {

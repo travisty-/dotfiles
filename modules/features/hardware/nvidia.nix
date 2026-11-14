@@ -38,5 +38,11 @@
       CUDA_CACHE_PATH = "$HOME/.cache/nvidia";
       __GL_SHADER_DISK_CACHE_PATH = "$HOME/.cache/nvidia";
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".cache/nvidia"
+      ];
+    };
   };
 }

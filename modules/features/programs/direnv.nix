@@ -8,5 +8,11 @@
       enableNushellIntegration = true;
       enableZshIntegration = true;
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".local/share/direnv"
+      ];
+    };
   };
 }

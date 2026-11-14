@@ -12,5 +12,11 @@
     virtualisation.libvirtd.qemu.vhostUserPackages = [pkgs.virtiofsd];
 
     users.users.${username}.extraGroups = ["libvirtd"];
+
+    internal.persistence = {
+      root.directories = [
+        "/var/lib/libvirt"
+      ];
+    };
   };
 }

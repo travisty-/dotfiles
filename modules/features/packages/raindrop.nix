@@ -7,5 +7,11 @@
     home.packages = [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.raindrop
     ];
+
+    internal.persistence = {
+      home.directories = [
+        ".config/Raindrop.io"
+      ];
+    };
   };
 }

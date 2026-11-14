@@ -8,6 +8,12 @@
     };
 
     home.packages = [pkgs.libnotify];
+
+    internal.persistence = {
+      home.directories = [
+        ".local/state/noctalia"
+      ];
+    };
   };
 
   flake.modules.nixos.noctalia = {
@@ -21,6 +27,12 @@
     programs.noctalia = {
       enable = true;
       recommendedServices.enable = true;
+    };
+
+    internal.persistence = {
+      root.directories = [
+        "/var/lib/upower" # Added via recommended services
+      ];
     };
   };
 }

@@ -7,5 +7,11 @@
     services.btrfs.autoScrub.enable =
       lib.any (fs: fs.fsType == "btrfs")
       (lib.attrValues config.fileSystems);
+
+    internal.persistence = {
+      root.directories = [
+        "/var/lib/btrfs"
+      ];
+    };
   };
 }

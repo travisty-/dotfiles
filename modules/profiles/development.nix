@@ -8,13 +8,17 @@
       editorconfig
       gh
       git
+      go
       helix
       jetbrains
       just
       lazygit
       neovim
       nix-update
+      node
+      python
       rumdl
+      rust
       sops
       statix
       vscode

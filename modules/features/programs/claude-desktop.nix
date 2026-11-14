@@ -15,6 +15,12 @@
         commandLineArgs = "--password-store=gnome-libsecret";
       })
     ];
+
+    internal.persistence = {
+      home.directories = [
+        ".config/Claude"
+      ];
+    };
   };
 
   flake.modules.nixos.claude-desktop = {

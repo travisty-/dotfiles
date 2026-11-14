@@ -206,6 +206,12 @@
         '';
       };
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/mozilla"
+      ];
+    };
   };
 
   flake.modules.nixos.firefox = {

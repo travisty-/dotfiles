@@ -16,5 +16,11 @@
         postBuild = "wrapProgram $out/bin/lazygit --prefix PATH : ${app}/bin";
       };
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".local/state/lazygit"
+      ];
+    };
   };
 }

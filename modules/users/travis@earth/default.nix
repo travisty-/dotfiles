@@ -18,6 +18,7 @@
         loupe
         matrix
         meld
+        openssh
         papers
         remmina
         solaar
@@ -83,6 +84,21 @@
       pycharm.enable = true;
       rider.enable = true;
       rustrover.enable = true;
+    };
+
+    internal.persistence = {
+      home.directories = [
+        ".config/travis"
+        ".local/share/travis"
+        ".local/state/travis"
+        ".local/bin"
+        ".vaults"
+        "Source"
+
+        # Saved game data
+        ".config/unity3d"
+        ".local/share/SlayTheSpire2"
+      ];
     };
   };
 

@@ -14,5 +14,11 @@
       "vim/swap/.keep".text = "";
       "vim/backup/.keep".text = "";
     };
+
+    internal.persistence = {
+      home.directories = [
+        ".local/state/vim"
+      ];
+    };
   };
 }

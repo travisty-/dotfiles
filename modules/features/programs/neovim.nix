@@ -58,5 +58,13 @@
           --replace-fail "Name=Neovim wrapper" "Name=Neovim"
       ''))
     ];
+
+    internal.persistence = {
+      home.directories = [
+        ".config/nvim"
+        ".local/share/nvim"
+        ".local/state/nvim"
+      ];
+    };
   };
 }

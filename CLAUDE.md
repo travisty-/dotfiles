@@ -121,10 +121,10 @@ modules/
     flake/          # Flake infrastructure (flake-parts, builders, formatter, git-hooks, profiles, systems)
     hardware/       # Hardware drivers and tuning (bluetooth, nvidia, xpadneo, ...)
     packages/       # Wiring modules for custom packages (see packages/ at repo root)
-    programs/       # Desktop applications and CLI tools, some cross-cutting
+    programs/       # Desktop applications and CLI tools, some cross-cutting; languages/ holds per-language settings (go, node, python, rust)
     services/       # Background services (pipewire, openssh, tailscale, btrbk, restic, ...)
-    shared/         # Base config every host/user imports (boot, locale, nix settings, sops, ...)
-    system/         # System-level features (disko, secure-boot)
+    shared/         # Base config every host/user imports (boot, locale, nix settings, sops, persistence, ...)
+    system/         # System-level features (disko, preservation, secure-boot)
   profiles/         # Feature groupings (cli, desktop, development, gaming, media, productivity, shell)
   systems/          # Host definitions (e.g., systems/earth/)
   users/            # User definitions (e.g., users/travis@earth/)
@@ -284,7 +284,7 @@ The NixOS side decrypts both with the host key, unattended at activation.
 `passwd` and `chsh` are gone as a result; a password change is a new hash in the secrets file.
 Home Manager imports sops-nix too but declares no secrets, so its sops-nix unit only exists once one is added.
 Cross-cutting setup is in `modules/features/shared/secrets.nix`, where each class imports the upstream sops-nix module and sets `defaultSopsFile` to the shared file.
-sops-nix uses SOPS's native SSH key support: NixOS sets `sops.age.sshKeyFile` to the host key `/etc/ssh/ssh_host_ed25519_key`, and Home Manager sets `sops.age.sshKeyCmd` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
+sops-nix uses SOPS's native SSH key support: NixOS sets `sops.age.sshKeyFile` to the host key `/etc/ssh/ssh_host_ed25519_key` (under `/persist` on hosts with [persistence](#persistence), where the `/etc/ssh` links don't exist yet when activation runs in the initrd), and Home Manager sets `sops.age.sshKeyCmd` to `config.meta.user.sshKeyCommand`, an `op read` of the key held in 1Password, so the user key never exists on disk.
 The same command is exported as `SOPS_AGE_SSH_PRIVATE_KEY_CMD` for the `sops` CLI.
 Either option skips sops-nix's ssh-to-age import, whose converted identities cannot open the `ssh-ed25519` stanzas in the secrets files.
 NixOS also empties `gnupg.sshKeyPaths`, which defaults to the OpenSSH RSA host keys and would otherwise leave a throwaway gpg keyring under `/run/secrets.d`.
@@ -309,21 +309,63 @@ Partitions set explicit `label = "..."` matching on-disk GPT partlabels, and LUK
 
 **Caution**: Never run the destructive `disko` CLI; the module-only path is what's wired up.
 
+### Persistence
+
+Hosts that import the `preservation` feature (`modules/features/system/preservation/`) start every boot with an empty root and an empty home, and keep only declared paths.
+Kept state is stored in the `@persist` subvolume, mounted at `/persist`; [Preservation](https://github.com/nix-community/preservation) bind-mounts or links each declared path from there.
+
+Features declare their own state through `internal.persistence.{root,home}.{directories,files}`, an option both classes get from `features/shared/persistence.nix`:
+
+```nix
+internal.persistence = {
+  home.directories = [
+    ".config/1Password"
+    {
+      directory = ".config/op";
+      mode = "0700";
+    }
+  ];
+};
+```
+
+An entry is a path, or an attribute set with `directory` or `file` plus Preservation's own fields (`mode`, `how`, `user`, `group`).
+Root paths are absolute and outside `/home`; home paths are relative to the main user's home.
+The entry goes in the feature that creates the state, on the Home Manager side where the feature has one; a NixOS-only feature such as Steam declares its home paths from NixOS.
+Paths that belong to no feature go in the user definition.
+A path that is not declared is gone after the next boot.
+
+`preservation/default.nix` is the only file that names the backend.
+It merges the NixOS entries with those of `homeConfigurations."<user>@<host>"`, so evaluating NixOS also evaluates that Home Manager configuration.
+Modes stay as they are on disk unless an entry sets one, and four early entries are mounted in the initrd (`/var/lib/nixos`, `/var/lib/pcrlock.d`, `/var/lib/systemd`, `/etc/machine-id`).
+Home Manager's links into the store are wiped with home, so `home-manager-activate` activates the current generation at boot, before logins open; a failure prints a warning in every login shell.
+Other features test for the backend with `config.preservation.enable or false` (`btrbk.nix`, `restic.nix`, `shared/secrets.nix`).
+
+`preservation/archive.nix` does the wipe.
+`archive-roots` runs in the initrd before the root is mounted: it creates `roots/<UTC timestamp>/` at the top level of the BTRFS filesystem and swaps the root and home subvolumes (`@` and `@home` on earth) with new empty ones.
+`prune-archived-roots` runs in the booted system and deletes archives older than 30 days, always keeping the newest five.
+To recover a forgotten path, mount the top level (`sudo mount -o subvolid=5 <device> /mnt`), copy the path from `/mnt/roots/<timestamp>/@` or `@home` into `/persist`, and declare it.
+
+A host with a separate home subvolume sets `fileSystems."/home".neededForBoot = true` in its `disko.nix`, because activation runs in the initrd and creates the user's home there.
+
+**Caution**: A new entry for a path that already holds data needs that data copied into `/persist` first, and goes in with `nh os boot` and a reboot.
+`nh os switch` starts the new mount units immediately and mounts the empty `/persist` folder over the live path.
+
 ### Backups
 
-Two complementary features cover home-directory recovery:
+Two complementary features cover recovery:
 
-- **`services/btrbk.nix`**: Hourly read-only BTRFS snapshots of `/home` into `/.snapshots/`.
-  Provides instant local rollback for accidental deletions (`cp /.snapshots/home.<timestamp>/path .`).
+- **`services/btrbk.nix`**: Hourly read-only BTRFS snapshots into `/.snapshots/`, of `/persist` on hosts with persistence and of `/home` on the others.
+  Provides instant local rollback for accidental deletions: `cp /.snapshots/persist.<timestamp>/home/<user>/path .` (or `/.snapshots/home.<timestamp>/path` without persistence).
   Same disk as the source, so it's a recovery convenience, not a backup against drive failure.
-- **`services/restic.nix`**: Daily encrypted backup of `/home` to Backblaze B2 via the S3-compatible API.
+- **`services/restic.nix`**: Daily encrypted backup to Backblaze B2 via the S3-compatible API, of `/persist` on hosts with persistence and of the main user's home on the others.
+  On a host with persistence that includes system state under `/persist` (network connections, pairings, Secure Boot keys), but not the host SSH key.
   The repository path is `<bucket>/<username>@<hostname>` so future hosts can share a bucket.
   Credentials (`RESTIC_PASSWORD`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) are SOPS secrets.
 
 The NixOS restic module generates a `restic-b2` wrapper with the repository and credentials preset; run it with `sudo` for manual repository operations.
 `just restic-excluded` audits what the exclude rules skip, largest directories first.
 
-The two keystones for recovery are `RESTIC_PASSWORD` and the host SSH key that doubles as the SOPS age key (`/etc/ssh/ssh_host_ed25519_key`).
+The two keystones for recovery are `RESTIC_PASSWORD` and the host SSH key that doubles as the SOPS age key (`/etc/ssh/ssh_host_ed25519_key`, or `/persist/etc/ssh/ssh_host_ed25519_key` on hosts with persistence, which restic excludes).
 Both must be escrowed off-machine; neither is in the flake.
 Either alone suffices: the password decrypts the repository directly, and the SSH key recovers the password from the pushed encrypted secrets.
 Losing both renders the backup unrecoverable.
@@ -392,7 +434,7 @@ Source bumps are a separate, deliberate step; neither `nix flake update` nor `nh
 
 ### Flake inputs
 
-Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (epireyn/niri-flake), `noctalia` (desktop shell), `llm-agents` (numtide/llm-agents.nix, for Claude Desktop).
+Key dependencies: `nixpkgs` (unstable), `flake-parts`, `import-tree`, `home-manager`, `disko` (declarative disk layout), `git-hooks` (pre-commit framework), `treefmt-nix` (formatter multiplexer), `lanzaboote` (Secure Boot), `sops-nix` (secrets), `wallpapers` (non-flake), `vicinae` (launcher), `niri` (epireyn/niri-flake), `noctalia` (desktop shell), `llm-agents` (numtide/llm-agents.nix, for Claude Desktop), `preservation` (persistence on an ephemeral root).
 
 **Binary-cache-backed inputs deliberately skip `inputs.nixpkgs.follows = "nixpkgs"`** (`niri`, `vicinae`, `noctalia`, `llm-agents`).
 Following our nixpkgs would override their pinned revision, change derivation hashes, and miss their hosted binary caches (`niri-epireyn.cachix.org`, `vicinae.cachix.org`, `noctalia.cachix.org`, `cache.numtide.com`), forcing local source compiles on every bump.
