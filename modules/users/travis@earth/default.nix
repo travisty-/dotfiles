@@ -94,10 +94,6 @@
         ".local/bin"
         ".vaults"
         "Source"
-
-        # Saved game data
-        ".config/unity3d"
-        ".local/share/SlayTheSpire2"
       ];
     };
   };

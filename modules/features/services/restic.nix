@@ -45,6 +45,7 @@
           ".local/share/Steam"
           ".local/share/Trash"
           ".local/share/bottles"
+          ".local/share/bubblewrap/**/*[Cc]ache*"
           ".local/share/cargo"
           ".local/share/docker"
           ".local/share/lutris"
