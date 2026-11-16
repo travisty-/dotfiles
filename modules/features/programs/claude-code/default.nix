@@ -69,13 +69,12 @@
           hard_deny = ["$defaults"];
           soft_deny = ["$defaults"];
         };
-        effortLevel = "xhigh";
         keybindingFlavor = "readline";
         outputStyle = "Concise";
-        model = "opus";
+        model = "fable";
         modelSettings = {
-          "claude-opus-5-5" = {
-            effortLevel = "xhigh";
+          "claude-fable-5-2" = {
+            effortLevel = "high";
           };
         };
         permissions = {
