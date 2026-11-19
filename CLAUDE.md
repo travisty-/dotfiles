@@ -151,8 +151,8 @@ Feature modules register themselves with `flake.modules.<class>.<aspect>` where 
     programs.firefox = { ... };
   };
 
-  flake.modules.nixos.firefox = {
-    programs.firefox.enable = true;
+  flake.modules.nixos.firefox = {pkgs, ...}: {
+    environment.systemPackages = [pkgs.firefox];
   };
 }
 ```
@@ -181,6 +181,11 @@ Drop a new file in `scripts/`, reference its bin path; no further Nix wiring nee
 
 **Noctalia settings are sparse** (`desktops/noctalia/settings.nix`): the declaration carries only deltas from upstream defaults and lands in `~/.config/noctalia/config.toml`, which the Home Manager module validates at build time.
 GUI changes are written to a separate overrides file, `~/.local/state/noctalia/settings.toml`; `noctalia config export merged` prints the merged result.
+
+**Firefox policies come from Home Manager only** (`programs/firefox.nix`): the NixOS half installs the package through `environment.systemPackages` and leaves the `programs.firefox` module off.
+That module always writes `/etc/firefox/policies/policies.json`, and Firefox on Linux reads that file in place of the `distribution/policies.json` inside the Home Manager wrapper, never both.
+The system-wide copy runs without policies; the Home Manager copy is first on `PATH`, and the desktop entries start `firefox` by name.
+`about:policies` lists the active set.
 
 **Modules with custom options** (`gtk.nix`, `jetbrains/`, `niri/options.nix`): Declare options under the `internal` namespace to avoid collisions with upstream (e.g., `options.internal.programs.gtk.bookmarks`).
 Values are set in user/host definitions.
