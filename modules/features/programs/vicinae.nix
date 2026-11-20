@@ -31,6 +31,7 @@
         launcher_window.blur.enabled = true;
         launcher_window.dim_around = true;
         launcher_window.layer_shell.layer = "overlay";
+        providers.clipboard.preferences.evictionThreshold = toString (60 * 60 * 24 * 30);
       };
     };
 
