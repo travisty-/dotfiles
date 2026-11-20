@@ -61,10 +61,13 @@
           temperature_night = 5000;
         };
 
-        wallpaper.directory = "${inputs.wallpapers}";
+        wallpaper.directory = "${config.xdg.dataHome}/wallpapers";
       };
 
       customPalettes.Monochrome = ./palettes/monochrome.json;
     };
+
+    # Saves wallpapers to a stable path to avoid garbage collection.
+    xdg.dataFile."wallpapers".source = inputs.wallpapers;
   };
 }
